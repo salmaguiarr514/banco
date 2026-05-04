@@ -1,0 +1,480 @@
+/* Nodo - Manual de Marca */
+:root {
+  /* Paleta de Colores Nodo */
+  --azul-medianoche: #1A237E;
+  --verde-menta: #00E676;
+  --blanco: #FFFFFF;
+  --gris-ceniza: #F5F5F5;
+  
+  /* Variables de uso */
+  --bg: #EDF1F5;
+  --panel: var(--blanco);
+  --line: #E0E0E0;
+  --text: #1A237E;
+  --muted: #5C6BC0;
+  --accent: var(--verde-menta);
+  --shadow: 0 4px 12px rgba(26, 35, 126, 0.08);
+  --accent-dark: var(--azul-medianoche);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Open Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.layout {
+  width: min(1100px, calc(100% - 32px));
+  margin: 32px auto;
+  display: grid;
+  gap: 20px;
+}
+
+.panel {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 18px;
+  padding: 0;
+}
+
+.hero h1 {
+  margin: 8px 0 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--verde-menta);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.tab,
+button {
+  border: 0;
+  border-radius: 12px;
+  background: var(--azul-medianoche);
+  color: white;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+.tab {
+  background: #E8EAF6;
+  color: var(--azul-medianoche);
+}
+
+.tab.active {
+  background: var(--verde-menta);
+  color: var(--azul-medianoche);
+}
+
+button:hover,
+.tab:hover {
+  transform: translateY(-1px);
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+/* Tarjetas Estilo Mercado Pago */
+.card {
+  padding: 24px;
+  border: none;
+  border-radius: 16px;
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+/* Sección Saldo (Hero) */
+.balance-hero {
+  background: var(--azul-medianoche);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.balance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-top p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
+
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 5px;
+}
+
+.balance-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.currency { font-size: 1.5rem; margin-right: 5px; vertical-align: middle; }
+
+.balance-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.action-btn:hover { background: rgba(0, 230, 118, 0.2); }
+
+/* Movimientos List */
+.movements-list {
+  list-style: none;
+  padding: 0;
+}
+
+.movement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mov-info { display: flex; align-items: center; gap: 15px; }
+.mov-icon {
+  width: 40px;
+  height: 40px;
+  background: #E8EAF6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--azul-medianoche);
+}
+.mov-text b { display: block; font-size: 0.95rem; }
+.mov-text span { font-size: 0.8rem; color: #777; }
+.mov-amount { font-weight: 600; }
+.amount-positive { color: #00C853; }
+
+/* IA Assistant */
+.ai-assistant {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.ai-fab {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--verde-menta);
+  color: var(--azul-medianoche);
+  font-size: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 230, 118, 0.4);
+}
+
+.ai-window {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 320px;
+  height: 450px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ai-header {
+  background: var(--azul-medianoche);
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ai-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
+.msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 12px; max-width: 85%; font-size: 0.85rem; line-height: 1.4; }
+.bot { background: white; border: 1px solid #eee; align-self: flex-start; }
+.user { background: var(--verde-menta); color: var(--azul-medianoche); align-self: flex-end; margin-left: auto; }
+
+.ai-input { padding: 15px; display: flex; gap: 10px; border-top: 1px solid #eee; }
+.ai-input input { flex: 1; }
+
+.styled-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.profile-controls {
+  margin: 15px 0;
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #B0BEC5;
+  background: #FAFAFA;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.hidden {
+  display: none;
+}
+
+pre {
+  white-space: pre-wrap;
+  margin: 0;
+  font-family: 'Consolas', monospace;
+  background: var(--azul-medianoche);
+  color: var(--blanco);
+  padding: 10px 15px;
+  border-radius: 10px;
+  min-height: 40px;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Logo Section - Nodo */
+.logo-section {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  user-select: none;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--azul-medianoche) 0%, #283593 100%);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(26, 35, 126, 0.25);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logo-icon::after {
+  content: "N";
+  color: var(--verde-menta);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+  z-index: 2;
+}
+
+/* Efecto de "Nodos" o red en el fondo del icono */
+.logo-icon::before {
+  content: "";
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  background-image: radial-gradient(var(--verde-menta) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.2;
+  transform: rotate(45deg);
+}
+
+.logo-container:hover .logo-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.brand-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--azul-medianoche);
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+/* Login Page Styles */
+.login-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.login-logo .logo {
+  width: 80px;
+  height: 80px;
+}
+
+.login-logo .brand-name {
+  font-size: 2.5rem;
+}
+
+.login-panel {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 12px 30px rgba(26, 35, 126, 0.1);
+}
+
+.login-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--azul-medianoche);
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.login-subtitle {
+  color: var(--muted);
+  text-align: center;
+  margin: 0 0 24px;
+  font-size: 0.9rem;
+}
+
+.login-form h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  margin: 0 0 16px;
+  color: var(--azul-medianoche);
+}
+
+.login-form button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.login-footer {
+  margin-top: 30px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo .logo {
+  width: 50px;
+  height: 50px;
+}
+
+.header-logo .brand-name {
+  font-size: 1.5rem;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+#userName {
+  font-weight: 600;
+  color: var(--azul-medianoche);
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--azul-medianoche);
+  color: var(--azul-medianoche);
+  padding: 8px 16px;
+}
+
+.btn-logout:hover {
+  background: var(--azul-medianoche);
+  color: white;
+}

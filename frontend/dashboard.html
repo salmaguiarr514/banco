@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nodo - Home Banking</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Font Awesome para los iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="layout">
+    <!-- Header con Logo -->
+    <header class="header">
+      <div class="logo-container">
+        <div class="logo-icon">N</div>
+        <span class="brand-name">NODO</span>
+      </div>
+      <div class="header-user">
+        <span id="userName"><i class="fas fa-user-circle"></i> Usuario</span>
+        <button id="logoutBtn" type="button" class="btn-logout">Cerrar Sesión</button>
+      </div>
+    </header>
+
+    <!-- Dashboard Principal -->
+    <section class="panel dashboard">
+      <!-- Sección de Saldo Principal (Estilo Mercado Pago) -->
+      <div class="card balance-hero">
+        <div class="balance-info">
+          <div class="balance-top">
+            <p>Dinero disponible</p>
+            <button id="toggleBalance" class="btn-toggle">
+              <i id="balanceIcon" class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="balance-amount">
+            <span class="currency">$</span>
+            <span id="displayBalance">**********</span>
+          </div>
+        </div>
+        <div class="balance-actions">
+          <button id="btn-deposit-shortcut" class="action-btn"><i class="fas fa-plus"></i> Ingresar</button>
+          <button id="btn-transfer-shortcut" class="action-btn"><i class="fas fa-paper-plane"></i> Transferir</button>
+          <button id="syncBtn" class="action-btn"><i class="fas fa-sync-alt"></i> Sincronizar</button>
+          <button class="action-btn"><i class="fas fa-receipt"></i> Pagar</button>
+        </div>
+        <ul id="saldoList" class="list hidden"></ul>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Movimientos Recientes -->
+        <div class="card movements-card">
+          <div class="card-header">
+            <h2>Tu actividad</h2>
+            <button id="loadMovimientosBtn" class="btn-link">Ver todo</button>
+          </div>
+          <ul id="movimientosList" class="list movements-list">
+            <!-- Se llena dinámicamente -->
+          </ul>
+        </div>
+
+        <!-- Herramientas Rápidas -->
+        <div class="card">
+          <h2>Otras operaciones</h2>
+          <div class="quick-tools">
+            <button id="loadGastosBtn" class="tool-btn">
+              <i class="fas fa-chart-pie"></i>
+              <span>Gastos</span>
+            </button>
+            <button id="loadPerfilBtn" class="tool-btn">
+              <i class="fas fa-user-cog"></i>
+              <span>Mi Perfil</span>
+            </button>
+            <!-- Botón oculto para compatibilidad con app.js -->
+            <button id="loadSaldoBtn" class="hidden"></button>
+          </div>
+          <div id="perfilData" class="perfil-data"></div>
+
+          <!-- Controles de Perfil -->
+          <div class="profile-controls">
+            <button id="editPerfilBtn" class="btn-logout hidden">Editar Perfil</button>
+            <button id="changePasswordBtn" class="btn-logout hidden">Cambiar Contraseña</button>
+          </div>
+
+          <!-- Formulario Editar Perfil -->
+          <form id="perfilForm" class="hidden styled-form card">
+            <h3>Actualizar Perfil</h3>
+            <input type="text" id="perfilNombre" placeholder="Nombre">
+            <input type="text" id="perfilApellido" placeholder="Apellido">
+            <input type="text" id="perfilAlias" placeholder="Nuevo Alias">
+            <input type="text" id="perfilTelefono" placeholder="Teléfono">
+            <input type="text" id="perfilDireccion" placeholder="Dirección">
+            <button type="submit">Guardar Cambios</button>
+            <button type="button" id="cancelPerfilBtn" class="btn-logout" style="background: #f44336; color: white; border: none;">Cancelar</button>
+          </form>
+
+          <!-- Formulario Password -->
+          <form id="passwordForm" class="hidden styled-form card">
+            <h3>Nueva Contraseña</h3>
+            <input type="password" id="currentPassword" placeholder="Contraseña Actual" required>
+            <input type="password" id="newPassword" placeholder="Nueva Contraseña" required>
+            <button type="submit">Actualizar</button>
+            <button type="button" id="cancelPasswordBtn" class="btn-logout" style="background: #f44336; color: white; border: none;">Cancelar</button>
+          </form>
+          
+          <div class="chart-container">
+            <canvas id="gastosChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Formularios de Operaciones -->
+        <div class="card">
+          <h2>Transferir</h2>
+          <form id="transferForm" class="styled-form">
+            <input type="number" id="cuentaOrigenId" placeholder="ID de tu cuenta" required>
+            <input type="text" id="cbuDestino" placeholder="CBU Destino" required>
+            <div id="receptorInfo" style="font-size: 0.85em; margin-top: -10px; margin-bottom: 10px; min-height: 1.2em;"></div>
+            <input type="number" id="monto" placeholder="Monto a transferir" required>
+            <input type="text" id="concepto" placeholder="Concepto">
+            <button type="submit">Confirmar Transferencia</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Ingresar Dinero</h2>
+          <form id="depositForm" class="styled-form">
+            <input type="number" id="depositCuenta" placeholder="ID de tu cuenta" required>
+            <input type="number" id="depositMonto" placeholder="Monto a depositar" required>
+            <button type="submit">Depositar</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Widget de IA Asistente -->
+    <div class="ai-assistant">
+      <button id="aiToggle" class="ai-fab">
+        <i class="fas fa-robot"></i>
+      </button>
+      <div id="aiChatWindow" class="ai-window hidden">
+        <div class="ai-header">
+          <span><i class="fas fa-robot"></i> Asistente Nodo</span>
+          <button id="aiClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="aiMessages" class="ai-messages">
+          <div class="msg bot">¡Hola! Soy tu asistente de Nodo. ¿En qué puedo ayudarte hoy?</div>
+        </div>
+        <div class="ai-input">
+          <input type="text" id="aiQuery" placeholder="Pregunta sobre tu saldo...">
+          <button id="aiSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output -->
+    <section class="panel">
+      <pre id="output"></pre>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+  <script>
+    // Scripts auxiliares para navegación rápida
+    document.getElementById('btn-transfer-shortcut')?.addEventListener('click', () => {
+      document.getElementById('transferForm')?.scrollIntoView({ behavior: 'smooth' });
+    });
+    document.getElementById('btn-deposit-shortcut')?.addEventListener('click', () => {
+      document.getElementById('depositForm')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
