@@ -1,0 +1,438 @@
+﻿/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   HEADER
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: var(--surface);
+  padding: 12px 20px;
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+  position: relative;
+  z-index: 10;
+}
+
+.header-user { display: flex; align-items: center; gap: 12px; }
+
+#userName { font-weight: 600; font-size: 0.88rem; color: var(--text); }
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   BALANCE HERO
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.balance-hero {
+  background: linear-gradient(140deg, #0D1B2E 0%, #091628 55%, #0F1E34 100%);
+  border-radius: var(--r-xl);
+  padding: 28px 32px;
+  color: white;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.balance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Agrupa eyebrow + pill (ARS/USD tag) en fila */
+.balance-top-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.38);
+  margin: 0;
+}
+
+.balance-sub {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
+
+/* â”€â”€ Hero: tab bar moneda â”€â”€ */
+.hero-tabs {
+  display: flex;
+  background: transparent;
+  border-bottom: 2px solid rgba(255,255,255,0.07);
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 4px;
+}
+.hero-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 10px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.38);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+}
+.hero-tab.active {
+  color: #34d399;
+  border-bottom-color: #34d399;
+  font-weight: 700;
+}
+.hero-tab:not(.active):hover {
+  color: rgba(255,255,255,0.7);
+  background: transparent;
+}
+.hero-tab-symbol {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+.hero-tab.active .hero-tab-symbol { opacity: 1; color: #34d399; }
+
+/* Botones de acciÃ³n USD: 3 items distribuidos al 100% del ancho */
+.balance-actions-usd .action-card {
+  flex: 1;
+}
+
+.balance-amount-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.currency {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  opacity: 0.55;
+  margin-top: 8px;
+}
+
+#displayBalance,
+#usdDisplayBalance {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+@keyframes flash-up {
+  0%   { color: #10B981; text-shadow: 0 0 28px rgba(16,185,129,0.85); }
+  65%  { color: #10B981; text-shadow: 0 0 12px rgba(16,185,129,0.4); }
+  100% { color: white;   text-shadow: none; }
+}
+
+@keyframes flash-down {
+  0%   { color: #EF4444; text-shadow: 0 0 28px rgba(239,68,68,0.75); }
+  65%  { color: #EF4444; text-shadow: 0 0 12px rgba(239,68,68,0.35); }
+  100% { color: white;   text-shadow: none; }
+}
+
+#displayBalance.balance-flash-up   { animation: flash-up   0.85s ease-out forwards; }
+#displayBalance.balance-flash-down { animation: flash-down 0.85s ease-out forwards; }
+
+.btn-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-toggle:hover { background: rgba(255,255,255,0.15); opacity: 1; transform: none; }
+
+/* Balance account info (CBU / Alias) */
+.balance-account-info {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.account-info-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.account-info-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: rgba(255,255,255,0.32);
+  flex-shrink: 0;
+}
+
+.account-info-value {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.btn-copy-light {
+  background: rgba(255,255,255,0.07);
+  border: none;
+  color: rgba(255,255,255,0.4);
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.btn-copy-light:hover {
+  background: rgba(16,185,129,0.22);
+  color: var(--green);
+  opacity: 1;
+  transform: none;
+}
+
+.balance-actions {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  padding-top: 16px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.action-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 6px;
+  border-radius: var(--r);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.65);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.action-card i { font-size: 1rem; }
+
+.action-card:hover {
+  background: rgba(51,65,85,0.5);
+  color: rgba(255,255,255,0.9);
+  opacity: 1;
+  transform: none;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   TWO-COLUMN CARD ROW
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.two-col-cards {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.two-col-cards > .card { flex: 1; min-width: 0; }
+
+/* â”€â”€ USD Account Card â”€â”€ */
+.usd-account-card { border-left: 3px solid #22c55e; }
+.usd-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 0 4px;
+}
+.usd-label { font-size: 0.8rem; color: var(--text-2); font-weight: 500; }
+.usd-amount { font-size: 1.35rem; font-weight: 700; color: var(--green); font-family: 'Montserrat', sans-serif; }
+.badge-moneda {
+  background: var(--green-dim);
+  color: var(--green);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: .05em;
+}
+
+/* â”€â”€ Hero moneda tag â”€â”€ */
+.hero-moneda-tag {
+  font-size: .65rem; font-weight: 700; letter-spacing: .07em;
+  padding: 2px 7px; border-radius: 999px;
+  background: rgba(255,255,255,.15); color: rgba(255,255,255,.85);
+}
+.hero-moneda-usd { background: rgba(16,185,129,.25); color: #6ee7b7; }
+
+/* â”€â”€ USD equiv â”€â”€ */
+.usd-equiv { display: block; font-size: .75rem; color: rgba(255,255,255,.6); margin-top: 4px; }
+
+/* â”€â”€ Widget cotizaciones USD (rediseÃ±o) â”€â”€ */
+.usd-cotizaciones {
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.cotiz-widget-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.cotiz-widget-title {
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+.cotiz-ts {
+  font-size: .62rem;
+  color: rgba(255,255,255,.22);
+}
+.cotiz-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 1fr;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  margin-bottom: 4px;
+}
+.cotiz-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.5);
+}
+.cotiz-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.cotiz-sub {
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.25);
+}
+.cotiz-val {
+  font-size: .82rem;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255,255,255,.8);
+}
+.cotiz-venta .cotiz-val { color: #6ee7b7; }
+
+/* â”€â”€ Mini-historial en hero ARS â”€â”€ */
+.hero-movimientos {
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hero-mov-hdr {
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.28);
+  margin-bottom: 6px;
+}
+.hero-mov-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.hero-mov-item:hover { background: rgba(255,255,255,0.04); }
+.hero-mov-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  flex-shrink: 0;
+}
+.hero-mov-icon.ingreso { background: rgba(16,185,129,.18); color: #6ee7b7; }
+.hero-mov-icon.egreso  { background: rgba(239,68,68,.12);  color: #fca5a5; }
+.hero-mov-text {
+  flex: 1;
+  min-width: 0;
+}
+.hero-mov-desc {
+  font-size: .73rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hero-mov-date {
+  font-size: .6rem;
+  color: rgba(255,255,255,.28);
+}
+.hero-mov-amount {
+  font-family: 'Montserrat', sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-size: .78rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.hero-mov-amount.ingreso { color: #6ee7b7; }
+.hero-mov-amount.egreso  { color: rgba(255,255,255,.5); }
+

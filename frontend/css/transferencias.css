@@ -1,0 +1,213 @@
+﻿/* â”€â”€ Modal de transferencia â”€â”€ */
+.transfer-modal-card {
+  width: 100%;
+  max-width: 460px;
+  background: white;
+  border-radius: var(--r-xl);
+  padding: 28px;
+  max-height: 88vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+.transfer-modal-card::-webkit-scrollbar        { width: 4px; }
+.transfer-modal-card::-webkit-scrollbar-track  { background: transparent; }
+.transfer-modal-card::-webkit-scrollbar-thumb  { background: #475569; border-radius: 4px; }
+[data-theme="dark"] .transfer-modal-card::-webkit-scrollbar-thumb { background: #334155; }
+
+.transfer-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.transfer-modal-title {
+  flex: 1;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: var(--bg);
+  border: none;
+  color: var(--text-2);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover { background: var(--border); color: var(--navy); opacity: 1; transform: none; }
+
+/* â”€â”€ Transfer flow â”€â”€ */
+.transfer-search-wrap {
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.transfer-search-wrap > i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  font-size: 0.82rem;
+  pointer-events: none;
+}
+
+.transfer-search-wrap input { padding-left: 40px; }
+
+.receptor-info-msg {
+  font-size: 0.82rem;
+  min-height: 1.3em;
+  margin-bottom: 4px;
+  padding-left: 4px;
+}
+
+.contacts-sections {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-section-title i { color: var(--green); }
+
+.contact-grid {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 10px 8px 8px;
+  border-radius: 12px;
+  position: relative;
+  min-width: 66px;
+  max-width: 78px;
+  transition: background 0.18s;
+}
+
+.contact-card:hover { background: var(--bg); }
+
+.contact-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.contact-name {
+  font-size: 0.68rem;
+  color: var(--text-2);
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-star {
+  position: absolute;
+  top: 3px;
+  right: 2px;
+  background: transparent;
+  border: none;
+  padding: 3px 4px;
+  font-size: 0.6rem;
+  color: var(--text-3);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  box-shadow: none;
+  line-height: 1;
+}
+
+.contact-card:hover .contact-star { opacity: 1; }
+.contact-star.starred { color: #F59E0B; opacity: 1 !important; }
+.contact-star:hover   { color: #F59E0B; opacity: 1; transform: none; box-shadow: none; }
+
+/* Recipient preview (paso 2) */
+.recipient-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+
+.recipient-info { flex: 1; min-width: 0; }
+.recipient-info b    { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text); }
+.recipient-info span { font-size: 0.74rem; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+
+.recipient-bank {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem !important;
+  color: var(--green-2) !important;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.mov-bank-badge {
+  display: inline-block;
+  margin-left: 6px;
+  background: var(--green-dim);
+  color: var(--green-2);
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 20px;
+  vertical-align: middle;
+}
+
+.btn-back-step {
+  background: transparent;
+  border: none;
+  color: var(--text-2);
+  padding: 0 10px 0 0;
+  font-size: 0.9rem;
+  box-shadow: none;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.btn-back-step:hover { color: var(--navy); opacity: 1; transform: none; box-shadow: none; }
+

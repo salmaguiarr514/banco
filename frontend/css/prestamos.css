@@ -1,0 +1,825 @@
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MORA BANNER
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.mora-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(239,68,68,.1);
+  border: 1.5px solid rgba(239,68,68,.4);
+  border-radius: var(--r-sm);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.mora-banner-icon { font-size: 1.3rem; color: #ef4444; flex-shrink: 0; }
+.mora-banner-text { flex: 1; font-size: 0.88rem; }
+.mora-banner-text strong { display: block; color: #ef4444; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+.mora-banner-text span { color: var(--text-secondary); }
+.mora-banner-cta {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ef4444;
+  text-decoration: none;
+  border: 1.5px solid rgba(239,68,68,.5);
+  border-radius: 999px;
+  padding: 5px 12px;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.mora-banner-cta:hover { background: rgba(239,68,68,.15); }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PRÃ‰STAMOS â€” tabs
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.ptab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1.5px solid var(--border);
+  margin-bottom: 24px;
+}
+.ptab {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  border-radius: 0;
+  margin-bottom: -1.5px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.ptab:hover { color: var(--text); transform: none; }
+.ptab.active { color: var(--green); border-bottom-color: var(--green); }
+.ptab-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 1px 6px;
+  line-height: 1.4;
+}
+.ptab-panel { /* visible by default */ }
+.ptab-panel.hidden { display: none; }
+
+/* â”€â”€ Simulador â”€â”€ */
+.prestamo-field { margin-bottom: 22px; }
+.prestamo-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.prestamo-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  display: block;
+  margin-bottom: 0;
+}
+.prestamo-limite-info {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* Input editable de monto */
+.prestamo-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  transition: border-color .15s;
+}
+.prestamo-input-wrap:focus-within { border-color: var(--green); }
+.prestamo-input-wrap.input-error { border-color: #ef4444; box-shadow: 0 0 0 2px rgba(239,68,68,.18); }
+.prestamo-input-wrap.input-error:focus-within { border-color: #ef4444; }
+.prestamo-input-error-msg {
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin-top: -8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.prestamo-input-error-msg.hidden { display: none; }
+.prestamo-currency-sign {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--green);
+  line-height: 1;
+}
+.prestamo-monto-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+}
+.prestamo-monto-input::placeholder { color: var(--text-secondary); }
+
+/* Slider con track fill dinÃ¡mico via JS */
+.prestamo-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  background: var(--border); /* overridden by JS inline style */
+}
+.prestamo-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(16,185,129,.22), 0 2px 6px rgba(0,0,0,.3);
+  cursor: pointer;
+  transition: box-shadow .15s;
+}
+.prestamo-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 0 8px rgba(16,185,129,.28), 0 2px 6px rgba(0,0,0,.3); }
+.prestamo-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: pointer;
+}
+.prestamo-slider-limits {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  font-size: 0.71rem;
+  color: var(--text-secondary);
+}
+
+/* Pills */
+.prestamo-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.prestamo-pill {
+  flex: 1;
+  min-width: 48px;
+  padding: 9px 6px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: background .15s, border-color .15s, color .15s, box-shadow .15s;
+}
+.prestamo-pill:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(16,185,129,.07);
+}
+.prestamo-pill.active {
+  background: rgba(16,185,129,.12);
+  border-color: var(--green);
+  border-width: 2px;
+  color: var(--green);
+  box-shadow: 0 0 0 3px rgba(16,185,129,.14);
+}
+.prestamo-pill.active:hover { background: rgba(16,185,129,.18); color: var(--green); }
+
+/* Resumen financiero */
+/* â”€â”€ Simulador 2 columnas â”€â”€ */
+.prestamo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.prestamo-col-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.prestamo-col-results {
+  position: sticky;
+  top: 80px;
+}
+@media (max-width: 700px) {
+  .prestamo-grid {
+    grid-template-columns: 1fr;
+  }
+  .prestamo-col-results {
+    position: static;
+  }
+}
+
+.prestamo-resumen {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  margin-top: 0;
+  box-shadow: 0 4px 24px rgba(11,17,32,.08);
+  overflow: hidden;
+}
+.prestamo-cuota-hero {
+  text-align: center;
+  /* Stretch al ancho de la card usando negative margin */
+  margin: -20px -20px 20px;
+  padding: 28px 24px 24px;
+  background: linear-gradient(135deg, rgba(16,185,129,.1) 0%, rgba(6,78,59,.16) 100%);
+  border-bottom: 1px solid rgba(16,185,129,.14);
+}
+.prestamo-cuota-hero-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--green-2);
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+.prestamo-cuota-hero-valor {
+  display: block;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(16,185,129,.25);
+}
+
+/* Filas de detalles */
+.prestamo-rows { margin-bottom: 16px; }
+.prestamo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+}
+.prestamo-row span:last-child { font-weight: 600; color: var(--text); }
+.prestamo-row-total {
+  padding-top: 12px;
+  margin-top: 2px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-bottom: none;
+}
+.prestamo-row-total span:first-child { color: var(--text); }
+.prestamo-row-total span:last-child { color: var(--green); font-size: 1.05rem; }
+
+/* Avisos */
+.prestamo-aviso {
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.prestamo-aviso-error { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #ef4444; }
+.prestamo-aviso-info  { background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.3); color: #f59e0b; }
+
+/* Accordion */
+.prestamo-accordion-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 0;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: color .15s;
+}
+.prestamo-accordion-btn:hover { color: var(--text); transform: none; }
+.prestamo-accordion-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.prestamo-accordion-btn span { flex: 1; text-align: left; }
+.prestamo-acc-icon { transition: transform .25s; }
+.prestamo-accordion-btn[aria-expanded="true"] .prestamo-acc-icon { transform: rotate(180deg); }
+.prestamo-tabla-wrap { overflow: hidden; }
+.prestamo-tabla-scroll { overflow-x: auto; margin-bottom: 12px; margin-top: 8px; }
+.prestamo-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  min-width: 480px;
+}
+.prestamo-tabla thead tr {
+  background: #f1f5f9;
+}
+.prestamo-tabla th {
+  padding: 10px 12px;
+  text-align: right;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  border-bottom: 1.5px solid #e2e8f0;
+  white-space: nowrap;
+}
+.prestamo-tabla th:first-child { text-align: left; }
+.prestamo-tabla td {
+  padding: 10px 12px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+  font-size: 0.8rem;
+}
+.prestamo-tabla td:first-child { text-align: left; font-weight: 700; color: var(--text); }
+.prestamo-tabla tbody tr:hover { background: rgba(16,185,129,.035); }
+.prestamo-tabla tbody tr:last-child td { border-bottom: none; }
+
+.prestamo-solicitar-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 1rem; }
+
+/* TNA apagado cuando input vacÃ­o */
+#pTNA.muted { color: var(--text-secondary); opacity: 0.45; }
+
+/* Tarjetas de beneficio (col izquierda) */
+.prestamo-beneficios {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+.prestamo-beneficio-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+.prestamo-beneficio-icon {
+  color: var(--green);
+  font-size: 0.85rem;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* T&C checkbox */
+.prestamo-tyc-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  line-height: 1.5;
+}
+.prestamo-tyc-label input { margin-top: 2px; cursor: pointer; accent-color: var(--green); width: 16px; height: 16px; flex-shrink: 0; }
+.link-green { color: var(--green); text-decoration: underline; }
+
+/* â”€â”€ Mis PrÃ©stamos â”€â”€ */
+.mis-prestamos-empty {
+  text-align: center;
+  padding: 32px 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+.mis-prestamos-empty i { font-size: 2.5rem; display: block; margin-bottom: 12px; opacity: .4; }
+
+.prestamo-card-activo {
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.prestamo-card-header {
+  background: linear-gradient(135deg, rgba(16,185,129,.12) 0%, rgba(6,78,59,.2) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.prestamo-card-titulo {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--green);
+  display: block;
+  margin-bottom: 4px;
+}
+.prestamo-card-monto {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -.02em;
+}
+.prestamo-card-estado {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.prestamo-card-estado.activo  { background: rgba(16,185,129,.15); color: var(--green); border: 1px solid rgba(16,185,129,.3); }
+.prestamo-card-estado.mora    { background: rgba(239,68,68,.15); color: #ef4444; border: 1px solid rgba(239,68,68,.3); }
+.prestamo-card-estado.saldado { background: rgba(100,116,139,.15); color: #64748b; border: 1px solid rgba(100,116,139,.3); }
+
+.prestamo-card-body { padding: 18px; }
+
+/* Barra de progreso cuotas */
+.prestamo-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 7px;
+}
+.prestamo-progress-label strong { color: var(--text); }
+.prestamo-progress-track {
+  height: 8px;
+  border-radius: 8px;
+  background: var(--border);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.prestamo-progress-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--green) 0%, #34d399 100%);
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+
+/* PrÃ³ximo vencimiento */
+.prestamo-venc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.84rem;
+  margin-bottom: 16px;
+}
+.prestamo-venc-label { color: var(--text-secondary); }
+.prestamo-venc-fecha { font-weight: 700; color: var(--text); }
+.prestamo-venc-fecha.vencida { color: #ef4444; }
+.prestamo-venc-fecha.urgente { color: #f59e0b; }
+
+/* Badge de débito automático */
+.prestamo-autodebit-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--green);
+  background: rgba(16,185,129,.07);
+  border: 1px solid rgba(16,185,129,.2);
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+.prestamo-autodebit-badge i { font-size: 0.68rem; }
+
+/* ── Botones del panel de préstamo activo ── */
+.prestamo-acciones {
+  display: flex;
+  gap: 10px;
+}
+
+/* Botón principal — siempre verde esmeralda */
+.prestamo-acciones .btn-primary {
+  margin-top: 0;
+  font-size: 0.88rem;
+  padding: 11px;
+  background: var(--green);
+  color: #0f172a;
+  font-weight: 700;
+  border: none;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.prestamo-acciones .btn-primary:hover {
+  background: #34d399;
+  box-shadow: 0 6px 20px rgba(16,185,129,.28);
+  opacity: 1;
+  transform: none;
+}
+.prestamo-acciones .btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: none;
+  opacity: 1;
+}
+
+/* Botón secundario — Resumen */
+.prestamo-acciones .btn-secondary {
+  font-size: 0.88rem;
+  padding: 11px;
+  flex: 0 0 auto;
+  width: auto;
+  background: rgba(30,41,59,.85);
+  color: #94a3b8;
+  border: 1.5px solid rgba(51,65,85,.65);
+  font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.prestamo-acciones .btn-secondary:hover {
+  background: rgba(51,65,85,.75);
+  color: #fff;
+  border-color: rgba(71,85,105,.85);
+  opacity: 1;
+  transform: none;
+}
+.prestamo-acciones .btn-secondary:active {
+  transform: scale(0.98);
+  opacity: 1;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] .prestamo-acciones .btn-primary  { background: var(--green); color: #0f172a; }
+[data-theme="dark"] .prestamo-acciones .btn-primary:hover { background: #34d399; }
+[data-theme="dark"] .prestamo-acciones .btn-secondary { background: rgba(15,23,42,.7); border-color: #334155; color: #94a3b8; }
+[data-theme="dark"] .prestamo-acciones .btn-secondary:hover { background: #1e293b; color: #fff; border-color: #475569; }
+
+/* Botón urgente — pulso suave cuando la cuota está vencida */
+.pagar-cuota-urgente {
+  animation: urgente-pulse 2.4s ease-in-out infinite;
+}
+@keyframes urgente-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,.0); }
+  50%       { box-shadow: 0 0 0 6px rgba(16,185,129,.22); }
+}
+
+/* ── Confirm detalles modal (estructura pcd-*) ── */
+.pcd-monto-hero {
+  text-align: center;
+  background: rgba(16,185,129,.08);
+  border: 1.5px solid rgba(16,185,129,.22);
+  border-radius: var(--r-sm);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.pcd-monto-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--green-2);
+  margin-bottom: 6px;
+}
+.pcd-monto-valor {
+  display: block;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -.04em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 6px;
+}
+.pcd-monto-sub {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--text-3);
+}
+
+.pcd-rows {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.pcd-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+.pcd-row:last-child { border-bottom: none; }
+.pcd-row span:first-child { color: var(--text-2); }
+.pcd-row span:last-child  { font-weight: 700; color: var(--text); }
+.pcd-cft                  { color: var(--green) !important; }
+
+.pcd-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--navy);
+  border-radius: var(--r-sm);
+  padding: 16px 20px;
+}
+.pcd-total-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.55);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.pcd-total-valor {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mantener retrocompatibilidad con filas antiguas */
+.prestamo-confirm-detalles {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.prestamo-confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.83rem;
+}
+.prestamo-confirm-row:last-child { border-bottom: none; }
+.prestamo-confirm-row span:first-child { color: var(--text-2); }
+.prestamo-confirm-row span:last-child  { font-weight: 700; color: var(--text); }
+.prestamo-confirm-row.highlight span:last-child { color: var(--green); font-size: 1.05rem; }
+
+@media (max-width: 480px) {
+  .prestamo-monto-input { font-size: 1.3rem; }
+  .prestamo-cuota-hero-valor { font-size: 1.9rem; }
+  .prestamo-acciones { flex-direction: column; }
+  .prestamo-acciones .btn-secondary { width: 100%; }
+  .mora-banner { flex-wrap: wrap; }
+  .mora-banner-cta { width: 100%; text-align: center; }
+}
+
+/* ─────────────────────────────────────────────────────
+   MODAL OVERLAY + BOX (confirmación + TyC)
+───────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11,17,32,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(6px);
+  padding: 20px;
+}
+
+.modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  padding: 32px;
+  box-shadow: 0 24px 80px rgba(11,17,32,0.28);
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+.modal-box::-webkit-scrollbar       { width: 4px; }
+.modal-box::-webkit-scrollbar-track { background: transparent; }
+.modal-box::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 1.1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.modal-close:hover { background: var(--border); color: var(--navy); opacity: 1; transform: none; }
+
+.modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 40px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.modal-title i { color: var(--green); }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+.modal-actions .btn-primary,
+.modal-actions .btn-secondary { flex: 1; }
+
+/* TyC modal body */
+.tyc-section         { margin-bottom: 18px; }
+.tyc-section h4      { font-size: 0.78rem; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 7px; }
+.tyc-section p,
+.tyc-section ul      { font-size: 0.82rem; color: var(--text-2); line-height: 1.6; margin: 0; }
+.tyc-section ul      { padding-left: 18px; }
+.tyc-section ul li   { margin-bottom: 4px; }
+.tyc-kv-row          { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+.tyc-kv-row:last-child { border-bottom: none; }
+.tyc-kv-row span:first-child { color: var(--text-2); }
+.tyc-kv-row span:last-child  { font-weight: 700; color: var(--text); }
+
+/* ─────────────────────────────────────────────────────
+   DARK MODE — overrides específicos de préstamos
+   (evita que ui.css "button{background:#334155}" pise
+   pills, accordion y botones con estilo propio)
+───────────────────────────────────────────────────── */
+[data-theme="dark"] .prestamo-pill {
+  background: rgba(255,255,255,.05);
+  border-color: #334155;
+  color: var(--text-2);
+}
+[data-theme="dark"] .prestamo-pill:hover {
+  background: rgba(16,185,129,.1);
+  border-color: var(--green);
+  color: var(--green);
+  opacity: 1;
+}
+[data-theme="dark"] .prestamo-pill.active {
+  background: rgba(16,185,129,.15);
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: 0 0 0 3px rgba(16,185,129,.18);
+}
+[data-theme="dark"] .prestamo-accordion-btn {
+  background: none;
+  color: var(--text-2);
+}
+[data-theme="dark"] .prestamo-accordion-btn:hover { color: var(--text); }
+[data-theme="dark"] .prestamo-resumen {
+  background: #1E293B;
+  border-color: #334155;
+}
+[data-theme="dark"] .prestamo-cuota-hero {
+  background: linear-gradient(135deg, rgba(16,185,129,.12) 0%, rgba(6,78,59,.22) 100%);
+  border-bottom-color: rgba(16,185,129,.18);
+}
+[data-theme="dark"] .prestamo-tabla thead tr { background: #0F172A; }
+[data-theme="dark"] .prestamo-tabla th { color: #94a3b8; border-bottom-color: #334155; }
+[data-theme="dark"] .prestamo-tabla td { border-bottom-color: #1e293b; color: var(--text-2); }
+[data-theme="dark"] .prestamo-tabla tbody tr:hover { background: rgba(16,185,129,.05); }
+[data-theme="dark"] .prestamo-solicitar-btn { background: var(--green); color: var(--navy); }
+[data-theme="dark"] .pcd-rows { background: #0F172A; border-color: #334155; }
+[data-theme="dark"] .pcd-row  { border-bottom-color: #1e293b; }
+[data-theme="dark"] .btn-secondary { background: #1e293b; border-color: #334155; color: var(--text-2); }

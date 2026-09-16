@@ -1,0 +1,36 @@
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const authRoutes = require("./routes/authRoutes");
+const cuentaRoutes = require("./routes/cuentaRoutes");
+const movimientoRoutes = require("./routes/movimientoRoutes");
+const transferenciaRoutes = require("./routes/transferenciaRoutes");
+const reservaRoutes = require("./routes/reservaRoutes");
+const chatRoutes = require("./routes/chatRoutes");
+const cardRoutes = require("./routes/cardRoutes");
+const mercadoRoutes = require("./routes/mercadoRoutes");
+const prestamoRoutes = require("./routes/prestamoRoutes");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "../../frontend")));
+
+app.get("/", (_req, res) => res.redirect("/login.html"));
+
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true, modulo: "homebanking" });
+});
+
+app.use("/api/auth", authRoutes);
+app.use("/api/cuentas", cuentaRoutes);
+app.use("/api/movimientos", movimientoRoutes);
+app.use("/api/transferencias", transferenciaRoutes);
+app.use("/api/reservas", reservaRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/cards", cardRoutes);
+app.use("/api/mercado", mercadoRoutes);
+app.use("/api/prestamos", prestamoRoutes);
+
+module.exports = app;

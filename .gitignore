@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (contienen credenciales — NUNCA subir)
+.env
+.env.*
+!.env.example
+
+# Base de datos local
+*.db
+*.sqlite
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Claude Code internals
+skills-lock.json
+.claude/
+.agents/

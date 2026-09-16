@@ -3,171 +3,1034 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nodo - Home Banking</title>
-  <link rel="stylesheet" href="./styles.css">
+  <title>Nodo</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('nodo_theme')||'light')</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/balance.css">
+  <link rel="stylesheet" href="./css/mercado.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/modals.css">
+  <link rel="stylesheet" href="./css/transferencias.css">
+  <link rel="stylesheet" href="./css/tarjeta.css">
+  <link rel="stylesheet" href="./css/ui.css">
+  <link rel="stylesheet" href="./css/prestamos.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Font Awesome para los iconos -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <main class="layout">
-    <!-- Header con Logo -->
-    <header class="header">
-      <div class="logo-container">
-        <div class="logo-icon">N</div>
-        <span class="brand-name">NODO</span>
-      </div>
-      <div class="header-user">
-        <span id="userName"><i class="fas fa-user-circle"></i> Usuario</span>
-        <button id="logoutBtn" type="button" class="btn-logout">Cerrar Sesión</button>
-      </div>
-    </header>
+<canvas id="dashNetwork" class="dash-network"></canvas>
+<main class="app-shell">
 
-    <!-- Dashboard Principal -->
-    <section class="panel dashboard">
-      <!-- Sección de Saldo Principal (Estilo Mercado Pago) -->
-      <div class="card balance-hero">
-        <div class="balance-info">
-          <div class="balance-top">
-            <p>Dinero disponible</p>
-            <button id="toggleBalance" class="btn-toggle">
-              <i id="balanceIcon" class="fas fa-eye"></i>
-            </button>
-          </div>
-          <div class="balance-amount">
-            <span class="currency">$</span>
-            <span id="displayBalance">**********</span>
-          </div>
-        </div>
-        <div class="balance-actions">
-          <button id="btn-deposit-shortcut" class="action-btn"><i class="fas fa-plus"></i> Ingresar</button>
-          <button id="btn-transfer-shortcut" class="action-btn"><i class="fas fa-paper-plane"></i> Transferir</button>
-          <button id="syncBtn" class="action-btn"><i class="fas fa-sync-alt"></i> Sincronizar</button>
-          <button class="action-btn"><i class="fas fa-receipt"></i> Pagar</button>
-        </div>
-        <ul id="saldoList" class="list hidden"></ul>
+  <!-- ── App body: sidebar + contenido ── -->
+  <div class="app-body">
+
+    <!-- Sidebar de navegación -->
+    <nav class="sidebar" id="sidebarNav" aria-label="Navegación principal">
+      <div class="sidebar-brand">
+        <div class="sb-isotipo">N</div>
+        <span class="sb-brand">NODO</span>
       </div>
+      <ul class="sidebar-nav-list" role="tablist">
+        <li role="presentation">
+          <button class="sidebar-nav-item active" data-section="inicio" role="tab" aria-selected="true">
+            <i class="fas fa-home"></i><span>Inicio</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="sidebar-nav-item" data-section="tarjetas" role="tab" aria-selected="false">
+            <i class="fas fa-credit-card"></i><span>Tarjetas</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="sidebar-nav-item" data-section="prestamos" role="tab" aria-selected="false">
+            <i class="fas fa-hand-holding-usd"></i><span>Préstamos</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="sidebar-nav-item" data-section="finanzas" role="tab" aria-selected="false">
+            <i class="fas fa-chart-pie"></i><span>Finanzas</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
 
-      <div class="dashboard-grid">
-        <!-- Movimientos Recientes -->
-        <div class="card movements-card">
-          <div class="card-header">
-            <h2>Tu actividad</h2>
-            <button id="loadMovimientosBtn" class="btn-link">Ver todo</button>
+    <!-- Área de contenido -->
+    <div class="content-area">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-user">
+      <div class="user-menu">
+        <div class="user-trigger">
+          <div class="avatar-wrapper">
+            <div class="avatar-circle">
+              <img id="avatarImg" src="" alt="" class="avatar-img hidden">
+              <i id="avatarIcon" class="fas fa-user"></i>
+            </div>
+            <label for="avatarInput" class="avatar-edit-btn" title="Cambiar foto">
+              <i class="fas fa-camera"></i>
+            </label>
+            <input type="file" id="avatarInput" accept="image/*" class="hidden">
           </div>
-          <ul id="movimientosList" class="list movements-list">
-            <!-- Se llena dinámicamente -->
-          </ul>
+          <span id="userName">Usuario</span>
+          <i class="fas fa-chevron-down user-chevron"></i>
         </div>
 
-        <!-- Herramientas Rápidas -->
-        <div class="card">
-          <h2>Otras operaciones</h2>
-          <div class="quick-tools">
-            <button id="loadGastosBtn" class="tool-btn">
-              <i class="fas fa-chart-pie"></i>
-              <span>Gastos</span>
-            </button>
+        <!-- Dropdown panel -->
+        <div class="user-dropdown">
+          <div class="dropdown-tools">
             <button id="loadPerfilBtn" class="tool-btn">
-              <i class="fas fa-user-cog"></i>
-              <span>Mi Perfil</span>
+              <i class="fas fa-user-cog"></i><span>Editar perfil</span>
             </button>
-            <!-- Botón oculto para compatibilidad con app.js -->
-            <button id="loadSaldoBtn" class="hidden"></button>
+            <button id="logoutBtn" class="tool-btn tool-btn-logout">
+              <i class="fas fa-sign-out-alt"></i><span>Salir</span>
+            </button>
           </div>
+
           <div id="perfilData" class="perfil-data"></div>
 
-          <!-- Controles de Perfil -->
           <div class="profile-controls">
-            <button id="editPerfilBtn" class="btn-logout hidden">Editar Perfil</button>
-            <button id="changePasswordBtn" class="btn-logout hidden">Cambiar Contraseña</button>
+            <button id="editAliasBtn"     class="btn-logout hidden">Alias</button>
+            <button id="editPerfilBtn"    class="btn-logout hidden">Perfil</button>
+            <button id="changePasswordBtn" class="btn-logout hidden">Contraseña</button>
           </div>
 
-          <!-- Formulario Editar Perfil -->
-          <form id="perfilForm" class="hidden styled-form card">
-            <h3>Actualizar Perfil</h3>
-            <input type="text" id="perfilNombre" placeholder="Nombre">
-            <input type="text" id="perfilApellido" placeholder="Apellido">
-            <input type="text" id="perfilAlias" placeholder="Nuevo Alias">
-            <input type="text" id="perfilTelefono" placeholder="Teléfono">
-            <input type="text" id="perfilDireccion" placeholder="Dirección">
-            <button type="submit">Guardar Cambios</button>
-            <button type="button" id="cancelPerfilBtn" class="btn-logout" style="background: #f44336; color: white; border: none;">Cancelar</button>
-          </form>
-
-          <!-- Formulario Password -->
-          <form id="passwordForm" class="hidden styled-form card">
-            <h3>Nueva Contraseña</h3>
-            <input type="password" id="currentPassword" placeholder="Contraseña Actual" required>
-            <input type="password" id="newPassword" placeholder="Nueva Contraseña" required>
-            <button type="submit">Actualizar</button>
-            <button type="button" id="cancelPasswordBtn" class="btn-logout" style="background: #f44336; color: white; border: none;">Cancelar</button>
-          </form>
-          
-          <div class="chart-container">
-            <canvas id="gastosChart"></canvas>
-          </div>
-        </div>
-
-        <!-- Formularios de Operaciones -->
-        <div class="card">
-          <h2>Transferir</h2>
-          <form id="transferForm" class="styled-form">
-            <input type="number" id="cuentaOrigenId" placeholder="ID de tu cuenta" required>
-            <input type="text" id="cbuDestino" placeholder="CBU Destino" required>
-            <div id="receptorInfo" style="font-size: 0.85em; margin-top: -10px; margin-bottom: 10px; min-height: 1.2em;"></div>
-            <input type="number" id="monto" placeholder="Monto a transferir" required>
-            <input type="text" id="concepto" placeholder="Concepto">
-            <button type="submit">Confirmar Transferencia</button>
-          </form>
-        </div>
-
-        <div class="card">
-          <h2>Ingresar Dinero</h2>
-          <form id="depositForm" class="styled-form">
-            <input type="number" id="depositCuenta" placeholder="ID de tu cuenta" required>
-            <input type="number" id="depositMonto" placeholder="Monto a depositar" required>
-            <button type="submit">Depositar</button>
-          </form>
         </div>
       </div>
-    </section>
 
-    <!-- Widget de IA Asistente -->
-    <div class="ai-assistant">
-      <button id="aiToggle" class="ai-fab">
-        <i class="fas fa-robot"></i>
+      <button id="themeToggleBtn" class="btn-theme-toggle" title="Modo oscuro"><i class="fas fa-moon"></i></button>
+    </div>
+  </header>
+
+  <!-- Banner mora (visible en todas las secciones) -->
+  <div id="moraBanner" class="mora-banner hidden" role="alert">
+    <i class="fas fa-exclamation-triangle mora-banner-icon"></i>
+    <div class="mora-banner-text">
+      <strong>Cuota vencida</strong>
+      <span id="moraBannerMsg">Tenés una cuota vencida. Regularizá tu deuda para operar normalmente.</span>
+    </div>
+    <a href="#prestamosCard" class="mora-banner-cta">Ver préstamo</a>
+  </div>
+
+  <!-- ══════════════ SECCIÓN: INICIO ══════════════ -->
+  <section id="section-inicio" class="content-section active">
+
+  <!-- Balance hero con tabs ARS/USD -->
+  <div class="balance-hero" id="balanceHero">
+
+    <!-- Tab bar moneda -->
+    <div class="hero-tabs" role="tablist">
+      <button class="hero-tab active" id="tabARS" data-tab="ARS" role="tab" aria-selected="true">
+        <span class="hero-tab-symbol">$</span>Pesos
       </button>
-      <div id="aiChatWindow" class="ai-window hidden">
-        <div class="ai-header">
-          <span><i class="fas fa-robot"></i> Asistente Nodo</span>
-          <button id="aiClose"><i class="fas fa-times"></i></button>
+      <button class="hero-tab" id="tabUSD" data-tab="USD" role="tab" aria-selected="false">
+        <span class="hero-tab-symbol">U$D</span>Dólares
+      </button>
+    </div>
+
+    <!-- Panel ARS -->
+    <div id="heroARS">
+      <div class="balance-top">
+        <div class="balance-top-label">
+          <p class="eyebrow">Pesos argentinos</p>
+          <span class="hero-moneda-tag">ARS</span>
         </div>
-        <div id="aiMessages" class="ai-messages">
-          <div class="msg bot">¡Hola! Soy tu asistente de Nodo. ¿En qué puedo ayudarte hoy?</div>
+        <button id="toggleBalance" class="btn-toggle" title="Mostrar/ocultar saldo">
+          <i id="balanceIcon" class="fas fa-eye"></i>
+        </button>
+      </div>
+      <div class="balance-amount-row">
+        <span class="currency">$</span>
+        <span id="displayBalance">**********</span>
+      </div>
+      <div class="balance-account-info">
+        <div class="account-info-row" style="flex:1;min-width:0;max-width:220px;">
+          <span class="account-info-label">CBU</span>
+          <span class="account-info-value" id="displayCbu">—</span>
+          <button class="btn-copy-light" onclick="copiarAlPortapapeles(document.getElementById('displayCbu').dataset.value||'')" title="Copiar CBU"><i class="fas fa-copy"></i></button>
         </div>
-        <div class="ai-input">
-          <input type="text" id="aiQuery" placeholder="Pregunta sobre tu saldo...">
-          <button id="aiSend"><i class="fas fa-paper-plane"></i></button>
+        <div class="account-info-row" style="flex:1;min-width:0;">
+          <span class="account-info-label">Alias</span>
+          <span class="account-info-value" id="displayAlias">—</span>
+          <button class="btn-copy-light" onclick="copiarAlPortapapeles(document.getElementById('displayAlias').dataset.value||'')" title="Copiar Alias"><i class="fas fa-copy"></i></button>
+        </div>
+      </div>
+      <div class="balance-actions">
+        <button id="btn-deposit-shortcut"  class="action-card"><i class="fas fa-plus"></i><span>Ingresar</span></button>
+        <button id="btn-transfer-shortcut" class="action-card"><i class="fas fa-paper-plane"></i><span>Transferir</span></button>
+        <button id="syncBtn"               class="action-card"><i class="fas fa-sync-alt"></i><span>Sincronizar</span></button>
+        <button id="btn-qr-pay"            class="action-card"><i class="fas fa-qrcode"></i><span>Pagar QR</span></button>
+        <button id="btn-qr-charge"         class="action-card"><i class="fas fa-hand-holding-usd"></i><span>Cobrar</span></button>
+      </div>
+      <div id="heroMovimientos" class="hero-movimientos hidden"></div>
+    </div>
+
+    <!-- Panel USD -->
+    <div id="heroUSD" class="hidden">
+      <div class="balance-top">
+        <div class="balance-top-label">
+          <p class="eyebrow">Dólares</p>
+          <span class="hero-moneda-tag hero-moneda-usd">USD</span>
+        </div>
+        <button id="toggleBalanceUSD" class="btn-toggle" title="Mostrar/ocultar saldo USD">
+          <i id="balanceIconUSD" class="fas fa-eye"></i>
+        </button>
+      </div>
+
+      <div id="heroUSDSin" class="hidden">
+        <p class="balance-sub" style="margin-bottom:16px">Guardá dólares en tu cuenta NODO.</p>
+        <button id="btnAbrirUSD" class="btn-primary" style="max-width:240px">Abrir caja de ahorro en USD</button>
+      </div>
+
+      <div id="heroUSDCon" class="hidden">
+        <div class="balance-amount-row">
+          <span class="currency">U$D</span>
+          <span id="usdDisplayBalance">0,00</span>
+        </div>
+        <span id="usdEquivalente" class="usd-equiv" data-saldo="0"></span>
+        <div class="balance-account-info">
+          <div class="account-info-row" style="flex:1;min-width:0;max-width:220px;">
+            <span class="account-info-label">CBU</span>
+            <span class="account-info-value" id="usdDisplayCbu">—</span>
+            <button class="btn-copy-light" onclick="copiarAlPortapapeles(document.getElementById('usdDisplayCbu').textContent)" title="Copiar CBU"><i class="fas fa-copy"></i></button>
+          </div>
+          <div class="account-info-row" style="flex:1;min-width:0;">
+            <span class="account-info-label">Alias</span>
+            <span class="account-info-value" id="usdDisplayAlias">—</span>
+            <button class="btn-copy-light" onclick="copiarAlPortapapeles(document.getElementById('usdDisplayAlias').textContent)" title="Copiar Alias"><i class="fas fa-copy"></i></button>
+            <button class="btn-copy-light" id="btnEditAliasUSD" title="Cambiar alias USD"><i class="fas fa-pen"></i></button>
+          </div>
+        </div>
+        <div class="balance-actions balance-actions-usd">
+          <button id="btnComprarUSD"    class="action-card"><i class="fas fa-dollar-sign"></i><span>Comprar</span></button>
+          <button id="btnVenderUSD"     class="action-card"><i class="fas fa-arrow-up-right-from-square"></i><span>Vender</span></button>
+          <button id="btnTransferirUSD" class="action-card"><i class="fas fa-paper-plane"></i><span>Transferir</span></button>
+        </div>
+      </div>
+
+      <div id="usdCotizaciones" class="usd-cotizaciones"></div>
+    </div>
+
+    <ul id="saldoList" class="list hidden"></ul>
+  </div>
+
+  <!-- Modal cambio alias USD -->
+  <div id="usdAliasModal" class="usd-modal-overlay hidden">
+    <div class="usd-modal-card" style="max-width:400px">
+      <div class="usd-modal-hdr">
+        <h3 class="usd-modal-title">Cambiar alias USD</h3>
+        <button id="usdAliasClose" class="usd-modal-close"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="usd-modal-body" style="gap:16px">
+        <p style="color:var(--text-secondary);font-size:0.82rem">Solo letras minúsculas, números, puntos y guiones.</p>
+        <div class="usd-input-wrap">
+          <span class="usd-input-prefix"><i class="fas fa-at" style="font-size:.85rem"></i></span>
+          <input type="text" id="usdAliasInput" placeholder="nuevo.alias.usd" class="usd-modal-input" autocomplete="off">
+        </div>
+        <p id="usdAliasError" class="usd-modal-error" style="display:none"></p>
+        <button id="usdAliasConfirm" class="btn-primary" style="width:100%" disabled>Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal confirmación apertura cuenta USD -->
+  <div id="usdAbrirModal" class="usd-modal-overlay hidden">
+    <div class="usd-modal-card" style="max-width:400px">
+      <div class="usd-modal-hdr">
+        <h3 class="usd-modal-title">Abrir cuenta en USD</h3>
+        <button id="usdAbrirClose" class="usd-modal-close"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="usd-modal-body" style="text-align:center;gap:20px">
+        <div style="font-size:2.4rem">💵</div>
+        <p style="color:var(--text-primary);font-size:1rem;line-height:1.5">
+          ¿Querés abrir una <strong>caja de ahorro en dólares</strong>?<br>
+          Se va a crear tu cuenta USD en el Banco Central con tu propio CBU y alias.
+        </p>
+        <p style="color:var(--text-secondary);font-size:0.85rem">
+          Esto te va a permitir recibir y enviar dólares entre bancos.
+        </p>
+        <div style="display:flex;gap:12px;width:100%;margin-top:4px">
+          <button id="usdAbrirCancel" class="btn-secondary" style="flex:1">Cancelar</button>
+          <button id="usdAbrirConfirm" class="btn-primary" style="flex:1">Confirmar</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Output -->
-    <section class="panel">
-      <pre id="output"></pre>
-    </section>
-  </main>
+  <!-- Modal compra/venta USD -->
+  <div id="usdConvertModal" class="usd-modal-overlay hidden">
+    <div class="usd-modal-card">
+      <div class="usd-modal-hdr">
+        <h3 id="usdConvertTitle" class="usd-modal-title">Comprar dólares</h3>
+        <button id="usdConvertClose" class="usd-modal-close"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="usd-modal-body">
+        <span id="usdConvertRateBadge" class="usd-rate-badge"></span>
+        <div class="usd-input-wrap">
+          <span id="usdConvertPrefix" class="usd-input-prefix">$</span>
+          <input type="text" inputmode="numeric" id="usdConvertMonto" placeholder="0" class="usd-modal-input" autocomplete="off">
+          <span id="usdConvertSuffix" class="usd-input-suffix">ARS</span>
+        </div>
+        <div id="usdConvertPreview" class="usd-modal-preview">
+          <p class="usd-modal-preview-label">Recibís aproximadamente</p>
+          <p id="usdConvertPreviewAmt" class="usd-modal-preview-amount"></p>
+        </div>
+        <button id="usdConvertConfirm" class="btn-primary" style="width:100%" disabled>Confirmar</button>
+      </div>
+    </div>
+  </div>
 
-  <script src="./app.js"></script>
-  <script>
-    // Scripts auxiliares para navegación rápida
-    document.getElementById('btn-transfer-shortcut')?.addEventListener('click', () => {
-      document.getElementById('transferForm')?.scrollIntoView({ behavior: 'smooth' });
-    });
-    document.getElementById('btn-deposit-shortcut')?.addEventListener('click', () => {
-      document.getElementById('depositForm')?.scrollIntoView({ behavior: 'smooth' });
-    });
-  </script>
+  <!-- Modal transferir USD (2 pasos) -->
+  <div id="usdTransferModal" class="usd-modal-overlay hidden">
+    <div class="usd-modal-card">
+
+      <!-- Paso 1: buscar destinatario -->
+      <div id="usdTransferStep1">
+        <div class="usd-modal-hdr">
+          <h3 class="usd-modal-title">¿A quién le transferís?</h3>
+          <button id="usdTransferClose" class="usd-modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="usd-modal-body">
+          <div class="usd-input-wrap">
+            <span class="usd-input-prefix"><i class="fas fa-at" style="font-size:.85rem"></i></span>
+            <input type="text" id="usdTransferDest" placeholder="CBU o alias en USD" class="usd-modal-input" autocomplete="off">
+          </div>
+          <div id="usdTransferSearchResult" class="usd-recipient-card hidden"></div>
+          <p id="usdTransferSearchError" class="usd-modal-error" style="display:none"></p>
+          <button id="usdTransferNextBtn" class="btn-primary" style="width:100%" disabled>Continuar</button>
+        </div>
+      </div>
+
+      <!-- Paso 2: monto -->
+      <div id="usdTransferStep2" class="hidden">
+        <div class="usd-modal-hdr">
+          <button id="usdTransferBack" class="usd-modal-close" title="Volver"><i class="fas fa-arrow-left"></i></button>
+          <h3 class="usd-modal-title">Transferir USD</h3>
+          <button id="usdTransferClose2" class="usd-modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="usd-modal-body">
+          <div id="usdTransferRecipientCard" class="usd-recipient-card"></div>
+          <span id="usdTransferRateBadge" class="usd-rate-badge"></span>
+          <div class="usd-input-wrap">
+            <span class="usd-input-prefix">U$D</span>
+            <input type="text" inputmode="numeric" id="usdTransferMonto" placeholder="0,00" class="usd-modal-input" autocomplete="off">
+          </div>
+          <div id="usdTransferEquiv" class="usd-modal-equiv"></div>
+          <p id="usdTransferError" class="usd-modal-error" style="display:none"></p>
+          <button id="usdTransferConfirm" class="btn-primary" style="width:100%" disabled>Enviar dólares</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Depósito (inline) -->
+  <div id="operationFormsContainer" class="hidden">
+    <div class="card hidden" id="depositArea">
+      <div class="operation-title">
+        <i class="fas fa-wallet"></i> Ingresar dinero
+      </div>
+      <form id="depositForm" class="styled-form">
+        <input type="number" id="depositMonto" placeholder="Monto" required>
+        <button type="submit" class="btn-primary">Confirmar depósito</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Movimientos colapsable -->
+  <div class="card card-collapsible" id="actividadCard">
+    <button class="card-collapsible-trigger" id="actividadToggle" aria-expanded="false">
+      <span class="card-collapsible-title"><i class="fas fa-list-ul"></i> Tu actividad</span>
+      <i class="fas fa-chevron-down card-collapsible-icon"></i>
+    </button>
+    <div class="card-collapsible-body hidden" id="actividadBody">
+      <div class="card-header" style="padding-top:0;border-top:1px solid var(--border);margin-top:12px">
+        <span></span>
+        <button id="loadMovimientosBtn" class="btn-link">Actualizar</button>
+      </div>
+      <ul id="movimientosList" class="list movements-list"></ul>
+    </div>
+  </div>
+
+  </section><!-- /section-inicio -->
+
+  <!-- ══════════════ SECCIÓN: PRÉSTAMOS ══════════════ -->
+  <section id="section-prestamos" class="content-section">
+
+  <!-- Préstamos -->
+  <div class="card" id="prestamosCard">
+    <!-- Tabs -->
+    <div class="ptab-bar">
+      <button class="ptab active" id="ptabSimular" data-panel="ptabSimularPanel">
+        <i class="fas fa-calculator"></i> Simular
+      </button>
+      <button class="ptab" id="ptabMisPresta" data-panel="ptabMisPrestasPanel">
+        <i class="fas fa-file-invoice-dollar"></i> Mis Préstamos
+        <span class="ptab-badge hidden" id="ptabBadge"></span>
+      </button>
+    </div>
+
+    <!-- ── Panel: Simulador ── -->
+    <div id="ptabSimularPanel" class="ptab-panel">
+      <div class="prestamo-grid">
+
+        <!-- Columna izquierda: controles -->
+        <div class="prestamo-col-controls">
+          <!-- Monto: input editable + slider -->
+          <div class="prestamo-field">
+            <div class="prestamo-field-header">
+              <label class="prestamo-label">Monto solicitado</label>
+              <span id="pLimiteInfo" class="prestamo-limite-info"></span>
+            </div>
+            <div class="prestamo-input-wrap" id="prestamoInputWrap">
+              <span class="prestamo-currency-sign">$</span>
+              <input type="text" id="prestamoMontoInput" class="prestamo-monto-input"
+                     inputmode="numeric" value="100.000" autocomplete="off">
+            </div>
+            <p id="pMontoError" class="prestamo-input-error-msg hidden">
+              <i class="fas fa-exclamation-circle"></i>
+              <span id="pMontoErrorTxt"></span>
+            </p>
+            <input type="range" id="prestamoSlider" class="prestamo-slider"
+                   min="10000" max="5000000" step="10000" value="100000">
+            <div class="prestamo-slider-limits">
+              <span>$10.000</span>
+              <span id="pLimiteMax">$5.000.000</span>
+            </div>
+          </div>
+
+          <!-- Plazo pills -->
+          <div class="prestamo-field">
+            <label class="prestamo-label">Plazo en cuotas</label>
+            <div class="prestamo-pills" id="prestamoPills" role="group">
+              <button class="prestamo-pill" data-cuotas="3">3</button>
+              <button class="prestamo-pill active" data-cuotas="6">6</button>
+              <button class="prestamo-pill" data-cuotas="12">12</button>
+              <button class="prestamo-pill" data-cuotas="24">24</button>
+              <button class="prestamo-pill" data-cuotas="36">36</button>
+            </div>
+          </div>
+
+          <!-- Beneficios -->
+          <div class="prestamo-beneficios">
+            <div class="prestamo-beneficio-item">
+              <i class="fas fa-bolt prestamo-beneficio-icon"></i>
+              <span>Acreditación inmediata en tu cuenta en pesos</span>
+            </div>
+            <div class="prestamo-beneficio-item">
+              <i class="fas fa-lock prestamo-beneficio-icon"></i>
+              <span>Tasa fija durante todo el plazo</span>
+            </div>
+            <div class="prestamo-beneficio-item">
+              <i class="fas fa-shield-alt prestamo-beneficio-icon"></i>
+              <span>Sin comisiones ni costos ocultos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: resultados -->
+        <div class="prestamo-col-results">
+          <div class="prestamo-resumen">
+            <div class="prestamo-cuota-hero">
+              <span class="prestamo-cuota-hero-label">Cuota mensual estimada</span>
+              <span class="prestamo-cuota-hero-valor" id="prestamoCuotaHero">—</span>
+            </div>
+
+            <div class="prestamo-rows">
+              <div class="prestamo-row"><span>TNA</span><span id="pTNA">95,00 %</span></div>
+              <div class="prestamo-row"><span>TEA</span><span id="pTEA">—</span></div>
+              <div class="prestamo-row"><span>Total intereses</span><span id="pIntereses">—</span></div>
+              <div class="prestamo-row"><span>IVA s/ intereses (21 %)</span><span id="pIVA">—</span></div>
+              <div class="prestamo-row"><span>CFT estimado</span><span id="pCFT">—</span></div>
+              <div class="prestamo-row prestamo-row-total"><span>Total a pagar</span><span id="pTotal">—</span></div>
+            </div>
+
+            <!-- Avisos -->
+            <div id="pWarnLimite"  class="prestamo-aviso prestamo-aviso-error  hidden"></div>
+            <div id="pWarnIngresos" class="prestamo-aviso prestamo-aviso-info  hidden"></div>
+
+            <!-- Tabla de amortización -->
+            <button class="prestamo-accordion-btn" id="prestamoTablaBtn" aria-expanded="false">
+              <i class="fas fa-table"></i>
+              <span>Tabla de amortización</span>
+              <i class="fas fa-chevron-down prestamo-acc-icon"></i>
+            </button>
+            <div class="prestamo-tabla-wrap hidden" id="prestamoTablaWrap">
+              <div class="prestamo-tabla-scroll">
+                <table class="prestamo-tabla">
+                  <thead><tr><th>#</th><th>Capital</th><th>Interés</th><th>IVA</th><th>Cuota c/IVA</th><th>Saldo</th></tr></thead>
+                  <tbody id="prestamoTablaTbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <button class="btn-primary prestamo-solicitar-btn" id="prestamoSolicitarBtn">
+              <i class="fas fa-check-circle"></i> Solicitar préstamo
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Panel: Mis Préstamos ── -->
+    <div id="ptabMisPrestasPanel" class="ptab-panel hidden">
+      <div id="misPrestamosContent">
+        <p class="muted" style="text-align:center;padding:24px 0;">Cargando préstamos…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal confirmación de préstamo -->
+  <div class="modal-overlay hidden" id="prestamoModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="modal-close" id="prestamoModalClose" aria-label="Cerrar">×</button>
+      <h3 class="modal-title"><i class="fas fa-hand-holding-usd"></i> Confirmá tu préstamo</h3>
+      <div class="prestamo-confirm-detalles" id="prestamoModalDetalles" style="margin-bottom:16px;"></div>
+      <label class="prestamo-tyc-label" id="prestamoTyCWrap">
+        <input type="checkbox" id="prestamoTyC">
+        <span>Acepto los <a href="#" class="link-green" onclick="return false">Términos y Condiciones</a> del préstamo NODO</span>
+      </label>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button class="btn-secondary" id="prestamoModalCancelar">Cancelar</button>
+        <button class="btn-primary" id="prestamoModalConfirmar" disabled>Confirmar y acreditar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Términos y Condiciones -->
+  <div class="modal-overlay hidden" id="tycModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="modal-close" id="tycModalClose" aria-label="Cerrar">×</button>
+      <h3 class="modal-title"><i class="fas fa-file-contract"></i> Términos y Condiciones</h3>
+      <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:18px;">Préstamo Personal NODO · Condiciones vigentes</p>
+
+      <div class="tyc-section">
+        <h4>Tasas y costos</h4>
+        <div class="tyc-kv-row"><span>TNA (Tasa Nominal Anual)</span><span>95,00 %</span></div>
+        <div class="tyc-kv-row"><span>TEA (Tasa Efectiva Anual)</span><span>149,50 %</span></div>
+        <div class="tyc-kv-row"><span>IVA sobre intereses</span><span>21 %</span></div>
+        <div class="tyc-kv-row"><span>CFT</span><span>Variable según monto y plazo</span></div>
+      </div>
+
+      <div class="tyc-section">
+        <h4>Sistema de amortización</h4>
+        <p>Los préstamos NODO se otorgan bajo el sistema francés de amortización. Cada cuota mensual incluye la porción de capital, los intereses devengados sobre el saldo y el IVA correspondiente al 21 % sobre dichos intereses.</p>
+      </div>
+
+      <div class="tyc-section">
+        <h4>Derecho de arrepentimiento</h4>
+        <p>El solicitante podrá revocar la aceptación dentro de los <strong>10 días hábiles</strong> contados a partir de la acreditación del crédito, sin penalidad ni obligación de expresar causa. Para ejercer este derecho deberá devolver el capital acreditado más los intereses devengados hasta esa fecha.</p>
+      </div>
+
+      <div class="tyc-section">
+        <h4>Mora y penalidades</h4>
+        <ul>
+          <li>La falta de pago en término genera intereses punitorios de hasta el <strong>50 % de la TNA vigente</strong>.</li>
+          <li>A partir de los 30 días de mora, la operación podrá ser informada a las centrales de riesgo crediticio.</li>
+          <li>NODO se reserva el derecho de bloquear operaciones de la cuenta (transferencias, compra/venta de divisas) hasta la regularización de la deuda.</li>
+        </ul>
+      </div>
+
+      <div class="tyc-section">
+        <h4>Cancelación anticipada</h4>
+        <p>El titular podrá cancelar el préstamo en cualquier momento sin cargo adicional, abonando el saldo de capital pendiente más los intereses devengados hasta la fecha de cancelación.</p>
+      </div>
+
+      <div class="tyc-section">
+        <h4>Jurisdicción</h4>
+        <p>Las partes se someten a la jurisdicción ordinaria de los Tribunales Ordinarios de la Ciudad Autónoma de Buenos Aires.</p>
+      </div>
+
+      <div class="modal-actions" style="margin-top:8px;">
+        <button class="btn-secondary" id="tycModalClose2">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  </section><!-- /section-prestamos -->
+
+  <!-- ══════════════ SECCIÓN: FINANZAS ══════════════ -->
+  <section id="section-finanzas" class="content-section">
+
+  <!-- Reservas + Gastos lado a lado -->
+  <div class="two-col-cards">
+    <div class="card">
+      <div class="card-header">
+        <h2>Mis Reservas</h2>
+        <button id="showReservaFormBtn" class="btn-link">+ Nueva</button>
+      </div>
+      <ul id="reservasList" class="list movements-list"></ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Gastos por categoría</h2>
+        <button id="loadGastosBtn" class="btn-link">Actualizar</button>
+      </div>
+      <div class="chart-container">
+        <canvas id="gastosChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  </section><!-- /section-finanzas -->
+
+  <!-- ══════════════ SECCIÓN: TARJETAS ══════════════ -->
+  <section id="section-tarjetas" class="content-section">
+
+  <!-- Tarjeta Visa Débito Virtual -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Tarjeta Visa Débito</h2>
+      <span id="cardStatusBadge" class="card-status-badge hidden"></span>
+    </div>
+
+    <!-- Sin tarjeta -->
+    <div id="noCardState" class="no-card-state">
+      <i class="fas fa-credit-card no-card-icon"></i>
+      <p>No tenés una tarjeta virtual activa</p>
+      <button id="emitirTarjetaBtn" class="btn-primary" style="margin-top:14px;width:100%;max-width:260px;">
+        <i class="fas fa-plus" style="margin-right:6px;"></i>Emitir tarjeta virtual
+      </button>
+    </div>
+
+    <!-- Con tarjeta -->
+    <div id="cardContainer" class="hidden">
+      <div class="dashboard-card-scene">
+        <div class="dashboard-card-3d" id="visaCardEl">
+          <div class="card-glow-spot"></div>
+          <div class="card-row-top">
+            <div class="card-brand">
+              <div class="card-logo-mark"></div>
+              <span class="card-brand-name">Nodo</span>
+            </div>
+            <div class="card-nfc">
+              <span class="nfc-arc nfc-1"></span>
+              <span class="nfc-arc nfc-2"></span>
+              <span class="nfc-arc nfc-3"></span>
+            </div>
+          </div>
+          <div class="card-chip-wrap">
+            <div class="card-chip"><div class="chip-inner"></div></div>
+          </div>
+          <div class="card-number">
+            <span id="cardNumBin">4539</span>
+            <span>••••</span>
+            <span>••••</span>
+            <span id="userCardLast4">••••</span>
+          </div>
+          <div class="card-row-bottom">
+            <div>
+              <p class="card-field-label">Titular</p>
+              <p class="card-field-value" id="userCardName">— —</p>
+            </div>
+            <div style="text-align:center;">
+              <p class="card-field-label">Vence</p>
+              <p class="card-field-value" id="userCardExpiry">••/••</p>
+            </div>
+            <div style="text-align:right;">
+              <p class="card-visa-network">VISA</p>
+              <p class="card-field-label">débito</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles: 3 botones en grid -->
+      <div class="card-controls-grid">
+        <button id="toggleCardDataBtn" class="btn-card-ctrl btn-card-ver-datos">
+          <i class="fas fa-lock"></i><span>Ver datos</span>
+        </button>
+        <button id="toggleCardStatusBtn" class="btn-card-ctrl btn-card-bloquear">
+          <i class="fas fa-lock-open"></i><span>Bloquear</span>
+        </button>
+        <button id="pagarTarjetaBtn" class="btn-card-ctrl btn-card-pay">
+          <i class="fas fa-shopping-cart"></i><span>Simular pago</span>
+        </button>
+      </div>
+      <div id="cardDataPanel" class="card-data-panel hidden">
+        <div class="card-data-row">
+          <div class="card-data-cell">
+            <span class="card-data-label">Número de tarjeta</span>
+            <span class="card-data-value" id="cardDataPan" style="letter-spacing:0.12em;">—</span>
+          </div>
+          <button id="revealPanBtn" class="btn-copy card-data-copy" title="Mostrar número"><i class="fas fa-eye"></i></button>
+          <button class="btn-copy card-data-copy" onclick="copiarAlPortapapeles(document.getElementById('cardDataPan').dataset.value||'')" title="Copiar número"><i class="fas fa-copy"></i></button>
+        </div>
+        <div class="card-data-row">
+          <div class="card-data-cell">
+            <span class="card-data-label">Vencimiento</span>
+            <span class="card-data-value" id="cardDataExpiry">—</span>
+          </div>
+        </div>
+        <div class="card-data-row">
+          <div class="card-data-cell">
+            <span class="card-data-label">Titular</span>
+            <span class="card-data-value" id="cardDataTitular">—</span>
+          </div>
+        </div>
+        <div class="card-data-row">
+          <div class="card-data-cell">
+            <span class="card-data-label">CVV</span>
+            <span class="card-data-value" id="cardDataCvv">•••</span>
+          </div>
+          <button id="revealCvvBtn" class="btn-copy card-data-copy" title="Mostrar CVV">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <div class="card-data-row">
+          <div class="card-data-cell">
+            <span class="card-data-label">Límite diario</span>
+            <span class="card-data-value" id="cardDataLimit">—</span>
+          </div>
+        </div>
+        <!-- Dar de baja (acción destructiva, relegada al panel de datos) -->
+        <div class="card-data-baja-wrap">
+          <button id="cancelarTarjetaBtn" class="card-data-baja-btn">
+            <i class="fas fa-times-circle"></i> Dar de baja tarjeta
+          </button>
+        </div>
+        <div id="cancelCardConfirm" class="cancel-card-confirm hidden">
+          <p><i class="fas fa-exclamation-triangle"></i> ¿Seguro que querés dar de baja la tarjeta? Esta acción no se puede deshacer.</p>
+          <div class="cancel-card-confirm-btns">
+            <button id="cancelCardConfirmYes" class="btn-primary" style="background:#ef4444;flex:1;">Sí, dar de baja</button>
+            <button id="cancelCardConfirmNo" class="btn-logout" style="flex:1;">No, volver</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historial de pagos con tarjeta -->
+      <div class="card-tx-section">
+        <p class="card-tx-title">Últimos pagos con tarjeta</p>
+        <ul id="cardTxList" class="list movements-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  </section><!-- /section-tarjetas (cierra aquí; los modales quedan fuera de cualquier sección) -->
+
+  <!-- ══ MODALES GLOBALES — fuera de todas las secciones ══ -->
+
+  <!-- Modal: pagar con tarjeta -->
+  <div id="cardPayModal" class="modal hidden">
+    <div class="transfer-modal-card">
+      <div class="transfer-modal-header">
+        <h2 class="transfer-modal-title">Pagar con tarjeta</h2>
+        <button id="closeCardPayModal" class="modal-close-btn"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs" style="margin-bottom:18px;">
+        <button class="tab active" data-pay-tab="merchant">Comercio</button>
+        <button class="tab" data-pay-tab="person">Persona / Alias</button>
+      </div>
+
+      <form id="cardPayForm" class="styled-form">
+        <!-- Modo comercio -->
+        <div id="payMerchantSection">
+          <input type="text" id="payMerchant" placeholder="Comercio (ej: Netflix, Shell, Rappi)">
+          <select id="payCategory">
+            <option value="general">General</option>
+            <option value="comida">Comida y bebida</option>
+            <option value="supermercado">Supermercado</option>
+            <option value="transporte">Transporte</option>
+            <option value="entretenimiento">Entretenimiento</option>
+            <option value="tecnologia">Tecnología / Streaming</option>
+            <option value="salud">Salud</option>
+          </select>
+        </div>
+
+        <!-- Modo persona -->
+        <div id="payPersonSection" class="hidden">
+          <input type="text" id="payAlias" placeholder="Alias o CBU del destinatario" autocomplete="off">
+          <div id="payAliasPreview" class="receptor-info-msg"></div>
+        </div>
+
+        <input type="text" inputmode="numeric" id="payAmount" placeholder="$ Monto" required>
+        <button type="submit" class="btn-primary">Confirmar pago</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de transferencia -->
+  <div id="transferModal" class="modal hidden">
+    <div class="transfer-modal-card">
+
+      <!-- Paso 1: elegir destinatario -->
+      <div id="transferStep1">
+        <div class="transfer-modal-header">
+          <h2 class="transfer-modal-title">¿A quién le transferís?</h2>
+          <button id="closeTransferModal" class="modal-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="transfer-search-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" id="cbuDestino" placeholder="Alias o CBU del destinatario" autocomplete="off">
+        </div>
+        <div id="receptorInfo" class="receptor-info-msg"></div>
+        <div class="contacts-sections">
+          <div class="contact-section hidden" id="favoritosSection">
+            <p class="contact-section-title"><i class="fas fa-star"></i> Favoritos</p>
+            <div class="contact-grid" id="favoritosList"></div>
+          </div>
+          <div class="contact-section hidden" id="recientesSection">
+            <p class="contact-section-title"><i class="fas fa-clock"></i> Recientes</p>
+            <div class="contact-grid" id="recientesList"></div>
+          </div>
+          <div class="contact-section" id="sugeridosSection">
+            <p class="contact-section-title"><i class="fas fa-bolt"></i> Sugeridos</p>
+            <div class="contact-grid" id="sugeridosList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2: monto y concepto -->
+      <div id="transferStep2" class="hidden">
+        <div class="transfer-modal-header">
+          <button id="backToStep1Btn" class="btn-back-step"><i class="fas fa-arrow-left"></i></button>
+          <h2 class="transfer-modal-title">Transferir</h2>
+          <button id="closeTransferModal2" class="modal-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="recipient-preview" id="recipientPreview"></div>
+        <form id="transferForm" class="styled-form">
+          <input type="number" id="monto"    placeholder="$ Monto" required min="1">
+          <input type="text"   id="concepto" placeholder="Concepto (opcional)">
+          <button type="submit" class="btn-primary">Enviar dinero</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal Nueva Reserva -->
+  <div id="nuevaReservaModal" class="modal hidden">
+    <div class="rv-modal-box">
+      <div class="rv-modal-header">
+        <h2 class="rv-modal-title"><i class="fas fa-piggy-bank"></i> Nueva Reserva</h2>
+        <button type="button" id="cancelReservaBtn" class="rv-modal-close" aria-label="Cerrar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <form id="reservaForm" class="rv-modal-form">
+        <div class="rv-form-group">
+          <label class="rv-label">Nombre</label>
+          <input type="text" id="reservaNombre" class="rv-input" placeholder="Ej: Vacaciones, Fondo de emergencia…" required>
+        </div>
+        <div class="rv-form-group">
+          <label class="rv-label">Plazo</label>
+          <div class="rv-dias-group">
+            <button type="button" class="reserva-dia-btn rv-dia-btn" data-dias="30">30 días</button>
+            <button type="button" class="reserva-dia-btn rv-dia-btn" data-dias="60">60 días</button>
+            <button type="button" class="reserva-dia-btn rv-dia-btn" data-dias="90">90 días</button>
+          </div>
+          <input type="hidden" id="reservaFecha">
+        </div>
+        <div class="rv-form-group">
+          <label class="rv-label">Monto</label>
+          <div class="rv-input-money-wrap">
+            <span class="rv-currency-sign">$</span>
+            <input type="text" inputmode="numeric" id="reservaMonto" class="rv-input rv-input-money" placeholder="0" required>
+          </div>
+        </div>
+        <button type="submit" class="rv-submit-btn">
+          <i class="fas fa-plus-circle"></i> Crear Reserva
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Detalle Reserva -->
+  <div id="reservaDetailModal" class="modal hidden">
+    <div class="transfer-modal-card" style="max-width:400px;">
+      <div class="transfer-modal-header">
+        <h2 class="transfer-modal-title" id="reservaDetailNombre">Reserva</h2>
+        <button id="closeReservaDetail" class="modal-close-btn"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="reservaDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- Modal Perfil -->
+  <div id="perfilModal" class="modal hidden">
+    <div class="transfer-modal-card" style="max-width:400px;">
+      <div class="transfer-modal-header">
+        <h2 class="transfer-modal-title">Editar Perfil</h2>
+        <button id="cancelPerfilBtn" class="modal-close-btn"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="perfilForm" class="styled-form">
+        <input type="text" id="perfilNombre"    placeholder="Nombre">
+        <input type="text" id="perfilApellido"  placeholder="Apellido">
+        <input type="text" id="perfilTelefono"  placeholder="Teléfono">
+        <input type="text" id="perfilDireccion" placeholder="Dirección">
+        <button type="submit" class="btn-primary">Guardar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Alias -->
+  <div id="aliasModal" class="modal hidden">
+    <div class="transfer-modal-card" style="max-width:400px;">
+      <div class="transfer-modal-header">
+        <h2 class="transfer-modal-title">Cambiar Alias</h2>
+        <button id="cancelAliasBtn" class="modal-close-btn"><i class="fas fa-times"></i></button>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:16px;">Solo letras minúsculas, números, puntos y guiones.</p>
+      <form id="aliasForm" class="styled-form">
+        <input type="text" id="newAliasInput" placeholder="nuevo.alias.nodo" required>
+        <button type="submit" class="btn-primary">Confirmar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Contraseña -->
+  <div id="passwordModal" class="modal hidden">
+    <div class="transfer-modal-card" style="max-width:400px;">
+      <div class="transfer-modal-header">
+        <h2 class="transfer-modal-title">Cambiar Contraseña</h2>
+        <button id="cancelPasswordBtn" class="modal-close-btn"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="passwordForm" class="styled-form">
+        <input type="password" id="currentPassword" placeholder="Contraseña actual" required>
+        <input type="password" id="newPassword"     placeholder="Nueva contraseña" required>
+        <button type="submit" class="btn-primary">Actualizar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- AI asistente -->
+  <div class="ai-assistant">
+    <button id="aiToggle" class="ai-fab">
+      <i class="fas fa-robot"></i>
+    </button>
+    <div id="aiChatWindow" class="ai-window hidden">
+      <div class="ai-header">
+        <span><i class="fas fa-robot"></i> Asistente Nodo</span>
+        <button id="aiClose" style="background:transparent;border:none;color:rgba(255,255,255,0.6);font-size:1rem;padding:0;"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="aiMessages" class="ai-messages">
+        <div class="msg bot">¡Hola! Soy tu asistente de Nodo. ¿En qué puedo ayudarte?</div>
+      </div>
+      <div class="ai-input">
+        <input type="text" id="aiQuery" placeholder="Preguntame algo...">
+        <button id="aiSend" style="padding:8px 12px;font-size:0.8rem;"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+    </div><!-- /content-area -->
+  </div><!-- /app-body -->
+
+</main>
+
+<!-- Modal comprobante -->
+<div id="receiptModal" class="modal hidden">
+  <div class="modal-content receipt-card">
+    <div class="receipt-header">
+      <div class="logo-container" style="justify-content:center;">
+        <div class="logo-icon"></div>
+        <span class="brand-name">NODO</span>
+      </div>
+      <p class="receipt-status">Transferencia exitosa</p>
+      <p id="receiptAmount">$ 0.00</p>
+    </div>
+    <div class="receipt-body">
+      <p class="receipt-date" id="receiptDateTime"></p>
+      <div class="receipt-section">
+        <label>Desde</label>
+        <p id="receiptFromInfo"></p>
+      </div>
+      <div class="receipt-section">
+        <label>Para</label>
+        <p id="receiptToInfo"></p>
+      </div>
+    </div>
+    <div class="receipt-actions">
+      <button onclick="downloadReceipt()" class="btn-receipt-action">
+        <i class="fas fa-download"></i><span>Descargar</span>
+      </button>
+      <button onclick="shareReceipt()" class="btn-receipt-action">
+        <i class="fas fa-share-alt"></i><span>Compartir</span>
+      </button>
+    </div>
+    <button onclick="document.getElementById('receiptModal').classList.add('hidden')" class="btn-primary" style="margin-top:8px;">Cerrar</button>
+  </div>
+</div>
+
+<!-- Modal escáner QR -->
+<div id="qrScannerModal" class="modal hidden">
+  <div class="modal-content card" style="max-width:480px;width:100%;">
+    <p style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:16px;">Escanear QR</p>
+    <div id="reader" style="width:100%;min-height:280px;border-radius:var(--r);overflow:hidden;"></div>
+    <p style="font-size:0.78rem;color:var(--text-3);margin-top:12px;text-align:center;">Apuntá la cámara al código QR de Nodo</p>
+    <button onclick="stopScanner()" class="btn-logout" style="width:100%;margin-top:12px;">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal generar QR -->
+<div id="qrGeneratorModal" class="modal hidden">
+  <div class="modal-content card" style="max-width:380px;width:100%;text-align:center;">
+    <p style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:4px;">Tu código de cobro</p>
+    <p style="font-size:0.8rem;color:var(--text-3);margin-bottom:20px;">Mostrá este QR para recibir dinero</p>
+    <div id="qrcode-container" style="display:flex;justify-content:center;margin:0 0 20px;padding:20px;background:white;border-radius:var(--r);border:1.5px solid var(--border);"></div>
+    <div style="background:var(--bg);padding:12px 16px;border-radius:var(--r-sm);text-align:left;margin-bottom:16px;">
+      <p style="font-size:0.66rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-3);margin-bottom:4px;font-weight:600;">CBU / Alias</p>
+      <p id="qrAccountDetail" style="font-weight:700;font-size:0.86rem;color:var(--text);"></p>
+    </div>
+    <button onclick="document.getElementById('qrGeneratorModal').classList.add('hidden')" class="btn-primary">Cerrar</button>
+  </div>
+</div>
+
+<!-- Preloader de página -->
+<div id="pageLoader">
+  <div class="page-loader-inner">
+    <div class="page-loader-logo">N</div>
+    <div class="page-loader-bar"></div>
+  </div>
+</div>
+
+<!-- Toast de sincronización -->
+<div id="syncToast" class="sync-toast hidden">
+  <i class="fas fa-check-circle"></i>
+  <span id="syncToastMsg"></span>
+</div>
+
+<!-- Splash de bienvenida -->
+<div id="loginSplash">
+  <div class="splash-logo">
+    <div class="logo-icon"></div>
+  </div>
+  <p class="splash-text">Hola, <span id="splashName"></span></p>
+  <p class="splash-sub">Tu saldo está listo.</p>
+</div>
+
+<script src="./network.js"></script>
+<!-- Módulos JS: orden de carga importa (config → api → features → main) -->
+<script src="./js/config.js"></script>
+<script src="./js/api.js"></script>
+<script src="./js/receipt.js"></script>
+<script src="./js/contacts.js"></script>
+<script src="./js/tarjeta.js"></script>
+<script src="./js/saldo.js"></script>
+<script src="./js/mercado.js"></script>
+<script src="./js/auth.js"></script>
+<script src="./js/transferencias.js"></script>
+<script src="./js/tarjeta-handlers.js"></script>
+<script src="./js/perfil.js"></script>
+<script src="./js/reservas.js"></script>
+<script src="./js/finanzas.js"></script>
+<script src="./js/ia.js"></script>
+<script src="./js/qr.js"></script>
+<script src="./js/prestamos.js"></script>
+<script src="./js/main.js"></script>
+<script>
+  window.dashNet = initNetwork(document.getElementById('dashNetwork'), { color: () => localStorage.getItem('nodo_theme') === 'dark' ? 'rgba(148,163,184,' : 'rgba(30,41,59,', count: 65, maxDist: 155, speed: 0.2, nodeOpacity: 0.55, lineOpacity: 0.28 });
+</script>
 </body>
 </html>

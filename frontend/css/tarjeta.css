@@ -1,0 +1,409 @@
+﻿/* â”€â”€ Panel datos de tarjeta â”€â”€ */
+.card-data-toggle-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.btn-card-data-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-2);
+  font-size: 0.78rem;
+  padding: 7px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.btn-card-data-toggle:hover { background: var(--green-dim); color: var(--green-2); border-color: rgba(16,185,129,0.3); opacity: 1; transform: none; }
+.btn-card-data-toggle.unlocked { border-color: var(--green); color: var(--green-2); }
+.btn-card-data-toggle i { font-size: 0.72rem; }
+
+.card-data-panel {
+  margin-top: 14px;
+  background: var(--bg);
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  animation: panel-slide 0.2s ease;
+}
+
+@keyframes panel-slide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-data-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+
+.card-data-row:last-child { border-bottom: none; }
+
+.card-data-cell { min-width: 0; flex: 1; }
+
+.card-data-label {
+  display: block;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.card-data-value {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.card-data-copy {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-3);
+  padding: 5px 8px;
+  font-size: 0.76rem;
+  border-radius: 6px;
+}
+
+.card-data-copy:hover { color: var(--green); background: var(--green-dim); opacity: 1; transform: none; }
+
+/* â”€â”€ Card Engine: estados y controles â”€â”€ */
+.no-card-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 20px;
+  gap: 10px;
+  color: var(--text-2);
+  font-size: 0.88rem;
+}
+
+.no-card-icon { font-size: 2.4rem; color: var(--border); }
+
+.card-status-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.card-status-badge.active  { background: rgba(16,185,129,0.12); color: var(--green); }
+.card-status-badge.blocked { background: rgba(239,68,68,0.12);  color: #ef4444; }
+
+.card-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* Grid de 3 botones: Ver datos · Bloquear · Simular pago */
+.card-controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn-card-ver-datos {
+  background: rgba(16,185,129,.08);
+  border-color: rgba(16,185,129,.3);
+  color: #34d399;
+}
+.btn-card-ver-datos:hover { background: rgba(16,185,129,.18); border-color: rgba(16,185,129,.5); color: #34d399; opacity: 1; transform: none; }
+.btn-card-ver-datos.unlocked { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.5); }
+
+.btn-card-bloquear { color: #fb7185; }
+.btn-card-bloquear:hover { background: rgba(251,113,133,.1); border-color: rgba(251,113,133,.35); color: #fb7185; opacity: 1; transform: none; }
+.btn-card-bloquear.blocked-state { border-color: #f43f5e; color: #f43f5e; background: rgba(244,63,94,.07); }
+.btn-card-bloquear.blocked-state:hover { background: rgba(244,63,94,.14); }
+
+.btn-card-ctrl {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text-2);
+  transition: all 0.18s;
+}
+
+.btn-card-ctrl:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); opacity: 1; transform: none; }
+.btn-card-ctrl.blocked-state { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.07); }
+.btn-card-ctrl.blocked-state:hover { background: rgba(239,68,68,0.13); }
+
+.btn-card-pay { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+.btn-card-pay:hover { background: var(--green); color: #fff; }
+
+.btn-card-cancel { border-color: rgba(239,68,68,0.4); color: #ef4444; background: rgba(239,68,68,0.06); }
+.btn-card-cancel:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+
+/* "Dar de baja" â€” relegado al panel de datos */
+.card-data-baja-wrap {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  text-align: right;
+}
+.card-data-baja-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .15s;
+}
+.card-data-baja-btn:hover { color: #ef4444; }
+
+.cancel-card-confirm {
+  margin-top: 12px;
+  background: rgba(239,68,68,0.07);
+  border: 1.5px solid rgba(239,68,68,0.25);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  animation: panel-slide 0.18s ease;
+}
+.cancel-card-confirm p { font-size: 0.82rem; color: var(--text); margin-bottom: 12px; }
+.cancel-card-confirm p i { color: #ef4444; margin-right: 6px; }
+.cancel-card-confirm-btns { display: flex; gap: 8px; }
+
+[data-theme="dark"] .btn-card-ctrl { background: rgba(255,255,255,0.04); }
+
+.card-tx-section { margin-top: 20px; }
+.card-tx-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+
+.card-visa-network {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  font-style: italic;
+}
+
+.card-cvv-note { color: var(--text-3) !important; font-style: italic; font-size: 0.78rem !important; }
+
+/* â”€â”€ Tarjeta del usuario (dashboard) â”€â”€ */
+.dashboard-card-scene {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+
+.dashboard-card-3d {
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 85.6 / 54;
+  background: linear-gradient(to top right, #0f172a 0%, #1e293b 55%, rgba(2,44,34,0.85) 100%);
+  border-radius: 20px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: perspective(900px) rotateX(5deg) rotateY(8deg);
+  box-shadow:
+    0 25px 50px -12px rgba(0,0,0,0.55),
+    8px 16px 32px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  border: 1px solid rgba(51,65,85,0.5);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: default;
+}
+
+.dashboard-card-3d:hover {
+  transform: perspective(900px) rotateX(2deg) rotateY(12deg);
+  box-shadow:
+    20px 32px 70px rgba(0,0,0,0.42),
+    6px 12px 24px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.dashboard-card-3d::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
+  pointer-events: none;
+}
+
+.dashboard-card-3d::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), rgba(16,185,129,0.25), transparent);
+  border-radius: 0 0 16px 16px;
+}
+
+/* â”€â”€ Toast de sincronizaciÃ³n â”€â”€ */
+.sync-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(11,17,32,0.3);
+  animation: toast-in 0.25s ease;
+  border-left: 4px solid var(--green);
+}
+
+.sync-toast--success { border-left-color: #10B981; }
+.sync-toast--success i { color: #10B981; }
+
+.sync-toast--info { border-left-color: #3B82F6; }
+.sync-toast--info i { color: #3B82F6; }
+
+.sync-toast--error { border-left-color: #EF4444; }
+.sync-toast--error i { color: #EF4444; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Filas de historial de tarjeta ── */
+.ctx-tx-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(30,41,59,.6);
+}
+.ctx-tx-row:last-child { border-bottom: none; }
+
+.ctx-tx-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ctx-tx-icon i { font-size: 0.88rem; }
+
+.ctx-tx-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.ctx-tx-desc {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ctx-tx-meta {
+  font-size: 0.74rem;
+  color: var(--text-3);
+}
+.tx-badge-refund {
+  font-size: 0.6rem;
+  background: rgba(16,185,129,.12);
+  color: #34d399;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ── Tipografía bancaria del plástico ── */
+.dashboard-card-3d .card-brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+}
+
+.dashboard-card-3d .card-number {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.82);
+  letter-spacing: 0.18em;
+  gap: 14px;
+}
+
+.dashboard-card-3d .card-field-label {
+  font-size: 0.46rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.38);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.dashboard-card-3d .card-field-value {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.82);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Chip EMV dorado mejorado */
+.dashboard-card-3d .card-chip {
+  width: 40px;
+  height: 28px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 35%, #d97706 65%, #fcd34d 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(253,230,138,0.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.45);
+}
+
+.dashboard-card-3d .card-chip .chip-inner {
+  inset: 5px;
+  border-color: rgba(0,0,0,0.18);
+}
+
