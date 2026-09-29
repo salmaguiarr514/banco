@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       showToast("Alias USD actualizado", 3000, "success");
       await loadSaldo();
     } catch (e) {
-      if (_usdAliasError) { _usdAliasError.textContent = e.message || "Error al cambiar alias"; _usdAliasError.style.display = ""; }
+      showToast(e.message || "Error al cambiar alias", 4000, "error");
     } finally {
       btnLoad(_usdAliasConfirm, false);
     }

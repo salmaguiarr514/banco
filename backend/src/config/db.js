@@ -129,6 +129,31 @@ const initDb = async () => {
 
     ALTER TABLE prestamos ADD COLUMN IF NOT EXISTS cuotas_pagadas INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE prestamos ADD COLUMN IF NOT EXISTS fecha_proximo_vencimiento DATE;
+
+    CREATE TABLE IF NOT EXISTS plazo_fijo (
+      id SERIAL PRIMARY KEY,
+      cuenta_id INTEGER NOT NULL REFERENCES cuentas(id) ON DELETE CASCADE,
+      monto NUMERIC(14, 2) NOT NULL CHECK (monto > 0),
+      tna NUMERIC(6, 4) NOT NULL,
+      dias INTEGER NOT NULL CHECK (dias IN (30, 60, 90)),
+      fecha_inicio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      fecha_vencimiento DATE NOT NULL,
+      estado VARCHAR(20) NOT NULL DEFAULT 'activo' CHECK (estado IN ('activo', 'rescatado'))
+    );
+
+    CREATE TABLE IF NOT EXISTS cauciones (
+      id SERIAL PRIMARY KEY,
+      cuenta_id INTEGER NOT NULL REFERENCES cuentas(id) ON DELETE CASCADE,
+      monto NUMERIC(14, 2) NOT NULL CHECK (monto > 0),
+      tna NUMERIC(6, 4) NOT NULL,
+      dias INTEGER NOT NULL CHECK (dias IN (1, 7, 14)),
+      fecha_inicio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      fecha_vencimiento DATE NOT NULL,
+      estado VARCHAR(20) NOT NULL DEFAULT 'activo' CHECK (estado IN ('activo', 'rescatado'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_plazo_fijo_cuenta_id ON plazo_fijo(cuenta_id);
+    CREATE INDEX IF NOT EXISTS idx_cauciones_cuenta_id ON cauciones(cuenta_id);
   `);
   } catch (error) {
     console.error(`\n[DB] ❌ Falló la inicialización de la base de datos.`);

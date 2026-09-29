@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="./css/tarjeta.css">
   <link rel="stylesheet" href="./css/ui.css">
   <link rel="stylesheet" href="./css/prestamos.css">
+  <link rel="stylesheet" href="./css/inversiones.css">
+  <link rel="stylesheet" href="./css/recarga.css">
+  <link rel="stylesheet" href="./css/tour.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -56,6 +59,16 @@
         <li role="presentation">
           <button class="sidebar-nav-item" data-section="finanzas" role="tab" aria-selected="false">
             <i class="fas fa-chart-pie"></i><span>Finanzas</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="sidebar-nav-item" data-section="inversiones" role="tab" aria-selected="false">
+            <i class="fas fa-chart-line"></i><span>Inversiones</span>
+          </button>
+        </li>
+        <li role="presentation">
+          <button class="sidebar-nav-item" data-section="recargas" role="tab" aria-selected="false">
+            <i class="fas fa-mobile-alt"></i><span>Recargas</span>
           </button>
         </li>
       </ul>
@@ -583,6 +596,329 @@
 
   </section><!-- /section-finanzas -->
 
+  <!-- ══════════════ SECCIÓN: INVERSIONES ══════════════ -->
+  <section id="section-inversiones" class="content-section">
+
+    <!-- Header patrimonio -->
+    <div class="card inv-header-card">
+      <div>
+        <span class="inv-patrimonio-label">Patrimonio invertido</span>
+        <span class="inv-patrimonio-amount" id="invPatrimonioTotal">$0</span>
+      </div>
+      <div class="inv-header-right">
+        <div class="inv-market-pills">
+          <span class="inv-pill" id="invCCLPill"><i class="fas fa-dollar-sign"></i> CCL: —</span>
+          <span class="inv-pill" id="invPFTasaPill"><i class="fas fa-percent"></i> PF: —</span>
+        </div>
+        <button id="invHelpBtn" class="inv-help-btn"><i class="fas fa-question-circle"></i> Ver tutorial</button>
+      </div>
+    </div>
+
+    <!-- Segmented control de pestañas -->
+    <div class="inv-segmented" role="tablist">
+      <button class="inv-seg-btn active" data-inv-tab="plazo-fijo" role="tab">Plazo Fijo</button>
+      <button class="inv-seg-btn" data-inv-tab="cauciones" role="tab">Cauciones</button>
+      <button class="inv-seg-btn" data-inv-tab="cedears" role="tab">CEDEARs</button>
+    </div>
+
+    <!-- ── Tab: Plazo Fijo ── -->
+    <div id="inv-tab-plazo-fijo" class="inv-tab-panel">
+
+      <!-- Formulario -->
+      <div class="card" style="padding:20px 24px">
+        <div class="card-header" style="margin-bottom:16px">
+          <h3 class="card-title">Constituir Plazo Fijo</h3>
+          <span class="inv-tna-badge" id="pfTNABadge">— TNA</span>
+        </div>
+        <form id="pfForm" class="inv-form" autocomplete="off">
+          <div class="inv-dias-group">
+            <button type="button" class="inv-dias-btn" data-dias="30">30 días</button>
+            <button type="button" class="inv-dias-btn" data-dias="60">60 días</button>
+            <button type="button" class="inv-dias-btn" data-dias="90">90 días</button>
+          </div>
+          <div class="inv-input-group">
+            <span class="inv-currency">$</span>
+            <input type="text" id="pfMonto" inputmode="numeric" placeholder="Monto a invertir">
+          </div>
+          <div id="pfPreview" class="inv-preview" hidden>
+            <div class="inv-preview-row">
+              <span>Rendimiento estimado</span>
+              <span id="pfRendimiento" style="color:var(--green,#10b981)">—</span>
+            </div>
+            <div class="inv-preview-row">
+              <span>Total al vencimiento</span>
+              <span id="pfTotal" style="font-size:1.05rem">—</span>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%">Constituir Plazo Fijo</button>
+        </form>
+      </div>
+
+      <!-- Lista activos -->
+      <div class="card" style="padding:0">
+        <div class="card-header" style="padding:16px 20px">
+          <h3 class="card-title">Mis Plazos Fijos</h3>
+        </div>
+        <ul id="pfList" class="inv-list" style="list-style:none;padding:0;margin:0">
+          <li class="inv-empty">Cargando…</li>
+        </ul>
+      </div>
+
+    </div><!-- /inv-tab-plazo-fijo -->
+
+    <!-- ── Tab: Cauciones ── -->
+    <div id="inv-tab-cauciones" class="inv-tab-panel" hidden>
+
+      <div class="card" style="padding:20px 24px">
+        <div class="card-header" style="margin-bottom:16px">
+          <h3 class="card-title">Colocar Caución <span class="inv-info-icon" data-tip="Préstamo bursátil de muy corto plazo (1-14 días). Ofrecés liquidez al mercado a cambio de una tasa garantizada.">i</span></h3>
+          <span class="inv-tna-badge" id="caucionTNABadge">— TNA</span>
+        </div>
+        <form id="caucionForm" class="inv-form" autocomplete="off">
+          <div class="inv-dias-group">
+            <button type="button" class="inv-dias-btn-c" data-dias="1">1 día</button>
+            <button type="button" class="inv-dias-btn-c" data-dias="7">7 días</button>
+            <button type="button" class="inv-dias-btn-c" data-dias="14">14 días</button>
+          </div>
+          <div class="inv-input-group">
+            <span class="inv-currency">$</span>
+            <input type="text" id="caucionMonto" inputmode="numeric" placeholder="Monto a colocar">
+          </div>
+          <div id="caucionPreview" class="inv-preview" hidden>
+            <div class="inv-preview-row">
+              <span>Rendimiento estimado</span>
+              <span id="caucionRendimiento" style="color:var(--green,#10b981)">—</span>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%">Colocar Caución</button>
+        </form>
+      </div>
+
+      <div class="card" style="padding:0">
+        <div class="card-header" style="padding:16px 20px">
+          <h3 class="card-title">Mis Cauciones</h3>
+        </div>
+        <ul id="caucionesList" class="inv-list" style="list-style:none;padding:0;margin:0">
+          <li class="inv-empty">Cargando…</li>
+        </ul>
+      </div>
+
+    </div><!-- /inv-tab-cauciones -->
+
+    <!-- ── Tab: CEDEARs ── -->
+    <div id="inv-tab-cedears" class="inv-tab-panel" hidden>
+      <div class="card" style="padding:0">
+        <div class="card-header" style="padding:16px 20px">
+          <h3 class="card-title">Cotizaciones CEDEAR</h3>
+          <span class="inv-badge-info">Precios referenciales en ARS · CCL live</span>
+        </div>
+        <ul id="cedearsList" class="inv-cedears-list">
+          <li class="inv-empty">Seleccioná la pestaña para cargar</li>
+        </ul>
+      </div>
+    </div><!-- /inv-tab-cedears -->
+
+  </section><!-- /section-inversiones -->
+
+  <!-- ══════════════ SECCIÓN: RECARGAS ══════════════ -->
+  <section id="section-recargas" class="content-section">
+
+    <div class="card" id="recargasSectionCard">
+      <div class="card-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="recarga-header-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div>
+            <h2 class="card-title" style="margin:0;">Recargar Celular</h2>
+            <p style="font-size:0.8rem;color:var(--text-3);margin:0;">Acreditación inmediata para Movistar, Personal, Claro y Tuenti</p>
+          </div>
+        </div>
+        <span id="recargaSectionSaldoDisponible" class="recarga-saldo-badge">Saldo: $ 0,00</span>
+      </div>
+
+      <div class="recarga-grid-container">
+        <!-- Columna principal: Pasos interactivos -->
+        <div class="recarga-panel-card">
+
+          <!-- Paso 1: Configuración -->
+          <div id="recargaStep1" class="recarga-step">
+            <div>
+              <div class="recarga-section-label"><span>1. Seleccioná tu operador</span></div>
+              <div class="operators-grid" role="radiogroup" aria-label="Operador móvil">
+                <button type="button" class="operator-card" data-operator="Movistar" role="radio" aria-checked="false">
+                  <div class="operator-badge">M</div>
+                  <div class="operator-info">
+                    <span class="operator-name">Movistar</span>
+                    <span class="operator-tag">Prepago y control</span>
+                  </div>
+                  <i class="fas fa-check-circle operator-check"></i>
+                </button>
+                <button type="button" class="operator-card" data-operator="Personal" role="radio" aria-checked="false">
+                  <div class="operator-badge"><i class="fas fa-wifi"></i></div>
+                  <div class="operator-info">
+                    <span class="operator-name">Personal</span>
+                    <span class="operator-tag">Prepago y abono</span>
+                  </div>
+                  <i class="fas fa-check-circle operator-check"></i>
+                </button>
+                <button type="button" class="operator-card" data-operator="Claro" role="radio" aria-checked="false">
+                  <div class="operator-badge"><i class="fas fa-sun"></i></div>
+                  <div class="operator-info">
+                    <span class="operator-name">Claro</span>
+                    <span class="operator-tag">Prepago y planes</span>
+                  </div>
+                  <i class="fas fa-check-circle operator-check"></i>
+                </button>
+                <button type="button" class="operator-card" data-operator="Tuenti" role="radio" aria-checked="false">
+                  <div class="operator-badge"><i class="fas fa-bolt"></i></div>
+                  <div class="operator-info">
+                    <span class="operator-name">Tuenti</span>
+                    <span class="operator-tag">Combos y recargas</span>
+                  </div>
+                  <i class="fas fa-check-circle operator-check"></i>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div class="recarga-section-label"><span>2. Número de celular</span></div>
+              <div class="phone-input-wrap" id="phoneInputWrap">
+                <span class="phone-prefix-badge"><span class="phone-prefix-flag">🇦🇷</span> +54 9</span>
+                <input type="tel" id="recargaTelefono" class="phone-input-field" placeholder="11 2345 6789" maxlength="14" autocomplete="off" inputmode="numeric">
+              </div>
+              <div class="phone-helper-text">
+                <i class="fas fa-info-circle"></i>
+                <span>10 a 12 dígitos con código de área, sin 0 ni 15. Ej: 11 2345-6789</span>
+              </div>
+              <div id="recargaPhoneError" class="phone-error-text"></div>
+            </div>
+
+            <div>
+              <div class="recarga-section-label"><span>3. Monto a recargar</span></div>
+              <div class="amounts-grid" role="group" aria-label="Montos predeterminados">
+                <button type="button" class="amount-chip" data-amount="500">$500</button>
+                <button type="button" class="amount-chip" data-amount="1000">$1.000</button>
+                <button type="button" class="amount-chip" data-amount="2000">$2.000</button>
+                <button type="button" class="amount-chip" data-amount="5000">$5.000</button>
+              </div>
+              <div class="custom-amount-toggle-wrap">
+                <button type="button" id="btnCustomAmountToggle" class="btn-custom-amount-toggle">
+                  <i class="fas fa-pen"></i><span>Ingresar otro monto</span>
+                </button>
+                <div id="customAmountBox" class="custom-amount-box hidden">
+                  <span class="custom-currency-sign">$</span>
+                  <input type="text" inputmode="numeric" id="recargaMontoCustom" class="custom-amount-input" placeholder="0" autocomplete="off">
+                </div>
+              </div>
+            </div>
+
+            <button type="button" id="btnRecargaContinuar" class="btn-primary" style="width:100%;margin-top:4px;" disabled>Continuar</button>
+          </div>
+
+          <!-- Paso 2: Confirmación -->
+          <div id="recargaStepConfirm" class="recarga-step hidden">
+            <div class="recarga-summary-card">
+              <div class="recarga-summary-header">
+                <div class="recarga-summary-badge" id="confirmOpBadge">M</div>
+                <div class="recarga-summary-op-text">
+                  <h4 id="confirmOpNombre">Movistar</h4>
+                  <span>Recarga de saldo prepago</span>
+                </div>
+              </div>
+              <div class="recarga-summary-row"><span class="label">Línea destinataria</span><span class="value" id="confirmTelefono">—</span></div>
+              <div class="recarga-summary-row"><span class="label">Medio de pago</span><span class="value">Cuenta en Pesos (ARS)</span></div>
+              <div class="recarga-summary-row"><span class="label">Saldo disponible</span><span class="value" id="confirmSaldoOrigen">—</span></div>
+              <div class="recarga-summary-row"><span class="label">Acreditación</span><span class="value" style="color:var(--green);"><i class="fas fa-bolt"></i> Inmediata</span></div>
+              <div class="recarga-summary-row recarga-summary-total"><span class="label">Total a debitar</span><span class="value" id="confirmMonto">—</span></div>
+            </div>
+            <div class="recarga-actions-row">
+              <button type="button" id="btnRecargaVolver" class="btn-secondary" style="flex:1;">Modificar</button>
+              <button type="button" id="btnConfirmarRecarga" class="btn-primary" style="flex:1.5;">Confirmar recarga</button>
+            </div>
+          </div>
+
+          <!-- Paso 3: Procesando -->
+          <div id="recargaStepProcessing" class="recarga-step hidden">
+            <div class="recarga-processing-box">
+              <div class="recarga-spinner-ring"></div>
+              <div class="recarga-processing-title">Procesando recarga...</div>
+              <p class="recarga-processing-sub" id="recargaProcessingSub">Estamos conectando con el operador.</p>
+            </div>
+          </div>
+
+          <!-- Paso 4: Éxito -->
+          <div id="recargaStepSuccess" class="recarga-step hidden">
+            <div class="recarga-result-card">
+              <div class="recarga-result-icon success"><i class="fas fa-check"></i></div>
+              <h3 class="recarga-result-title">¡Recarga exitosa!</h3>
+              <p class="recarga-result-sub">Tu línea ya cuenta con el saldo acreditado.</p>
+              <div class="recarga-receipt-box">
+                <div class="receipt-code-badge">
+                  <span id="recargaSuccessComprobante">REC-000000</span>
+                  <button type="button" id="btnCopyComprobanteRecarga" class="receipt-copy-btn" title="Copiar comprobante"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="recarga-receipt-row"><span class="label">Operador</span><span class="value" id="recargaSuccessOp">—</span></div>
+                <div class="recarga-receipt-row"><span class="label">Número</span><span class="value" id="recargaSuccessTel">—</span></div>
+                <div class="recarga-receipt-row"><span class="label">Monto recargado</span><span class="value" id="recargaSuccessMonto" style="color:var(--green);">—</span></div>
+                <div class="recarga-receipt-row"><span class="label">Nuevo saldo</span><span class="value" id="recargaSuccessSaldo">—</span></div>
+                <div class="recarga-receipt-row"><span class="label">Fecha y hora</span><span class="value" id="recargaSuccessFecha">—</span></div>
+              </div>
+              <div style="display:flex;gap:10px;width:100%;margin-top:6px;">
+                <button type="button" id="btnRecargaSuccessNueva" class="btn-secondary" style="flex:1;">Otra recarga</button>
+              </div>
+              <button type="button" id="btnRecargaSuccessListo" class="btn-primary" style="width:100%;">Volver al inicio</button>
+            </div>
+          </div>
+
+          <!-- Paso 5: Error / Saldo insuficiente -->
+          <div id="recargaStepError" class="recarga-step hidden">
+            <div class="recarga-result-card">
+              <div class="recarga-result-icon error"><i class="fas fa-exclamation-triangle"></i></div>
+              <h3 class="recarga-result-title">Saldo insuficiente</h3>
+              <p class="recarga-result-sub" id="recargaErrorSub">No disponés de fondos suficientes.</p>
+              <div class="recarga-receipt-box">
+                <div class="recarga-receipt-row"><span class="label">Saldo disponible</span><span class="value" id="recargaErrorSaldoDisp" style="color:var(--text);">—</span></div>
+                <div class="recarga-receipt-row"><span class="label">Monto requerido</span><span class="value" id="recargaErrorMontoReq" style="color:#ef4444;">—</span></div>
+              </div>
+              <div style="display:flex;gap:10px;width:100%;margin-top:6px;">
+                <button type="button" id="btnRecargaErrorCerrar" class="btn-secondary" style="flex:1;">Volver al inicio</button>
+                <button type="button" id="btnRecargaErrorReintentar" class="btn-primary" style="flex:1;">Elegir otro monto</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /recarga-panel-card -->
+
+        <!-- Columna lateral: Beneficios -->
+        <div class="recarga-info-side">
+          <div class="recarga-promo-box">
+            <div class="promo-icon"><i class="fas fa-bolt"></i></div>
+            <h4>Acreditación inmediata</h4>
+            <p>El saldo se acredita en tu línea al instante tras confirmar.</p>
+          </div>
+          <div class="recarga-promo-box">
+            <div class="promo-icon"><i class="fas fa-shield-alt"></i></div>
+            <h4>Sin costo adicional</h4>
+            <p>Recargá sin comisiones ni cargos extras desde tu cuenta NODO.</p>
+          </div>
+          <div class="recarga-promo-box">
+            <div class="promo-icon"><i class="fas fa-percentage"></i></div>
+            <h4>10% de reintegro</h4>
+            <p>Los miércoles tenés 10% de cashback en recargas de cualquier operador.</p>
+          </div>
+          <div class="recarga-promo-box" style="border-left:3px solid #019DF4;">
+            <div class="promo-icon" style="color:#019DF4;background:rgba(1,157,244,0.1);"><i class="fas fa-phone-alt"></i></div>
+            <h4>Formato de número</h4>
+            <p>10 dígitos con código de área, sin 0 ni 15. Ej: 11 2345-6789.</p>
+          </div>
+        </div>
+
+      </div><!-- /recarga-grid-container -->
+    </div><!-- /recargasSectionCard -->
+
+  </section><!-- /section-recargas -->
+
   <!-- ══════════════ SECCIÓN: TARJETAS ══════════════ -->
   <section id="section-tarjetas" class="content-section">
 
@@ -912,14 +1248,14 @@
     <div id="aiChatWindow" class="ai-window hidden">
       <div class="ai-header">
         <span><i class="fas fa-robot"></i> Asistente Nodo</span>
-        <button id="aiClose" style="background:transparent;border:none;color:rgba(255,255,255,0.6);font-size:1rem;padding:0;"><i class="fas fa-times"></i></button>
+        <button id="aiClose"><i class="fas fa-times"></i></button>
       </div>
       <div id="aiMessages" class="ai-messages">
         <div class="msg bot">¡Hola! Soy tu asistente de Nodo. ¿En qué puedo ayudarte?</div>
       </div>
       <div class="ai-input">
         <input type="text" id="aiQuery" placeholder="Preguntame algo...">
-        <button id="aiSend" style="padding:8px 12px;font-size:0.8rem;"><i class="fas fa-paper-plane"></i></button>
+        <button id="aiSend"><i class="fas fa-paper-plane"></i></button>
       </div>
     </div>
   </div>
@@ -1028,6 +1364,10 @@
 <script src="./js/ia.js"></script>
 <script src="./js/qr.js"></script>
 <script src="./js/prestamos.js"></script>
+<script src="./js/tour.js"></script>
+<script src="./js/inversiones.js"></script>
+<script src="./js/recarga.js"></script>
+<script src="./js/tours.js"></script>
 <script src="./js/main.js"></script>
 <script>
   window.dashNet = initNetwork(document.getElementById('dashNetwork'), { color: () => localStorage.getItem('nodo_theme') === 'dark' ? 'rgba(148,163,184,' : 'rgba(30,41,59,', count: 65, maxDist: 155, speed: 0.2, nodeOpacity: 0.55, lineOpacity: 0.28 });

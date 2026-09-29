@@ -26,10 +26,10 @@ const getInitials = (nombre, apellido) =>
   ((nombre || '')[0] || '').toUpperCase() + ((apellido || '')[0] || '').toUpperCase() || '?';
 
 const SUGERIDOS = [
-  { nombre: 'Lucas',     apellido: 'PÃ©rez',    alias: 'lucas.perez.nodo' },
-  { nombre: 'Valentina', apellido: 'GarcÃ­a',   alias: 'valentina.garcia.nodo' },
-  { nombre: 'Mateo',     apellido: 'LÃ³pez',    alias: 'mateo.lopez.nodo' },
-  { nombre: 'SofÃ­a',     apellido: 'MartÃ­nez', alias: 'sofia.martinez.nodo' },
+  { nombre: 'Lucas',     apellido: 'Pérez',    alias: 'lucas.perez.nodo' },
+  { nombre: 'Valentina', apellido: 'García',   alias: 'valentina.garcia.nodo' },
+  { nombre: 'Mateo',     apellido: 'López',    alias: 'mateo.lopez.nodo' },
+  { nombre: 'Sofía',     apellido: 'Martínez', alias: 'sofia.martinez.nodo' },
 ];
 
 function renderContactCard(persona, isStarred) {

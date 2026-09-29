@@ -1,0 +1,123 @@
+/* ── NODO Tour Engine ── */
+
+.nodo-tour-spotlight {
+  position: fixed;
+  z-index: 9991;
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(2,10,25,.82);
+  pointer-events: none;
+  transition: top .32s ease, left .32s ease, width .32s ease, height .32s ease;
+}
+
+.nodo-tour-card {
+  position: fixed;
+  z-index: 9992;
+  background: #0f172a;
+  border: 1px solid rgba(16,185,129,.32);
+  border-radius: 16px;
+  width: 300px;
+  padding: 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.5);
+}
+
+.nodo-tour-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #10B981;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.nodo-tour-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.nodo-tour-text {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.55;
+}
+
+.nodo-tour-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.nodo-tour-dots {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+}
+
+.nodo-tour-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(148,163,184,.3);
+  transition: background .2s;
+}
+
+.nodo-tour-dot.active { background: #10B981; }
+
+.nodo-tour-skip,
+.nodo-tour-next {
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s, color .2s;
+}
+
+.nodo-tour-skip {
+  color: #64748b;
+  background: rgba(100,116,139,.12);
+  border: 1px solid rgba(100,116,139,.25);
+}
+.nodo-tour-skip:hover {
+  background: rgba(100,116,139,.22);
+  color: #94a3b8;
+}
+
+.nodo-tour-next {
+  background: #10B981;
+  color: #fff;
+  border: none;
+}
+.nodo-tour-next:hover { background: #059669; }
+
+/* ── Help button — shared across all sections ── */
+.nodo-help-btn,
+.inv-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(16,185,129,.4);
+  background: rgba(16,185,129,.08);
+  color: #10B981;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.nodo-help-btn:hover,
+.inv-help-btn:hover {
+  background: rgba(16,185,129,.18);
+}
+
+/* ── Help bar container injected at the top of each section ── */
+.nodo-help-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+}

@@ -54,7 +54,7 @@ const renderTarjeta = () => {
     const mm = String(tarjetaActiva.expiry_month).padStart(2, '0');
     expiryD.textContent = `${mm}/${tarjetaActiva.expiry_year}`;
   }
-  if (limitEl) limitEl.textContent = `$${Number(tarjetaActiva.daily_limit).toLocaleString('es-AR')} / dÃ­a`;
+  if (limitEl) limitEl.textContent = `$${Number(tarjetaActiva.daily_limit).toLocaleString('es-AR')} / día`;
 
   // CVV â€” siempre empieza oculto
   const cvvEl = document.getElementById('cardDataCvv');

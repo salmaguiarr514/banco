@@ -1,0 +1,432 @@
+/* ══════════ INVERSIONES ══════════ */
+
+/* Header patrimonio */
+.inv-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 24px;
+  margin-bottom: 0;
+}
+.inv-patrimonio-label {
+  display: block;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  opacity: .55;
+  margin-bottom: 4px;
+}
+.inv-patrimonio-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--green, #10b981);
+  letter-spacing: -.02em;
+}
+.inv-market-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.inv-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(16,185,129,.1);
+  color: var(--green, #10b981);
+  border: 1px solid rgba(16,185,129,.2);
+}
+
+/* Segmented control */
+.inv-segmented {
+  display: flex;
+  gap: 4px;
+  background: rgba(15,23,42,.5);
+  border: 1px solid rgba(148,163,184,.1);
+  border-radius: 12px;
+  padding: 4px;
+  margin: 0 0 4px;
+}
+.inv-seg-btn {
+  flex: 1;
+  padding: 9px 0;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.inv-seg-btn.active {
+  background: rgba(16,185,129,.15);
+  color: var(--green, #10b981);
+  box-shadow: 0 0 0 1px rgba(16,185,129,.25);
+}
+.inv-seg-btn:hover:not(.active) {
+  background: rgba(148,163,184,.08);
+  color: #fff;
+}
+
+/* Tab panels */
+.inv-tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Formulario inversión */
+.inv-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0 8px;
+}
+.inv-dias-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.inv-dias-btn {
+  padding: 10px 0;
+  border: 1px solid rgba(148,163,184,.15);
+  border-radius: 10px;
+  background: rgba(15,23,42,.6);
+  color: var(--text-muted, #94a3b8);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .17s;
+}
+.inv-dias-btn:hover { background: rgba(16,185,129,.08); color: #fff; }
+.inv-dias-btn.active {
+  background: rgba(16,185,129,.18);
+  color: var(--green, #10b981);
+  border-color: rgba(16,185,129,.4);
+  box-shadow: 0 0 0 1px rgba(16,185,129,.2);
+}
+.inv-input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(15,23,42,.7);
+  border: 1px solid rgba(148,163,184,.12);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color .17s, box-shadow .17s;
+}
+.inv-input-group:focus-within {
+  border-color: rgba(16,185,129,.5);
+  box-shadow: 0 0 0 3px rgba(16,185,129,.1);
+}
+.inv-currency {
+  padding: 0 12px;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--green, #10b981);
+  border-right: 1px solid rgba(148,163,184,.1);
+}
+.inv-input-group input {
+  flex: 1;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.inv-input-group input::placeholder { color: rgba(148,163,184,.4); }
+
+/* Preview cálculo */
+.inv-preview {
+  background: rgba(16,185,129,.06);
+  border: 1px solid rgba(16,185,129,.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.inv-preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .85rem;
+}
+.inv-preview-row span:first-child { color: var(--text-muted, #94a3b8); }
+.inv-preview-row span:last-child  { font-weight: 700; }
+
+/* TNA badge en card-header */
+.inv-tna-badge {
+  font-size: .78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(16,185,129,.12);
+  color: var(--green, #10b981);
+  border: 1px solid rgba(16,185,129,.25);
+}
+.inv-badge-info {
+  font-size: .72rem;
+  opacity: .5;
+  font-style: italic;
+}
+
+/* Lista de PF / Cauciones activas */
+.inv-inversion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(148,163,184,.07);
+  gap: 12px;
+}
+.inv-inversion-item:last-child { border-bottom: none; }
+.inv-inversion-left { display: flex; flex-direction: column; gap: 3px; }
+.inv-inversion-tipo {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--green, #10b981);
+}
+.inv-inversion-detalle { font-size: .82rem; opacity: .55; }
+.inv-inversion-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.inv-inversion-monto { font-weight: 700; font-size: .95rem; }
+.inv-inversion-rend  { font-size: .78rem; color: var(--green, #10b981); }
+.inv-rescatar-btn {
+  font-size: .72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border: 1px solid rgba(239,68,68,.3);
+  border-radius: 6px;
+  background: rgba(239,68,68,.07);
+  color: #ef4444;
+  cursor: pointer;
+  transition: background .15s;
+}
+.inv-rescatar-btn:hover { background: rgba(239,68,68,.18); }
+
+/* CEDEARs */
+.inv-cedears-list { list-style: none; padding: 0; margin: 0; }
+.cedear-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(148,163,184,.07);
+}
+.cedear-item:last-child { border-bottom: none; }
+.cedear-ticker {
+  font-size: .82rem;
+  font-weight: 800;
+  color: var(--green, #10b981);
+  min-width: 52px;
+  letter-spacing: .04em;
+}
+.cedear-nombre {
+  flex: 1;
+  font-size: .82rem;
+  opacity: .7;
+}
+.cedear-precios {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+.cedear-ars {
+  font-weight: 700;
+  font-size: .9rem;
+}
+.cedear-usd {
+  font-size: .72rem;
+  opacity: .5;
+}
+.cedear-var {
+  font-size: .78rem;
+  font-weight: 700;
+  min-width: 52px;
+  text-align: right;
+}
+.cedear-neg { color: #ef4444; }
+
+/* Empty state */
+.inv-empty {
+  text-align: center;
+  padding: 28px 16px;
+  color: var(--text-muted, #94a3b8);
+  font-size: .85rem;
+  opacity: .6;
+}
+
+/* Fix: ocultar paneles con atributo hidden */
+.inv-tab-panel[hidden] { display: none !important; }
+
+/* Header right (pills + help btn apilados) */
+.inv-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* Botón "Tutorial" */
+.inv-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .76rem;
+  font-weight: 600;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: rgba(148,163,184,.07);
+  color: #94a3b8;
+  border: 1px solid rgba(148,163,184,.15);
+  cursor: pointer;
+  transition: background .17s, color .17s;
+  white-space: nowrap;
+}
+.inv-help-btn:hover { background: rgba(148,163,184,.15); color: #fff; }
+
+/* Info icon con tooltip hover */
+.inv-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(148,163,184,.18);
+  color: #94a3b8;
+  font-size: 9px;
+  font-weight: 800;
+  font-style: normal;
+  cursor: help;
+  position: relative;
+  vertical-align: middle;
+  margin-left: 4px;
+  flex-shrink: 0;
+  user-select: none;
+}
+.inv-info-icon::after {
+  content: attr(data-tip);
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  padding: 9px 13px;
+  border-radius: 9px;
+  width: 210px;
+  white-space: normal;
+  z-index: 200;
+  box-shadow: 0 6px 20px rgba(0,0,0,.45);
+  border: 1px solid rgba(148,163,184,.15);
+  pointer-events: none;
+}
+.inv-info-icon:hover::after { display: block; }
+
+/* Tour — spotlight recortado con box-shadow */
+.inv-tour-spotlight {
+  position: fixed;
+  z-index: 9991;
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(2,10,25,.82);
+  pointer-events: none;
+  transition: top .32s cubic-bezier(.4,0,.2,1),
+              left .32s cubic-bezier(.4,0,.2,1),
+              width .32s cubic-bezier(.4,0,.2,1),
+              height .32s cubic-bezier(.4,0,.2,1);
+}
+/* Tour — tarjeta de tooltip */
+.inv-tour-card {
+  position: fixed;
+  z-index: 9992;
+  background: #0f172a;
+  border: 1px solid rgba(16,185,129,.32);
+  border-radius: 16px;
+  padding: 20px 22px 18px;
+  width: 300px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(16,185,129,.08);
+  transition: top .32s cubic-bezier(.4,0,.2,1), left .32s cubic-bezier(.4,0,.2,1);
+}
+.inv-tour-step-label {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--green, #10b981);
+  margin-bottom: 6px;
+}
+.inv-tour-title {
+  font-size: .97rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.inv-tour-text {
+  font-size: .83rem;
+  line-height: 1.55;
+  color: rgba(226,232,240,.8);
+  margin-bottom: 16px;
+}
+.inv-tour-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.inv-tour-dots {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+}
+.inv-tour-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(148,163,184,.22);
+  transition: background .2s;
+}
+.inv-tour-dot.active { background: var(--green, #10b981); }
+.inv-tour-btn-skip {
+  font-size: .76rem;
+  color: rgba(148,163,184,.55);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+.inv-tour-btn-skip:hover { color: #94a3b8; }
+.inv-tour-btn-next {
+  font-size: .82rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: var(--green, #10b981);
+  color: #0f172a;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity .15s;
+}
+.inv-tour-btn-next:hover { opacity: .88; }
+
+@media (max-width: 600px) {
+  .inv-header-card   { flex-direction: column; align-items: flex-start; }
+  .inv-header-right  { align-items: flex-start; }
+  .inv-patrimonio-amount { font-size: 1.5rem; }
+  .inv-tour-card { width: calc(100vw - 32px); left: 16px !important; }
+}

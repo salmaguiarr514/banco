@@ -153,7 +153,7 @@ const abrirConvertModal = (de, a) => {
       showToast(data.message, 4000, 'success');
       await loadSaldo();
     } catch (e) {
-      showToast(e.message || 'Error en la conversiÃ³n', 4000, 'error');
+      showToast(e.message || 'Error en la conversión', 4000, 'error');
     } finally {
       btnLoad(confirm, false);
     }
@@ -258,7 +258,7 @@ const abrirTransferirUSD = () => {
           } catch (_) {
             // BC no lo encontrÃ³ â€” buscar alias en DB local (cuentas USD de este banco)
             const local = await apiFetch(`/cuentas/buscar-usd/${encodeURIComponent(valor)}`);
-            if (!local.found) throw new Error('No se encontrÃ³ una cuenta USD con ese alias o CBU');
+            if (!local.found) throw new Error('No se encontró una cuenta USD con ese alias o CBU');
             data = local;
           }
         }
@@ -284,7 +284,7 @@ const abrirTransferirUSD = () => {
         if (searchResult) searchResult.classList.add('hidden');
         if (searchErr) {
           searchErr.textContent = e.message?.includes('404') || e.message?.includes('no encontrad')
-            ? 'No se encontrÃ³ una cuenta con ese alias o CBU'
+            ? 'No se encontró una cuenta con ese alias o CBU'
             : (e.message || 'No encontrado');
           searchErr.style.display = '';
         }
@@ -319,7 +319,7 @@ const abrirTransferirUSD = () => {
       showToast(data.message || 'Transferencia realizada', 4000, 'success');
       await loadSaldo();
     } catch (e) {
-      if (errEl) { errEl.textContent = e.message || 'Error en la transferencia'; errEl.style.display = ''; }
+      showToast(e.message || 'Error en la transferencia', 4000, 'error');
     } finally {
       btnLoad(confirm, false);
     }

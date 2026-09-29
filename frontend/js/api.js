@@ -11,7 +11,7 @@
   try {
     response = await fetch(`${API_URL}${endpoint}`, { ...options, headers });
   } catch (networkErr) {
-    throw new Error("Sin conexiÃ³n con el servidor. VerificÃ¡ tu red o que el servidor estÃ© activo.");
+    throw new Error("Sin conexion con el servidor. Verifica tu red o que el servidor este activo.");
   }
 
   // Parsear de forma segura â€” el servidor puede devolver HTML en errores 404/500
@@ -21,7 +21,7 @@
     if (text) data = JSON.parse(text);
   } catch {
     if (!response.ok) {
-      throw new Error(`Error del servidor (${response.status}). VerificÃ¡ que el backend estÃ© corriendo.`);
+      throw new Error(`Error del servidor (${response.status}). Verifica que el backend este corriendo.`);
     }
     return {};
   }
@@ -44,7 +44,7 @@ const cerrarSesion = async () => {
     localStorage.removeItem("user");
     window.location.href = "login.html";
   } catch (error) {
-    showToast('Error al cerrar sesiÃ³n', 3500, 'error');
+    showToast('Error al cerrar sesion', 3500, 'error');
   }
 };
 

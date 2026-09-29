@@ -61,7 +61,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         sessionStorage.setItem("justLoggedIn", "1");
         window.location.href = "dashboard.html";
       } catch (error) {
-        showToast(error.message || "Credenciales incorrectas", 4000, "error");
+        const isInvalidCreds = /invalid login credentials|credenciales inv[aá]lidas|email no confirmado/i.test(error.message || "");
+        const msg = isInvalidCreds ? "Contraseña o correo inválidos" : (error.message || "Credenciales incorrectas");
+        showToast(msg, 4000, "error");
         formLoad(loginForm, false);
       }
     });

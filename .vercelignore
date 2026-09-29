@@ -1,0 +1,15 @@
+# Never deploy secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies (Vercel installs them from package.json)
+node_modules/
+backend/node_modules/
+
+# Dev / docs
+DOCUMENTACION.md
+SINCRONIZACION.md
+README.md
+scripts/
+sql/

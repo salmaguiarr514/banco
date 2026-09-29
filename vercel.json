@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/vercel.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": "frontend/**"
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "backend/vercel.js" }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/auto-debit",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}

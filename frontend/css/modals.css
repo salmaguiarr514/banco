@@ -278,12 +278,50 @@ input[type="number"] { -moz-appearance: textfield; }
 }
 
 .ai-header { background: var(--navy); color: white; padding: 15px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 600; }
-.ai-messages { flex: 1; padding: 14px; overflow-y: auto; background: #F8FAFC; display: flex; flex-direction: column; gap: 8px; }
+.ai-header > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.ai-header > button:hover { background: rgba(255,255,255,0.2); color: #fff; }
+.ai-messages { flex: 1; padding: 14px; overflow-y: auto; background: var(--bg); display: flex; flex-direction: column; gap: 8px; }
 .msg { padding: 8px 12px; border-radius: 12px; max-width: 82%; font-size: 0.8rem; line-height: 1.5; }
-.bot { background: white; border: 1px solid var(--border); color: var(--text); align-self: flex-start; }
+.bot { background: var(--surface); border: 1px solid var(--border); color: var(--text); align-self: flex-start; }
 .user { background: var(--green); color: var(--navy); align-self: flex-end; }
-.ai-input { padding: 10px 13px; display: flex; gap: 8px; border-top: 1px solid var(--border); background: white; }
-.ai-input input { flex: 1; padding: 8px 12px; font-size: 0.8rem; }
+.ai-input { padding: 10px 13px; display: flex; gap: 8px; border-top: 1px solid var(--border); background: var(--surface); }
+.ai-input input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  width: auto;
+}
+.ai-input input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(16,185,129,0.12); }
+.ai-input > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border-radius: var(--r-sm);
+  background: var(--green);
+  color: var(--navy);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: background 0.18s;
+  flex-shrink: 0;
+}
+.ai-input > button:hover { background: var(--green-2); }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    QR

@@ -471,3 +471,34 @@ button:active { transform: translateY(0); }
 
 .login-footer { margin-top: 28px; color: var(--text-3); font-size: 0.75rem; text-align: center; }
 
+.sync-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy, #0f172a);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(11,17,32,0.3);
+  animation: toast-in 0.25s ease;
+  border-left: 4px solid #10B981;
+}
+.sync-toast.hidden { display: none !important; }
+.sync-toast--success { border-left-color: #10B981; }
+.sync-toast--success i { color: #10B981; }
+.sync-toast--info    { border-left-color: #3B82F6; }
+.sync-toast--info i  { color: #3B82F6; }
+.sync-toast--error   { border-left-color: #EF4444; }
+.sync-toast--error i { color: #EF4444; }
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+

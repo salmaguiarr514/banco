@@ -1,4 +1,4 @@
-﻿const API_URL = "http://localhost:3000/api";
+﻿const API_URL = "/api";
 
 // â”€â”€ Tema claro / oscuro â”€â”€
 const THEME_KEY = 'nodo_theme';
@@ -19,8 +19,8 @@ applyTheme(localStorage.getItem(THEME_KEY) || 'light');
 
 // InicializaciÃ³n de Supabase Client
 // Reemplaza estas cadenas con la URL y la Anon Key de TU PROPIO proyecto de Supabase (Settings -> API)
-const SUPABASE_URL = 'https://fjbjqetnyrhvbbrymhde.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_bG5yTGeEYFH5t2g2x619jQ_VxG6xXpj';
+const SUPABASE_URL = 'https://zzbuslbocmqhahllabxy.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6YnVzbGJvY21xaGFobGxhYnh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MzUzMDAsImV4cCI6MjA5NDExMTMwMH0.qWm7Q8U9Freq3S69AxmB3bYNYMA4KkwzaSN4jcWxF2Y';
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const output = document.getElementById("output");

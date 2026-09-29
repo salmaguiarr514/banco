@@ -417,4 +417,88 @@ const transferirUSD = async (req, res) => {
   }
 };
 
-module.exports = { obtenerCuentas, obtenerSaldo, depositar, abrirCajaAhorro, convertirMoneda, buscarCuentaUSD, cambiarAliasUSD, transferirUSD };
+const recargarCelular = async (req, res) => {
+  const { cuenta_id, operador, numero_celular, monto } = req.body;
+  const montoNumero = Number(monto);
+
+  const operadoresValidos = ["Movistar", "Personal", "Claro", "Tuenti"];
+  if (!operadoresValidos.includes(operador)) {
+    return res.status(400).json({ message: "Operador no válido. Debe ser Movistar, Personal, Claro o Tuenti." });
+  }
+
+  const cleanPhone = String(numero_celular || "").replace(/\D/g, "");
+  if (cleanPhone.length < 10 || cleanPhone.length > 12) {
+    return res.status(400).json({ message: "El número debe tener entre 10 y 12 dígitos (sin 0 ni 15)." });
+  }
+
+  if (isNaN(montoNumero) || montoNumero <= 0) {
+    return res.status(400).json({ message: "El monto debe ser mayor a cero." });
+  }
+
+  const client = await db.getClient();
+  try {
+    await client.query("BEGIN");
+
+    let cuentaResult;
+    if (cuenta_id) {
+      cuentaResult = await client.query(
+        "SELECT id, saldo, moneda FROM cuentas WHERE id = $1 AND usuario_id = $2 FOR UPDATE",
+        [cuenta_id, req.user.id]
+      );
+    } else {
+      cuentaResult = await client.query(
+        "SELECT id, saldo, moneda FROM cuentas WHERE usuario_id = $1 AND moneda = 'ARS' AND estado = 'activa' LIMIT 1 FOR UPDATE",
+        [req.user.id]
+      );
+    }
+
+    const cuenta = cuentaResult.rows[0];
+    if (!cuenta) {
+      await client.query("ROLLBACK");
+      return res.status(404).json({ message: "Cuenta en pesos no encontrada" });
+    }
+
+    const saldoActual = Number(cuenta.saldo);
+    if (saldoActual < montoNumero) {
+      await client.query("ROLLBACK");
+      return res.status(400).json({
+        approved: false,
+        message: "Saldo insuficiente para realizar la recarga.",
+        saldo_disponible: saldoActual,
+        monto_solicitado: montoNumero,
+      });
+    }
+
+    const nuevoSaldo = saldoActual - montoNumero;
+    await client.query("UPDATE cuentas SET saldo = $1 WHERE id = $2", [nuevoSaldo, cuenta.id]);
+
+    const comprobante = `REC-${Date.now().toString().slice(-6)}${Math.floor(1000 + Math.random() * 9000)}`;
+
+    await client.query(
+      `INSERT INTO movimientos (cuenta_id, tipo, monto, descripcion, saldo_anterior, saldo_posterior)
+       VALUES ($1, 'debito', $2, $3, $4, $5)`,
+      [cuenta.id, montoNumero, `Recarga ${operador} - ${cleanPhone}`, saldoActual, nuevoSaldo]
+    );
+
+    await client.query("COMMIT");
+
+    return res.json({
+      approved: true,
+      message: "Recarga realizada con éxito",
+      comprobante,
+      operador,
+      numero_celular: cleanPhone,
+      monto: montoNumero,
+      saldo_anterior: saldoActual,
+      nuevo_saldo: nuevoSaldo,
+      fecha: new Date().toISOString(),
+    });
+  } catch (error) {
+    await client.query("ROLLBACK");
+    return res.status(500).json({ message: "Error al procesar la recarga", error: error.message });
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { obtenerCuentas, obtenerSaldo, depositar, abrirCajaAhorro, convertirMoneda, buscarCuentaUSD, cambiarAliasUSD, transferirUSD, recargarCelular };

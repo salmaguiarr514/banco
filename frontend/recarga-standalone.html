@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NODO — Home Banking & Recargas</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <!-- Fuentes e Íconos -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════
+       NODO — HOME BANKING ESTILO FINTECH (CSS VANILLA)
+       ═══════════════════════════════════════════════════════════════════ */
+    :root {
+      --navy: #0B1120;
+      --navy-2: #162033;
+      --green: #10B981;
+      --green-2: #059669;
+      --green-dim: rgba(16, 185, 129, 0.12);
+      --bg: #0F172A;
+      --surface: #1E293B;
+      --text: #F1F5F9;
+      --text-2: #94A3B8;
+      --text-3: #64748B;
+      --border: #334155;
+      --r-sm: 10px;
+      --r: 16px;
+      --r-lg: 22px;
+      --r-xl: 28px;
+      --sh: 0 4px 24px rgba(0, 0, 0, 0.35);
+      --sh-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="light"] {
+      --navy: #0B1120;
+      --navy-2: #162033;
+      --green: #10B981;
+      --green-2: #059669;
+      --green-dim: rgba(16, 185, 129, 0.1);
+      --bg: #E9EDF4;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --text-2: #4B5563;
+      --text-3: #9CA3AF;
+      --border: #E2E8F0;
+      --sh: 0 4px 24px rgba(11, 17, 32, 0.07);
+      --sh-lg: 0 12px 48px rgba(11, 17, 32, 0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    /* ── Layout ── */
+    .app-shell {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      gap: 28px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 4px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: #0B1120;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: var(--r-sm);
+      color: var(--text-2);
+      font-weight: 600;
+      font-size: 0.94rem;
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: var(--surface);
+      color: var(--green);
+      box-shadow: var(--sh);
+    }
+
+    /* Main Content */
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    /* Header */
+    .top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      padding: 14px 24px;
+      box-shadow: var(--sh);
+      border: 1px solid var(--border);
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--green-dim);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .user-info h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .user-info p {
+      font-size: 0.78rem;
+      color: var(--text-3);
+    }
+
+    .btn-theme-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .btn-theme-toggle:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* Balance Hero */
+    .balance-hero {
+      background: linear-gradient(135deg, var(--surface), rgba(16, 185, 129, 0.03));
+      border-radius: var(--r-xl);
+      padding: 30px;
+      border: 1px solid var(--border);
+      box-shadow: var(--sh-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .balance-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-2);
+      font-weight: 700;
+    }
+
+    .balance-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .balance-symbol {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--green);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .balance-amount {
+      font-size: 2.8rem;
+      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+
+    .balance-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .action-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 12px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 600;
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .action-card i {
+      font-size: 1.25rem;
+      color: var(--green);
+      transition: transform 0.2s;
+    }
+
+    .action-card:hover {
+      border-color: var(--green);
+      background: var(--green-dim);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
+    }
+
+    .action-card:hover i {
+      transform: scale(1.15);
+    }
+
+    /* Tarjeta de actividad / movimientos */
+    .card {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      padding: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--sh);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .movements-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .movement-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--bg);
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+      transition: transform 0.15s;
+    }
+
+    .movement-item:hover {
+      transform: translateX(4px);
+    }
+
+    .mov-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mov-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .mov-icon.debito {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .mov-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mov-text b {
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .mov-text span {
+      font-size: 0.78rem;
+      color: var(--text-3);
+    }
+
+    .mov-badge {
+      font-size: 0.7rem;
+      background: var(--green-dim);
+      color: var(--green);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .mov-amount {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #ef4444;
+    }
+
+    .mov-amount.credito {
+      color: var(--green);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       MODAL RECARGA CELULAR (COMPONENTE COMPLETO)
+       ═══════════════════════════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 17, 32, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      opacity: 1;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.hidden {
+      display: none !important;
+    }
+
+    .recarga-card {
+      width: 100%;
+      max-width: 460px;
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      padding: 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--sh-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-icon-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--green-dim);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .modal-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg);
+      color: var(--text-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    .step-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .step-container.hidden {
+      display: none !important;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-2);
+      margin-bottom: 8px;
+    }
+
+    .saldo-pill {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-dim);
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: none;
+    }
+
+    /* 1. Operadores */
+    .operators-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .operator-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none;
+      text-align: left;
+    }
+
+    .operator-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .op-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 1.05rem;
+      flex-shrink: 0;
+    }
+
+    .op-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .op-sub {
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+
+    /* Distintivos por marca */
+    .operator-card[data-operator="Movistar"] .op-badge { background: linear-gradient(135deg, #019DF4, #005691); }
+    .operator-card[data-operator="Movistar"]:hover { border-color: #019DF4; background: rgba(1, 157, 244, 0.05); }
+    .operator-card[data-operator="Movistar"].selected { border-color: #019DF4; background: rgba(1, 157, 244, 0.1); box-shadow: 0 0 0 1px #019DF4, 0 4px 14px rgba(1, 157, 244, 0.25); }
+
+    .operator-card[data-operator="Personal"] .op-badge { background: linear-gradient(135deg, #00A3E0, #004d73); }
+    .operator-card[data-operator="Personal"]:hover { border-color: #00A3E0; background: rgba(0, 163, 224, 0.05); }
+    .operator-card[data-operator="Personal"].selected { border-color: #00A3E0; background: rgba(0, 163, 224, 0.1); box-shadow: 0 0 0 1px #00A3E0, 0 4px 14px rgba(0, 163, 224, 0.25); }
+
+    .operator-card[data-operator="Claro"] .op-badge { background: linear-gradient(135deg, #E02B20, #96120a); }
+    .operator-card[data-operator="Claro"]:hover { border-color: #E02B20; background: rgba(224, 43, 32, 0.05); }
+    .operator-card[data-operator="Claro"].selected { border-color: #E02B20; background: rgba(224, 43, 32, 0.1); box-shadow: 0 0 0 1px #E02B20, 0 4px 14px rgba(224, 43, 32, 0.25); }
+
+    .operator-card[data-operator="Tuenti"] .op-badge { background: linear-gradient(135deg, #FF007A, #960047); }
+    .operator-card[data-operator="Tuenti"]:hover { border-color: #FF007A; background: rgba(255, 0, 122, 0.05); }
+    .operator-card[data-operator="Tuenti"].selected { border-color: #FF007A; background: rgba(255, 0, 122, 0.1); box-shadow: 0 0 0 1px #FF007A, 0 4px 14px rgba(255, 0, 122, 0.25); }
+
+    /* 2. Input Telefónico */
+    .phone-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 0 14px;
+      transition: all 0.2s;
+    }
+
+    .phone-box:focus-within {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-dim);
+      background: var(--surface);
+    }
+
+    .phone-box.error {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+    }
+
+    .phone-prefix {
+      padding-right: 12px;
+      border-right: 1.5px solid var(--border);
+      font-weight: 700;
+      color: var(--text-2);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .phone-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 13px 12px;
+      font-size: 1.05rem;
+      font-family: inherit;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+    }
+
+    .field-hint {
+      font-size: 0.76rem;
+      color: var(--text-3);
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: #ef4444;
+      margin-top: 5px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .field-error.visible {
+      display: block;
+    }
+
+    /* 3. Selector de Monto */
+    .amounts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .amount-chip {
+      padding: 11px 4px;
+      text-align: center;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-sm);
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .amount-chip:hover {
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-dim);
+    }
+
+    .amount-chip.selected {
+      background: var(--green);
+      border-color: var(--green);
+      color: #0B1120;
+    }
+
+    .custom-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .custom-amount-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 8px 12px;
+    }
+
+    .custom-amount-wrap.hidden { display: none !important; }
+
+    .custom-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+    }
+
+    /* Botones primarios y secundarios */
+    .btn-primary {
+      background: var(--green);
+      color: #0B1120;
+      border: none;
+      border-radius: var(--r);
+      padding: 13px 20px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #34d399;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 13px 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface);
+      border-color: var(--text-2);
+    }
+
+    /* Resumen Confirmación */
+    .summary-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+    }
+
+    .summary-row .label { color: var(--text-2); }
+    .summary-row .value { font-weight: 700; color: var(--text); }
+    .summary-total {
+      padding-top: 10px;
+      border-top: 1.5px solid var(--border);
+    }
+    .summary-total .value {
+      font-size: 1.35rem;
+      color: var(--green);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Spinner Simulación */
+    .spinner-ring {
+      width: 52px;
+      height: 52px;
+      border: 4px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Resultados */
+    .result-center {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+    }
+
+    .result-icon-circle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .result-icon-circle.success {
+      background: var(--green-dim);
+      color: var(--green);
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.25);
+    }
+
+    .result-icon-circle.error {
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+      box-shadow: 0 0 24px rgba(239, 68, 68, 0.25);
+    }
+
+    .receipt-details {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 16px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .comprobante-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 8px 12px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .app-shell { flex-direction: column; }
+      .sidebar { width: 100%; }
+      .operators-grid { grid-template-columns: 1fr; }
+      .amounts-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand-container">
+        <div class="brand-logo">N</div>
+        <span class="brand-name">NODO</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active"><i class="fas fa-home"></i><span>Inicio</span></button>
+        <button class="nav-item"><i class="fas fa-credit-card"></i><span>Tarjetas</span></button>
+        <button class="nav-item"><i class="fas fa-hand-holding-usd"></i><span>Préstamos</span></button>
+        <button class="nav-item"><i class="fas fa-chart-pie"></i><span>Finanzas</span></button>
+      </nav>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="content-area">
+      <header class="top-header">
+        <div class="user-pill">
+          <div class="user-avatar"><i class="fas fa-user"></i></div>
+          <div class="user-info">
+            <h3>Usuario Demo</h3>
+            <p>Cuenta Corriente ARS</p>
+          </div>
+        </div>
+        <button id="themeToggleBtn" class="btn-theme-toggle" title="Cambiar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+      </header>
+
+      <!-- Balance Hero -->
+      <section class="balance-hero">
+        <div class="balance-header">
+          <span class="balance-title">Saldo disponible en pesos</span>
+          <button id="btnDepositarDemo" style="background:none;border:none;color:var(--green);font-size:0.8rem;font-weight:600;cursor:pointer;">
+            <i class="fas fa-plus-circle"></i> Depositar $10.000 demo
+          </button>
+        </div>
+        <div class="balance-row">
+          <span class="balance-symbol">$</span>
+          <span class="balance-amount" id="displayBalance">0,00</span>
+        </div>
+
+        <div class="balance-actions">
+          <button class="action-card" id="btnRecargaShortcut">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Recargar</span>
+          </button>
+          <button class="action-card" onclick="alert('Funcionalidad de transferencia disponible en el dashboard principal.')">
+            <i class="fas fa-paper-plane"></i>
+            <span>Transferir</span>
+          </button>
+          <button class="action-card" onclick="alert('Sincronización bancaria OK')">
+            <i class="fas fa-sync-alt"></i>
+            <span>Sincronizar</span>
+          </button>
+          <button class="action-card" onclick="alert('Escáner QR disponible en el dashboard principal.')">
+            <i class="fas fa-qrcode"></i>
+            <span>Pagar QR</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Actividad Reciente -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-list-ul"></i> Tu actividad reciente</h2>
+          <span style="font-size:0.8rem;color:var(--text-3);" id="movimientosCount">3 movimientos</span>
+        </div>
+        <ul class="movements-list" id="movementsList">
+          <!-- Movimientos dinámicos -->
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       MODAL: RECARGAR CELULAR (HTML)
+       ═══════════════════════════════════════════════════════════════════ -->
+  <div id="recargaModal" class="modal-overlay hidden">
+    <div class="recarga-card">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon-badge"><i class="fas fa-mobile-alt"></i></div>
+          <h3 class="modal-title">Recargar Celular</h3>
+        </div>
+        <button id="closeModalBtn" class="modal-close-btn" title="Cerrar"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Paso 1: Configuración -->
+      <div id="step1" class="step-container">
+        <!-- 1. Operadores -->
+        <div>
+          <div class="section-label"><span>1. Seleccioná tu operador</span></div>
+          <div class="operators-grid">
+            <button class="operator-card" data-operator="Movistar">
+              <div class="op-badge">M</div>
+              <div><div class="op-name">Movistar</div><div class="op-sub">Prepago y control</div></div>
+            </button>
+            <button class="operator-card" data-operator="Personal">
+              <div class="op-badge"><i class="fas fa-wifi"></i></div>
+              <div><div class="op-name">Personal</div><div class="op-sub">Prepago y abono</div></div>
+            </button>
+            <button class="operator-card" data-operator="Claro">
+              <div class="op-badge"><i class="fas fa-sun"></i></div>
+              <div><div class="op-name">Claro</div><div class="op-sub">Prepago y planes</div></div>
+            </button>
+            <button class="operator-card" data-operator="Tuenti">
+              <div class="op-badge"><i class="fas fa-bolt"></i></div>
+              <div><div class="op-name">Tuenti</div><div class="op-sub">Combos y saldo</div></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Teléfono -->
+        <div>
+          <div class="section-label"><span>2. Número de celular</span></div>
+          <div class="phone-box" id="phoneBox">
+            <span class="phone-prefix">🇦🇷 +54 9</span>
+            <input type="tel" id="inputPhone" class="phone-input" placeholder="11 2345 6789" maxlength="14" autocomplete="off">
+          </div>
+          <p class="field-hint"><i class="fas fa-info-circle"></i> 10 a 12 dígitos (código de área + número, sin 0 ni 15).</p>
+          <p class="field-error" id="phoneError"></p>
+        </div>
+
+        <!-- 3. Monto -->
+        <div>
+          <div class="section-label">
+            <span>3. Monto a recargar</span>
+            <span class="saldo-pill" id="saldoModalPill">Saldo: $ 0,00</span>
+          </div>
+          <div class="amounts-grid">
+            <button class="amount-chip" data-amount="500">$500</button>
+            <button class="amount-chip" data-amount="1000">$1.000</button>
+            <button class="amount-chip" data-amount="2000">$2.000</button>
+            <button class="amount-chip" data-amount="5000">$5.000</button>
+          </div>
+          <button class="custom-toggle-btn" id="btnToggleCustom"><i class="fas fa-pen"></i> Ingresar otro monto</button>
+          <div class="custom-amount-wrap hidden" id="customWrap">
+            <span style="font-weight:800;color:var(--text-2);">$</span>
+            <input type="text" id="inputCustomAmount" class="custom-input" placeholder="0">
+          </div>
+        </div>
+
+        <button id="btnContinuar" class="btn-primary" style="width:100%;margin-top:8px;" disabled>Continuar</button>
+      </div>
+
+      <!-- Paso 2: Confirmación -->
+      <div id="stepConfirm" class="step-container hidden">
+        <div class="summary-box">
+          <div class="summary-header">
+            <div class="op-badge" id="confirmBadge" style="background:#019DF4;">M</div>
+            <div>
+              <h4 id="confirmOpName" style="font-size:1rem;color:var(--text);">Movistar</h4>
+              <span style="font-size:0.78rem;color:var(--text-3);">Acreditación instantánea</span>
+            </div>
+          </div>
+          <div class="summary-row"><span class="label">Línea destinataria:</span><span class="value" id="confirmPhone">+54 9 11 2345-6789</span></div>
+          <div class="summary-row"><span class="label">Cuenta de débito:</span><span class="value">Cuenta ARS</span></div>
+          <div class="summary-row"><span class="label">Saldo disponible:</span><span class="value" id="confirmSaldoDisp">$ 0,00</span></div>
+          <div class="summary-row summary-total"><span class="label">Total a debitar:</span><span class="value" id="confirmMonto">$ 0,00</span></div>
+        </div>
+
+        <div style="display:flex;gap:10px;">
+          <button id="btnVolverStep1" class="btn-secondary" style="flex:1;">Modificar</button>
+          <button id="btnConfirmarProceso" class="btn-primary" style="flex:1.5;">Confirmar recarga</button>
+        </div>
+      </div>
+
+      <!-- Paso 3: Spinner de Procesamiento (~800ms) -->
+      <div id="stepProcessing" class="step-container hidden">
+        <div class="result-center" style="padding:40px 0;">
+          <div class="spinner-ring"></div>
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;color:var(--text);">Procesando recarga...</h4>
+          <p style="font-size:0.85rem;color:var(--text-2);" id="processingMsg">Conectando con el operador...</p>
+        </div>
+      </div>
+
+      <!-- Paso 4: Éxito con Comprobante -->
+      <div id="stepSuccess" class="step-container hidden">
+        <div class="result-center">
+          <div class="result-icon-circle success"><i class="fas fa-check"></i></div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;color:var(--text);">¡Recarga exitosa!</h3>
+          <p style="font-size:0.86rem;color:var(--text-2);">Se acreditó el saldo en la línea correctamente.</p>
+
+          <div class="receipt-details">
+            <div class="comprobante-pill">
+              <span id="successCode">REC-000000</span>
+              <button id="btnCopyCode" style="background:none;border:none;color:var(--green);cursor:pointer;" title="Copiar"><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="summary-row"><span class="label">Operador:</span><span class="value" id="successOp">Movistar</span></div>
+            <div class="summary-row"><span class="label">Línea:</span><span class="value" id="successPhone">+54 9 11 2345-6789</span></div>
+            <div class="summary-row"><span class="label">Monto recargado:</span><span class="value" id="successMonto" style="color:var(--green);">$ 0,00</span></div>
+            <div class="summary-row"><span class="label">Nuevo saldo:</span><span class="value" id="successSaldo">$ 0,00</span></div>
+            <div class="summary-row"><span class="label">Fecha y hora:</span><span class="value" id="successDate">—</span></div>
+          </div>
+
+          <div style="display:flex;gap:10px;width:100%;">
+            <button id="btnDescargarComprobante" class="btn-secondary" style="flex:1;"><i class="fas fa-download"></i> Descargar</button>
+            <button id="btnOtraRecarga" class="btn-secondary" style="flex:1;">Otra recarga</button>
+          </div>
+          <button id="btnSuccessCerrar" class="btn-primary" style="width:100%;">Listo</button>
+        </div>
+      </div>
+
+      <!-- Paso 5: Error (Saldo Insuficiente) -->
+      <div id="stepError" class="step-container hidden">
+        <div class="result-center">
+          <div class="result-icon-circle error"><i class="fas fa-exclamation-triangle"></i></div>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;color:var(--text);">Saldo insuficiente</h3>
+          <p style="font-size:0.86rem;color:var(--text-2);" id="errorDesc">No tenés fondos suficientes para realizar esta recarga.</p>
+
+          <div class="receipt-details">
+            <div class="summary-row"><span class="label">Saldo actual disponible:</span><span class="value" id="errorSaldoDisp">$ 0,00</span></div>
+            <div class="summary-row"><span class="label">Monto requerido:</span><span class="value" id="errorMontoReq" style="color:#ef4444;">$ 0,00</span></div>
+            <div class="summary-row"><span class="label">Estado de la cuenta:</span><span class="value" style="color:var(--text-3);">Saldo sin debitar</span></div>
+          </div>
+
+          <div style="display:flex;gap:10px;width:100%;">
+            <button id="btnErrorCerrar" class="btn-secondary" style="flex:1;">Cerrar</button>
+            <button id="btnErrorCambiarMonto" class="btn-primary" style="flex:1;">Elegir otro monto</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       LÓGICA JAVASCRIPT VANILLA (ESTADO, VALIDACIONES Y PERSISTENCIA)
+       ═══════════════════════════════════════════════════════════════════ -->
+  <script>
+    // ── Estado global persistente en localStorage ──
+    const SALDO_KEY = 'nodo_standalone_saldo';
+    const MOVS_KEY = 'nodo_standalone_movimientos';
+    const THEME_KEY = 'nodo_theme';
+
+    let saldoActual = Number(localStorage.getItem(SALDO_KEY)) || 15450.00;
+    let movimientos = JSON.parse(localStorage.getItem(MOVS_KEY)) || [
+      { id: 'm1', descripcion: 'Transferencia recibida de Juan Pérez', monto: 12000, tipo: 'credito', fecha: '2026-09-17T18:30:00' },
+      { id: 'm2', descripcion: 'Pago con tarjeta en Farmacity', monto: -4200, tipo: 'debito', fecha: '2026-09-16T14:15:00' },
+      { id: 'm3', descripcion: 'Depósito en efectivo', monto: 7650, tipo: 'credito', fecha: '2026-09-15T11:00:00' }
+    ];
+
+    // Variables locales para la recarga activa
+    let recargaOperador = null;
+    let recargaNumero = "";
+    let recargaMonto = 0;
+    let recargaComprobante = "";
+
+    const OPERADORES_DATA = {
+      Movistar: { color: '#019DF4', badge: 'M' },
+      Personal: { color: '#00A3E0', badge: '<i class="fas fa-wifi"></i>' },
+      Claro: { color: '#E02B20', badge: '<i class="fas fa-sun"></i>' },
+      Tuenti: { color: '#FF007A', badge: '<i class="fas fa-bolt"></i>' }
+    };
+
+    // ── Tema Claro / Oscuro ──
+    const applyTheme = (theme) => {
+      document.documentElement.setAttribute('data-theme', theme);
+      const btn = document.getElementById('themeToggleBtn');
+      if (btn) btn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      localStorage.setItem(THEME_KEY, theme);
+    };
+
+    document.getElementById('themeToggleBtn').addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(cur);
+    });
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    // ── Renderizado de Saldo y Movimientos ──
+    const actualizarDisplaySaldo = () => {
+      const el = document.getElementById('displayBalance');
+      if (el) el.textContent = saldoActual.toLocaleString('es-AR', { minimumFractionDigits: 2 });
+      localStorage.setItem(SALDO_KEY, String(saldoActual));
+    };
+
+    const renderMovimientos = () => {
+      const list = document.getElementById('movementsList');
+      const count = document.getElementById('movimientosCount');
+      if (!list) return;
+
+      count.textContent = `${movimientos.length} movimiento${movimientos.length === 1 ? '' : 's'}`;
+      list.innerHTML = movimientos.map(m => {
+        const isCred = m.tipo === 'credito';
+        const isRecarga = m.descripcion.toLowerCase().includes('recarga');
+        const icon = isRecarga ? 'fa-mobile-alt' : (isCred ? 'fa-arrow-down' : 'fa-shopping-bag');
+        return `
+          <li class="movement-item">
+            <div class="mov-info">
+              <div class="mov-icon ${isCred ? '' : 'debito'}"><i class="fas ${icon}"></i></div>
+              <div class="mov-text">
+                <b>${m.descripcion} ${isRecarga ? '<span class="mov-badge">Recarga</span>' : ''}</b>
+                <span>${new Date(m.fecha).toLocaleDateString('es-AR')}</span>
+              </div>
+            </div>
+            <div class="mov-amount ${isCred ? 'credito' : ''}">
+              ${isCred ? '+' : '-'}$${Math.abs(m.monto).toLocaleString('es-AR', { minimumFractionDigits: 2 })}
+            </div>
+          </li>
+        `;
+      }).join('');
+      localStorage.setItem(MOVS_KEY, JSON.stringify(movimientos));
+    };
+
+    // Botón demo de depósito
+    document.getElementById('btnDepositarDemo').addEventListener('click', () => {
+      saldoActual += 10000;
+      movimientos.unshift({
+        id: 'dep_' + Date.now(),
+        descripcion: 'Depósito demo de fondos',
+        monto: 10000,
+        tipo: 'credito',
+        fecha: new Date().toISOString()
+      });
+      actualizarDisplaySaldo();
+      renderMovimientos();
+    });
+
+    // ── Control del Modal de Recargas ──
+    const recargaModal = document.getElementById('recargaModal');
+
+    const openModal = () => {
+      recargaOperador = null;
+      recargaNumero = "";
+      recargaMonto = 0;
+      document.querySelectorAll('.operator-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('selected'));
+      document.getElementById('inputPhone').value = "";
+      document.getElementById('phoneBox').classList.remove('error');
+      document.getElementById('phoneError').classList.remove('visible');
+      document.getElementById('customWrap').classList.add('hidden');
+      document.getElementById('inputCustomAmount').value = "";
+      document.getElementById('saldoModalPill').textContent = `Saldo: $ ${saldoActual.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+      showStep('step1');
+      validarStep1();
+      recargaModal.classList.remove('hidden');
+    };
+
+    const closeModal = () => recargaModal.classList.add('hidden');
+
+    const showStep = (stepId) => {
+      ['step1', 'stepConfirm', 'stepProcessing', 'stepSuccess', 'stepError'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('hidden', id !== stepId);
+      });
+    };
+
+    document.getElementById('btnRecargaShortcut').addEventListener('click', openModal);
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    recargaModal.addEventListener('click', (e) => { if (e.target === recargaModal) closeModal(); });
+
+    // ── Formateo y Validación Argentina (10 a 12 dígitos) ──
+    const formatArgPhone = (digits) => {
+      const d = digits.slice(0, 12);
+      if (d.startsWith('11')) {
+        if (d.length <= 2) return d;
+        if (d.length <= 6) return `${d.slice(0, 2)} ${d.slice(2)}`;
+        if (d.length <= 10) return `${d.slice(0, 2)} ${d.slice(2, 6)}-${d.slice(6)}`;
+        return `${d.slice(0, 2)} ${d.slice(2, 6)}-${d.slice(6, 10)} ${d.slice(10)}`;
+      } else {
+        if (d.length <= 3) return d;
+        if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`;
+        if (d.length <= 10) return `${d.slice(0, 3)} ${d.slice(3, 6)}-${d.slice(6)}`;
+        return `${d.slice(0, 3)} ${d.slice(3, 6)}-${d.slice(6, 10)} ${d.slice(10)}`;
+      }
+    };
+
+    const inputPhone = document.getElementById('inputPhone');
+    const phoneBox = document.getElementById('phoneBox');
+    const phoneError = document.getElementById('phoneError');
+
+    inputPhone.addEventListener('input', () => {
+      const digits = inputPhone.value.replace(/\D/g, '').slice(0, 12);
+      recargaNumero = digits;
+      inputPhone.value = formatArgPhone(digits);
+      validarStep1();
+    });
+
+    const validarStep1 = () => {
+      const btn = document.getElementById('btnContinuar');
+      let ok = true;
+      let err = "";
+
+      if (!recargaOperador) ok = false;
+
+      if (!recargaNumero) {
+        ok = false;
+      } else if (recargaNumero.startsWith('0')) {
+        ok = false;
+        err = "Ingresá el número sin el 0 inicial.";
+      } else if (recargaNumero.startsWith('15')) {
+        ok = false;
+        err = "Ingresá el número sin el 15. Usá el código de área (ej: 11...).";
+      } else if (recargaNumero.length < 10) {
+        ok = false;
+        if (recargaNumero.length >= 6) err = `Faltan ${10 - recargaNumero.length} dígitos (deben ser entre 10 y 12 en total).`;
+      } else if (recargaNumero.length > 12) {
+        ok = false;
+        err = "El número debe tener entre 10 y 12 dígitos.";
+      }
+
+      if (err) {
+        phoneError.textContent = err;
+        phoneError.classList.add('visible');
+        phoneBox.classList.add('error');
+      } else {
+        phoneError.textContent = "";
+        phoneError.classList.remove('visible');
+        phoneBox.classList.remove('error');
+      }
+
+      if (!recargaMonto || isNaN(recargaMonto) || recargaMonto <= 0) ok = false;
+
+      btn.disabled = !ok;
+      return ok;
+    };
+
+    // Operadores
+    document.querySelectorAll('.operator-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.operator-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        recargaOperador = card.dataset.operator;
+        validarStep1();
+      });
+    });
+
+    // Montos Rápidos
+    document.querySelectorAll('.amount-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        recargaMonto = Number(chip.dataset.amount);
+        document.getElementById('customWrap').classList.add('hidden');
+        document.getElementById('inputCustomAmount').value = "";
+        validarStep1();
+      });
+    });
+
+    // Monto Personalizado
+    const customWrap = document.getElementById('customWrap');
+    const inputCustomAmount = document.getElementById('inputCustomAmount');
+
+    document.getElementById('btnToggleCustom').addEventListener('click', () => {
+      document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('selected'));
+      customWrap.classList.remove('hidden');
+      inputCustomAmount.focus();
+      recargaMonto = Number(inputCustomAmount.value.replace(/\D/g, '') || 0);
+      validarStep1();
+    });
+
+    inputCustomAmount.addEventListener('input', () => {
+      const val = inputCustomAmount.value.replace(/\D/g, '').slice(0, 6);
+      const n = Number(val);
+      inputCustomAmount.value = val ? n.toLocaleString('es-AR') : "";
+      recargaMonto = n;
+      document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('selected'));
+      validarStep1();
+    });
+
+    // ── Paso 2: Confirmación ──
+    document.getElementById('btnContinuar').addEventListener('click', () => {
+      if (!validarStep1()) return;
+
+      const op = OPERADORES_DATA[recargaOperador];
+      const badge = document.getElementById('confirmBadge');
+      badge.style.background = op.color;
+      badge.innerHTML = op.badge;
+      document.getElementById('confirmOpName').textContent = recargaOperador;
+      document.getElementById('confirmPhone').textContent = `+54 9 ${formatArgPhone(recargaNumero)}`;
+      document.getElementById('confirmSaldoDisp').textContent = `$ ${saldoActual.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+      document.getElementById('confirmMonto').textContent = `$ ${recargaMonto.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+
+      showStep('stepConfirm');
+    });
+
+    document.getElementById('btnVolverStep1').addEventListener('click', () => showStep('step1'));
+
+    // ── Paso 3: Simulación de Procesamiento (~800ms) ──
+    document.getElementById('btnConfirmarProceso').addEventListener('click', async () => {
+      showStep('stepProcessing');
+      document.getElementById('processingMsg').textContent = `Conectando con ${recargaOperador}...`;
+
+      // Simulación de delay de 800ms
+      await new Promise(r => setTimeout(r, 850));
+
+      // Verificación de saldo
+      if (saldoActual < recargaMonto) {
+        // ERROR: Saldo insuficiente -> NO se descuenta saldo
+        document.getElementById('errorDesc').textContent = `No disponés de fondos suficientes para recargar $${recargaMonto.toLocaleString('es-AR')}. Tu saldo actual es de $${saldoActual.toLocaleString('es-AR')}.`;
+        document.getElementById('errorSaldoDisp').textContent = `$ ${saldoActual.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+        document.getElementById('errorMontoReq').textContent = `$ ${recargaMonto.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+        showStep('stepError');
+      } else {
+        // ÉXITO: Descontar saldo y registrar en historial
+        const anterior = saldoActual;
+        saldoActual -= recargaMonto;
+        actualizarDisplaySaldo();
+
+        recargaComprobante = `REC-${Date.now().toString().slice(-6)}${Math.floor(1000 + Math.random() * 9000)}`;
+        const fecha = new Date();
+
+        // Registrar en movimientos
+        movimientos.unshift({
+          id: 'rec_' + Date.now(),
+          descripcion: `Recarga ${recargaOperador} - ${recargaNumero}`,
+          monto: -recargaMonto,
+          tipo: 'debito',
+          fecha: fecha.toISOString(),
+          comprobante: recargaComprobante
+        });
+        renderMovimientos();
+
+        // Mostrar pantalla de éxito
+        document.getElementById('successCode').textContent = recargaComprobante;
+        document.getElementById('successOp').textContent = recargaOperador;
+        document.getElementById('successPhone').textContent = `+54 9 ${formatArgPhone(recargaNumero)}`;
+        document.getElementById('successMonto').textContent = `$ ${recargaMonto.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+        document.getElementById('successSaldo').textContent = `$ ${saldoActual.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+        document.getElementById('successDate').textContent = fecha.toLocaleString('es-AR');
+
+        showStep('stepSuccess');
+      }
+    });
+
+    // Botones de error
+    document.getElementById('btnErrorCambiarMonto').addEventListener('click', () => showStep('step1'));
+    document.getElementById('btnErrorCerrar').addEventListener('click', closeModal);
+
+    // Botones de éxito
+    document.getElementById('btnSuccessCerrar').addEventListener('click', closeModal);
+    document.getElementById('btnOtraRecarga').addEventListener('click', openModal);
+
+    // Copiar comprobante
+    document.getElementById('btnCopyCode').addEventListener('click', () => {
+      navigator.clipboard.writeText(recargaComprobante).then(() => {
+        alert('Comprobante copiado al portapapeles: ' + recargaComprobante);
+      });
+    });
+
+    // Descargar comprobante
+    document.getElementById('btnDescargarComprobante').addEventListener('click', () => {
+      const texto = `NODO HOME BANKING\nCOMPROBANTE DE RECARGA CELULAR\nComprobante: ${recargaComprobante}\nOperador: ${recargaOperador}\nNúmero: +54 9 ${formatArgPhone(recargaNumero)}\nMonto: $ ${recargaMonto.toFixed(2)}\nFecha: ${new Date().toLocaleString('es-AR')}`;
+      const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Comprobante_${recargaComprobante}.txt`;
+      a.click();
+    });
+
+    // Inicialización al cargar la página
+    actualizarDisplaySaldo();
+    renderMovimientos();
+  </script>
+</body>
+</html>
+

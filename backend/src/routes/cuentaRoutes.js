@@ -1,6 +1,6 @@
 const express = require("express");
 const authMiddleware = require("../middleware/authMiddleware");
-const { obtenerCuentas, obtenerSaldo, depositar, abrirCajaAhorro, convertirMoneda, buscarCuentaUSD, cambiarAliasUSD, transferirUSD } = require("../controllers/cuentaController");
+const { obtenerCuentas, obtenerSaldo, depositar, abrirCajaAhorro, convertirMoneda, buscarCuentaUSD, cambiarAliasUSD, transferirUSD, recargarCelular } = require("../controllers/cuentaController");
 
 const router = express.Router();
 
@@ -12,5 +12,6 @@ router.post("/convertir", authMiddleware, convertirMoneda);
 router.get("/buscar-usd/:valor", authMiddleware, buscarCuentaUSD);
 router.put("/alias-usd", authMiddleware, cambiarAliasUSD);
 router.post("/transferir-usd", authMiddleware, transferirUSD);
+router.post("/recarga-celular", authMiddleware, recargarCelular);
 
 module.exports = router;

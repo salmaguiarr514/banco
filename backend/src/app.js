@@ -9,7 +9,8 @@ const reservaRoutes = require("./routes/reservaRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const cardRoutes = require("./routes/cardRoutes");
 const mercadoRoutes = require("./routes/mercadoRoutes");
-const prestamoRoutes = require("./routes/prestamoRoutes");
+const prestamoRoutes    = require("./routes/prestamoRoutes");
+const inversionesRoutes = require("./routes/inversionesRoutes");
 
 const app = express();
 
@@ -31,6 +32,23 @@ app.use("/api/reservas", reservaRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/cards", cardRoutes);
 app.use("/api/mercado", mercadoRoutes);
-app.use("/api/prestamos", prestamoRoutes);
+app.use("/api/prestamos",   prestamoRoutes);
+app.use("/api/inversiones", inversionesRoutes);
+
+// Vercel Cron: débito automático diario de préstamos
+app.post("/api/cron/auto-debit", async (req, res) => {
+  const auth = req.headers["authorization"] || "";
+  const secret = process.env.CRON_SECRET;
+  if (secret && auth !== `Bearer ${secret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  try {
+    const { runAutoDebitAllUsers } = require("./controllers/prestamoController");
+    await runAutoDebitAllUsers();
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 module.exports = app;
