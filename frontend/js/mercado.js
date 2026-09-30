@@ -46,17 +46,28 @@ const renderCotizacionesUSD = () => {
     ? new Date(blue.fechaActualizacion).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
     : null;
 
-  const cotizRow = (label, data) => `
-    <div class="cotiz-row">
-      <span class="cotiz-label">${label}</span>
-      <div class="cotiz-col">
-        <span class="cotiz-sub">Compra</span>
-        <span class="cotiz-val">${fmt(data?.compra)}</span>
+  const cotizCard = (label, data, tipo) => `
+    <div class="cotiz-card cotiz-card-${tipo}">
+      <div class="cotiz-card-hdr">
+        <span class="cotiz-card-label">${label}</span>
+        ${tipo === 'blue' ? '<span class="cotiz-card-badge">Blue</span>' : ''}
       </div>
-      <div class="cotiz-col cotiz-venta">
-        <span class="cotiz-sub">Venta</span>
-        <span class="cotiz-val">${fmt(data?.venta)}</span>
+      <div class="cotiz-card-vals">
+        <div class="cotiz-card-col">
+          <span class="cotiz-card-sub">Compra</span>
+          <span class="cotiz-card-num">${fmt(data?.compra)}</span>
+        </div>
+        <div class="cotiz-card-sep"></div>
+        <div class="cotiz-card-col">
+          <span class="cotiz-card-sub">Venta</span>
+          <span class="cotiz-card-num">${fmt(data?.venta)}</span>
+        </div>
       </div>
+      ${tipo === 'blue' ? `
+      <div class="cotiz-card-actions">
+        <button class="cotiz-action-btn" onclick="document.getElementById('btnComprarUSD')?.click()">Comprar</button>
+        <button class="cotiz-action-btn cotiz-action-sell" onclick="document.getElementById('btnVenderUSD')?.click()">Vender</button>
+      </div>` : ''}
     </div>`;
 
   el.innerHTML = `
@@ -64,8 +75,10 @@ const renderCotizacionesUSD = () => {
       <span class="cotiz-widget-title">Cotización USD</span>
       ${ts ? `<span class="cotiz-ts">Act. ${ts}</span>` : ''}
     </div>
-    ${cotizRow('Blue', blue)}
-    ${cotizRow('Oficial', oficial)}`;
+    <div class="cotiz-grid">
+      ${cotizCard('Blue', blue, 'blue')}
+      ${cotizCard('Oficial', oficial, 'oficial')}
+    </div>`;
 
   // Actualizar equivalente ARS en saldo USD
   if (blue?.venta) {

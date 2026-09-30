@@ -191,15 +191,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     bar.querySelector(`#helpBtn-${section}`)?.addEventListener('click', () => startTour(section));
   });
 
-  // Botón de ayuda dentro del panel USD
-  const heroUSD = document.getElementById('heroUSD');
-  if (heroUSD) {
-    const usdBar = document.createElement('div');
-    usdBar.className = 'nodo-help-bar';
-    usdBar.innerHTML = '<button class="nodo-help-btn" id="helpBtn-dolares"><i class="fas fa-question-circle"></i> Ayuda</button>';
-    heroUSD.prepend(usdBar);
-    usdBar.querySelector('#helpBtn-dolares')?.addEventListener('click', () => startTour('dolares'));
-  }
+  // El tour de dólares se lanza desde el botón Ayuda de la sección inicio (arriba)
+  // o automáticamente al clickear la pestaña USD por primera vez.
 
   // Auto-lanzar al entrar a cada sección por primera vez
   document.querySelectorAll('.sidebar-nav-item[data-section]').forEach(btn => {

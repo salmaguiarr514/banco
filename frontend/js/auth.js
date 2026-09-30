@@ -1,6 +1,35 @@
-// ── Indicador de perfil incompleto (módulo scope — usada también en perfil.js) ──
+// ── Indicador de perfil (módulo scope — usada también en perfil.js) ──
 const actualizarIndicadorPerfil = () => {
   const u = JSON.parse(localStorage.getItem("user") || "{}");
+
+  // Calcular completitud
+  const campos = ["nombre", "apellido", "telefono", "direccion", "email"];
+  const rellenos = campos.filter(c => u[c] && String(u[c]).trim()).length;
+  const pct = Math.round((rellenos / campos.length) * 100);
+
+  // Iniciales en el dropdown
+  const initials = [u.nombre, u.apellido].filter(Boolean).map(s => s[0].toUpperCase()).join("") || "?";
+  const initialsEl = document.getElementById("avatarInitialsDrop");
+  if (initialsEl) initialsEl.textContent = initials;
+  const nameEl = document.getElementById("udropName");
+  if (nameEl && u.nombre) nameEl.textContent = `${u.nombre} ${u.apellido || ""}`.trim();
+
+  // Barra de progreso
+  const pctEl  = document.getElementById("udropPct");
+  const fillEl = document.getElementById("udropFill");
+  if (pctEl)  pctEl.textContent  = `${pct}%`;
+  if (fillEl) fillEl.style.width = `${pct}%`;
+
+  // Foto de avatar en dropdown (si existe)
+  const imgDrop = document.getElementById("avatarImgDrop");
+  const imgMain = document.getElementById("avatarImg");
+  if (imgDrop && imgMain && !imgMain.classList.contains("hidden")) {
+    imgDrop.src = imgMain.src;
+    imgDrop.classList.remove("hidden");
+    if (initialsEl) initialsEl.classList.add("hidden");
+  }
+
+  // Notificación si perfil incompleto
   const incompleto = !u.telefono || !u.direccion;
   document.getElementById("loadPerfilBtn")?.classList.toggle("has-notification", incompleto);
   const avatarWrapper = document.querySelector(".avatar-wrapper");
@@ -12,18 +41,6 @@ const actualizarIndicadorPerfil = () => {
       avatarWrapper.appendChild(dot);
     } else if (!incompleto && dot) {
       dot.remove();
-    }
-  }
-  const dropdown = document.querySelector(".user-dropdown");
-  if (dropdown) {
-    let banner = dropdown.querySelector(".perfil-banner");
-    if (incompleto && !banner) {
-      banner = document.createElement("div");
-      banner.className = "perfil-banner";
-      banner.innerHTML = `<i class="fas fa-circle-info"></i><span>Completá tu perfil agregando teléfono y dirección para tener tu cuenta al día.</span>`;
-      dropdown.insertAdjacentElement("afterbegin", banner);
-    } else if (!incompleto && banner) {
-      banner.remove();
     }
   }
 };
@@ -97,41 +114,92 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Cargar movimientos
+  // Íconos semánticos por tipo de movimiento
+  const _movIconMap = (mov) => {
+    const tipo = (mov.tipo || "").toLowerCase();
+    const desc = (mov.descripcion || "").toLowerCase();
+    if (/recarga/.test(desc))                                            return { icon: "fa-mobile-alt",    bg: "mov-bg-indigo" };
+    if (/reserva/.test(desc))                                            return { icon: "fa-suitcase",       bg: "mov-bg-amber"  };
+    if (/transferencia_recibida/.test(tipo) || /recibida/.test(desc))    return { icon: "fa-arrow-down",    bg: "mov-bg-green"  };
+    if (/transferencia/.test(tipo) || /transferencia|enviada/.test(desc)) return { icon: "fa-paper-plane",  bg: "mov-bg-blue"   };
+    if (/conversion_entrada/.test(tipo) || /conversion/.test(desc))      return { icon: "fa-exchange-alt",  bg: "mov-bg-teal"   };
+    if (/deposito|credito/.test(tipo))                                   return { icon: "fa-circle-plus",   bg: "mov-bg-green"  };
+    if (/compra|pago/.test(desc))                                        return { icon: "fa-credit-card",   bg: "mov-bg-rose"   };
+    return { icon: "fa-minus", bg: "mov-bg-slate" };
+  };
+
+  const _renderMovRow = (mov) => {
+    const isIngreso = mov.tipo === "credito" || mov.tipo === "deposito"
+                   || mov.tipo === "transferencia_recibida" || mov.tipo === "conversion_entrada";
+    const { icon, bg } = _movIconMap(mov);
+    const monto  = Math.abs(mov.monto);
+    const fecha  = new Date(mov.fecha_movimiento).toLocaleDateString("es-AR", { day: "2-digit", month: "short", year: "2-digit" });
+    const hora   = new Date(mov.fecha_movimiento).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+    const desc   = (mov.descripcion || "Operación Nodo").replace(/^(Depósito|Deposito) ficticio$/i, "Depósito");
+    const bankBadge = mov.banco_nombre ? `<span class="mov-bank-badge">${mov.banco_nombre}</span>` : "";
+    const filtroClass = isIngreso ? "mov-ingreso" : "mov-egreso";
+    return `
+      <li class="movement-item ${filtroClass}" data-desc="${desc.toLowerCase()}" data-monto="${monto}">
+        <div class="mov-info">
+          <div class="mov-icon-wrap ${bg}"><i class="fas ${icon}"></i></div>
+          <div class="mov-text">
+            <span class="mov-desc">${desc}${bankBadge}</span>
+            <span class="mov-date">${fecha} · ${hora}</span>
+          </div>
+        </div>
+        <span class="mov-amount-v2 ${isIngreso ? "mov-amount-pos" : "mov-amount-neg"}">
+          ${isIngreso ? "+" : "-"}$${monto.toLocaleString("es-AR", { minimumFractionDigits: 2 })}
+        </span>
+      </li>`;
+  };
+
+  let _movimientosCached = [];
+
+  const _applyFilters = () => {
+    const query  = (document.getElementById("actividadSearch")?.value || "").toLowerCase();
+    const active = document.querySelector(".actividad-filter.active")?.dataset.filter || "todos";
+    document.querySelectorAll("#movimientosList .movement-item").forEach(li => {
+      const desc   = li.dataset.desc || "";
+      const monto  = li.dataset.monto || "";
+      const matchQ = !query || desc.includes(query) || monto.includes(query);
+      const matchF = active === "todos"
+        || (active === "ingresos" && li.classList.contains("mov-ingreso"))
+        || (active === "egresos"  && li.classList.contains("mov-egreso"));
+      li.style.display = matchQ && matchF ? "" : "none";
+    });
+  };
+
+  document.getElementById("actividadSearch")?.addEventListener("input", _applyFilters);
+  document.querySelectorAll(".actividad-filter").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".actividad-filter").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      _applyFilters();
+    });
+  });
+
   if (loadMovimientosBtn) {
     loadMovimientosBtn.addEventListener("click", async () => {
-      btnLoad(loadMovimientosBtn, true);
+      const icon = loadMovimientosBtn.querySelector("i");
+      icon?.classList.add("spinning");
       try {
-        movimientosList.innerHTML = '<div class="loader">Cargando movimientos...</div>';
+        if (movimientosList) movimientosList.innerHTML = '<li class="mov-loading"><i class="fas fa-circle-notch fa-spin"></i> Cargando…</li>';
         const movimientos = await apiFetch("/movimientos");
+        _movimientosCached = movimientos;
         renderHeroMovimientos(movimientos);
         if (movimientosList) {
           if (movimientos.length === 0) {
-            movimientosList.innerHTML = '<li class="muted" style="text-align:center;padding:20px;">No hay movimientos recientes</li>';
+            movimientosList.innerHTML = '<li class="mov-empty">No hay movimientos recientes</li>';
             return;
           }
-          movimientosList.innerHTML = movimientos.map(mov => {
-            const isIngreso = mov.tipo === "credito" || mov.tipo === "deposito" || mov.tipo === "transferencia_recibida";
-            const icon   = isIngreso ? "fa-plus" : "fa-minus";
-            const iconBg = isIngreso ? "amount-positive" : "muted";
-            const bankBadge = mov.banco_nombre ? `<span class="mov-bank-badge">${mov.banco_nombre}</span>` : "";
-            return `
-              <li class="movement-item">
-                <div class="mov-info">
-                  <div class="mov-icon ${iconBg}"><i class="fas ${icon}"></i></div>
-                  <div class="mov-text">
-                    <b>${mov.descripcion || "Operación Nodo"}</b>
-                    <span>${new Date(mov.fecha_movimiento).toLocaleDateString()}${bankBadge}</span>
-                  </div>
-                </div>
-                <div class="mov-amount ${isIngreso ? "amount-positive" : ""}">${isIngreso ? "+" : ""}$${Math.abs(mov.monto).toLocaleString()}</div>
-              </li>`;
-          }).join("");
+          movimientosList.innerHTML = movimientos.map(_renderMovRow).join("");
+          _applyFilters();
         }
         if (typeof setOutput === "function") setOutput(movimientos);
       } catch (error) {
         if (typeof setOutput === "function") setOutput(error.message);
       } finally {
-        btnLoad(loadMovimientosBtn, false);
+        setTimeout(() => icon?.classList.remove("spinning"), 600);
       }
     });
   }

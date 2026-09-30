@@ -98,23 +98,56 @@
 
         <!-- Dropdown panel -->
         <div class="user-dropdown">
-          <div class="dropdown-tools">
-            <button id="loadPerfilBtn" class="tool-btn">
-              <i class="fas fa-user-cog"></i><span>Editar perfil</span>
-            </button>
-            <button id="logoutBtn" class="tool-btn tool-btn-logout">
-              <i class="fas fa-sign-out-alt"></i><span>Salir</span>
-            </button>
+          <!-- Cabecera del perfil -->
+          <div class="udrop-header">
+            <div class="udrop-avatar-sm">
+              <img id="avatarImgDrop" src="" alt="" class="avatar-img hidden">
+              <span id="avatarInitialsDrop" class="udrop-initials">?</span>
+            </div>
+            <div class="udrop-info">
+              <span id="udropName" class="udrop-name">Usuario</span>
+              <span class="udrop-badge"><i class="fas fa-check-circle"></i> Verificado</span>
+            </div>
           </div>
-
-          <div id="perfilData" class="perfil-data"></div>
-
-          <div class="profile-controls">
-            <button id="editAliasBtn"     class="btn-logout hidden">Alias</button>
-            <button id="editPerfilBtn"    class="btn-logout hidden">Perfil</button>
-            <button id="changePasswordBtn" class="btn-logout hidden">Contraseña</button>
+          <!-- Barra de completitud -->
+          <div class="udrop-progress">
+            <div class="udrop-progress-label">
+              <span>Completitud del perfil</span>
+              <span id="udropPct">—</span>
+            </div>
+            <div class="udrop-progress-track">
+              <div class="udrop-progress-fill" id="udropFill"></div>
+            </div>
           </div>
-
+          <!-- Menú -->
+          <nav class="udrop-menu" aria-label="Menú de perfil">
+            <button id="loadPerfilBtn" class="udrop-item">
+              <i class="fas fa-user udrop-item-icon"></i>
+              <span>Mis Datos</span>
+              <i class="fas fa-chevron-right udrop-arrow"></i>
+            </button>
+            <button id="changePasswordBtn" class="udrop-item">
+              <i class="fas fa-lock udrop-item-icon"></i>
+              <span>Seguridad</span>
+              <i class="fas fa-chevron-right udrop-arrow"></i>
+            </button>
+            <button class="udrop-item udrop-item-disabled" disabled>
+              <i class="fas fa-sliders-h udrop-item-icon"></i>
+              <span>Límites</span>
+              <span class="udrop-soon">Próximamente</span>
+            </button>
+            <div class="udrop-divider"></div>
+            <button id="logoutBtn" class="udrop-item udrop-item-logout">
+              <i class="fas fa-sign-out-alt udrop-item-icon"></i>
+              <span>Cerrar Sesión</span>
+            </button>
+          </nav>
+          <!-- Controles ocultos que usa perfil.js (compatibilidad) -->
+          <div hidden>
+            <div id="perfilData" class="perfil-data"></div>
+            <button id="editAliasBtn">Alias</button>
+            <button id="editPerfilBtn">Perfil</button>
+          </div>
         </div>
       </div>
 
@@ -198,8 +231,14 @@
       </div>
 
       <div id="heroUSDSin" class="hidden">
-        <p class="balance-sub" style="margin-bottom:16px">Guardá dólares en tu cuenta NODO.</p>
-        <button id="btnAbrirUSD" class="btn-primary" style="max-width:240px">Abrir caja de ahorro en USD</button>
+        <div class="usd-promo-banner">
+          <div class="usd-promo-icon">💵</div>
+          <div class="usd-promo-text">
+            <span class="usd-promo-title">Caja de ahorro en Dólares</span>
+            <span class="usd-promo-sub">Operá dólares sin comisiones de mantenimiento.</span>
+          </div>
+          <button id="btnAbrirUSD" class="usd-promo-cta">Activar cuenta USD</button>
+        </div>
       </div>
 
       <div id="heroUSDCon" class="hidden">
@@ -364,9 +403,19 @@
       <i class="fas fa-chevron-down card-collapsible-icon"></i>
     </button>
     <div class="card-collapsible-body hidden" id="actividadBody">
-      <div class="card-header" style="padding-top:0;border-top:1px solid var(--border);margin-top:12px">
-        <span></span>
-        <button id="loadMovimientosBtn" class="btn-link">Actualizar</button>
+      <div class="actividad-toolbar">
+        <div class="actividad-search-wrap">
+          <i class="fas fa-search actividad-search-icon"></i>
+          <input type="text" id="actividadSearch" class="actividad-search" placeholder="Buscar por nombre o monto…" autocomplete="off">
+        </div>
+        <button id="loadMovimientosBtn" class="actividad-refresh-btn" title="Actualizar">
+          <i class="fas fa-rotate-right"></i>
+        </button>
+      </div>
+      <div class="actividad-filters">
+        <button class="actividad-filter active" data-filter="todos">Todos</button>
+        <button class="actividad-filter" data-filter="ingresos">Ingresos</button>
+        <button class="actividad-filter" data-filter="egresos">Egresos</button>
       </div>
       <ul id="movimientosList" class="list movements-list"></ul>
     </div>
