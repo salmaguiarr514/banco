@@ -330,12 +330,12 @@ const getGastosCategoria = async (req, res) => {
       return res.status(404).json({ message: "Cuenta no encontrada" });
     }
 
-    // Obtener movimientos de los últimos 30 días
+    // Obtener movimientos de débito de los últimos 30 días
     const movimientosResult = await db.query(
       `SELECT descripcion, monto, fecha_movimiento
        FROM movimientos
        WHERE cuenta_id = $1
-         AND tipo = 'transferencia_enviada'
+         AND tipo IN ('transferencia_enviada', 'debito', 'pago', 'compra', 'recarga')
          AND fecha_movimiento >= NOW() - INTERVAL '30 days'
        ORDER BY fecha_movimiento DESC`,
       [cuenta.id]
@@ -343,55 +343,34 @@ const getGastosCategoria = async (req, res) => {
 
     const movimientos = movimientosResult.rows;
 
-    // Clasificar gastos en categorías
-    const categorias = {
-      transporte: 0,
-      comida: 0,
-      otros: 0
-    };
+    const categorias = { transporte: 0, comida: 0, recargas: 0, servicios: 0, otros: 0 };
 
     const keywords = {
+      recargas:   ['recarga', 'movistar', 'personal claro', 'tuenti', 'celular'],
       transporte: ['transporte', 'taxi', 'uber', 'combustible', 'nafta', 'gasolina', 'subte', 'colectivo', 'tren', 'peaje', 'estacionamiento'],
-      comida: ['comida', 'restaurante', 'supermercado', 'almuerzo', 'cena', 'desayuno', 'kiosko', 'panaderia', 'carniceria', 'verdulería'],
+      comida:     ['comida', 'restaurante', 'supermercado', 'almuerzo', 'cena', 'desayuno', 'kiosko', 'panaderia', 'carniceria', 'verduleria'],
+      servicios:  ['servicio', 'factura', 'electricidad', 'gas', 'agua', 'internet', 'telefono', 'seguro', 'alquiler'],
     };
 
     movimientos.forEach(mov => {
-      const descripcion = (mov.descripcion || "").toLowerCase();
-      let categorizado = false;
-
-      // Verificar si coincide con palabras clave de transporte
-      for (const keyword of keywords.transporte) {
-        if (descripcion.includes(keyword)) {
-          categorias.transporte += Math.abs(parseFloat(mov.monto));
-          categorizado = true;
-          break;
-        }
+      const desc = (mov.descripcion || "").toLowerCase();
+      const monto = Math.abs(parseFloat(mov.monto));
+      let cat = 'otros';
+      for (const [nombre, words] of Object.entries(keywords)) {
+        if (words.some(w => desc.includes(w))) { cat = nombre; break; }
       }
-
-      // Verificar si coincide con palabras clave de comida
-      if (!categorizado) {
-        for (const keyword of keywords.comida) {
-          if (descripcion.includes(keyword)) {
-            categorias.comida += Math.abs(parseFloat(mov.monto));
-            categorizado = true;
-            break;
-          }
-        }
-      }
-
-      // Si no coincide con ninguna categoría, sumar a "otros"
-      if (!categorizado) {
-        categorias.otros += Math.abs(parseFloat(mov.monto));
-      }
+      categorias[cat] += monto;
     });
 
     return res.json({
       categorias: [
+        { nombre: "Recargas",   monto: categorias.recargas   },
         { nombre: "Transporte", monto: categorias.transporte },
-        { nombre: "Comida", monto: categorias.comida },
-        { nombre: "Otros", monto: categorias.otros }
+        { nombre: "Comida",     monto: categorias.comida     },
+        { nombre: "Servicios",  monto: categorias.servicios  },
+        { nombre: "Otros",      monto: categorias.otros      },
       ],
-      total: categorias.transporte + categorias.comida + categorias.otros
+      total: Object.values(categorias).reduce((a, b) => a + b, 0)
     });
   } catch (error) {
     return res.status(500).json({ message: "Error al obtener gastos por categoría", error: error.message });

@@ -889,6 +889,9 @@ const ejecutarRecargaExitosa = async (saldoAnterior, monto) => {
   if (typeof showToast === "function") {
     showToast(`Recarga de $${monto.toLocaleString("es-AR")} acreditada con éxito`, 4000, "success");
   }
+
+  // Refrescar gráfico de gastos por categoría automáticamente
+  setTimeout(() => document.getElementById("loadGastosBtn")?.click(), 1200);
 };
 
 /**
