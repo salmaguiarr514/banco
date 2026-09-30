@@ -130,17 +130,23 @@ button:active { transform: translateY(0); }
 .btn-logout:hover { background: var(--navy); color: white; border-color: var(--navy); opacity: 1; transform: none; }
 
 .btn-link {
-  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(16,185,129,0.32);
+  background: rgba(16,185,129,0.07);
   color: var(--green);
-  border: none;
-  padding: 5px 10px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: none;
+  white-space: nowrap;
+  transition: background 0.18s;
 }
 
-.btn-link:hover { text-decoration: underline; opacity: 1; transform: none; box-shadow: none; }
+.btn-link:hover { background: rgba(16,185,129,0.15); text-decoration: none; opacity: 1; transform: none; box-shadow: none; }
 
 .btn-copy {
   background: transparent;

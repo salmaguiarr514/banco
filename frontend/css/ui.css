@@ -169,7 +169,10 @@
 /* Botones */
 [data-theme="dark"] button                 { background: #334155; color: var(--text); }
 [data-theme="dark"] .btn-primary           { background: var(--green); color: #0F172A; }
-[data-theme="dark"] .btn-link              { background: transparent; color: var(--green); box-shadow: none; }
+[data-theme="dark"] .btn-link              { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.28); color: var(--green); box-shadow: none; }
+[data-theme="dark"] .btn-link:hover        { background: rgba(16,185,129,0.2); }
+[data-theme="dark"] .btn-custom-amount-toggle { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.28); }
+[data-theme="dark"] .btn-custom-amount-toggle:hover { background: rgba(16,185,129,0.2); }
 [data-theme="dark"] .btn-logout            { background: transparent; border-color: var(--border); color: var(--text-2); }
 [data-theme="dark"] .btn-logout:hover      { background: #334155; border-color: #334155; color: var(--text); opacity: 1; }
 [data-theme="dark"] .btn-toggle            { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
