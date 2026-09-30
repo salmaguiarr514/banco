@@ -1,31 +1,45 @@
-// Tabla local de claves públicas de bancos participantes del curso.
-// No hay autodiscovery — cada equipo manda su bankCode + kid + publicKeyJwk (JWK) a mano.
-// Agregar aquí las claves de los bancos que quieran interoperar con NODO.
+// Registro local de claves públicas JWK para verificación ES256 de QR interbancario.
+// Cada banco comparte su bankCode + kid + publicKeyJwk (curva P-256).
+// El campo "iss" del JWT firmado debe coincidir con una clave aquí para que
+// el origen figure como "Verificado". Sin match → advertencia amarilla.
 //
-// Formato de cada entrada:
-//   [bankCode]: { bankCode, bankName, kid, publicKeyJwk }
+// Cómo agregar un banco:
+//   1. El otro banco ejecuta GET /api/qr/public-key en su app y comparte la respuesta.
+//   2. Agregá una entrada con su bankCode como clave:
 //
-// La clave pública de NODO (bankCode 17) está incluida para auto-verificación.
+//      <bankCode>: {
+//        bankName: "<nombre visible>",
+//        kid: "<kid del header JWT>",
+//        publicKeyJwk: { kty: "EC", crv: "P-256", x: "<base64url>", y: "<base64url>" }
+//      }
 
 const KNOWN_BANKS = {
+
+  // ── NODO (Banco 17) ──────────────────────────────────────────────────────────
   17: {
-    bankCode: 17,
-    bankName: 'Banco_Nodo',
-    kid: 'nodo-1',
+    bankName: "Banco_Nodo",
+    kid: "nodo-1",
     publicKeyJwk: {
-      kty: 'EC',
-      crv: 'P-256',
-      x: 'gB_5OGAqG8htsnp0OcFrDQdIA41VApEfczSmLIv-VXM',
-      y: 'YTFpo2gHUTiFQ-bgBElgmD5bCpgloDsTz1IruCfot2c',
+      kty: "EC",
+      crv: "P-256",
+      x: "gB_5OGAqG8htsnp0OcFrDQdIA41VApEfczSmLIv-VXM",
+      y: "YTFpo2gHUTiFQ-bgBElgmD5bCpgloDsTz1IruCfot2c",
     },
   },
 
-  // ── Agregar aquí las claves de otros bancos del curso ──
-  // Ejemplo:
-  // 2: {
-  //   bankCode: 2,
-  //   bankName: 'Monix',
-  //   kid: 'monix-1',
-  //   publicKeyJwk: { kty: 'EC', crv: 'P-256', x: '...', y: '...' },
+  // ── Agregar bancos del curso aquí ─────────────────────────────────────────────
+  //
+  // Ejemplo (reemplazar con los datos reales de cada banco):
+  //
+  // 1: {
+  //   bankName: "Banco Ejemplo",
+  //   kid: "ejemplo-key-1",
+  //   publicKeyJwk: {
+  //     kty: "EC",
+  //     crv: "P-256",
+  //     x: "...",   // ← de GET /api/qr/public-key del otro banco
+  //     y: "...",
+  //   },
   // },
+
 };

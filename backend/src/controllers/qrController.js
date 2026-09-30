@@ -92,4 +92,45 @@ const publicKey = (_req, res) => {
   }
 };
 
-module.exports = { firmarQR, publicKey };
+// GET /api/qr/discover/:bankCode — busca la clave pública de otro banco automáticamente.
+// El registro bankCode→URL se configura en env var BANK_REGISTRY_JSON.
+// Ejemplo: BANK_REGISTRY_JSON={"3":"https://banco-banco3.vercel.app"}
+const discoverKey = async (req, res) => {
+  const bankCode = parseInt(req.params.bankCode, 10);
+  if (!bankCode) return res.status(400).json({ message: 'bankCode inválido' });
+
+  // Nuestro propio banco: respondemos directamente
+  if (bankCode === Number(process.env.NODO_BANK_CODE)) {
+    return publicKey(req, res);
+  }
+
+  let registry = {};
+  try {
+    if (process.env.BANK_REGISTRY_JSON) {
+      registry = JSON.parse(process.env.BANK_REGISTRY_JSON);
+    }
+  } catch {
+    return res.status(500).json({ message: 'BANK_REGISTRY_JSON inválido en el servidor' });
+  }
+
+  const baseUrl = registry[bankCode] || registry[String(bankCode)];
+  if (!baseUrl) {
+    return res.status(404).json({ message: `Banco ${bankCode} no registrado` });
+  }
+
+  try {
+    const upstream = await fetch(`${baseUrl}/api/qr/public-key`, {
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!upstream.ok) throw new Error(`upstream ${upstream.status}`);
+    const data = await upstream.json();
+    // Reenviar la respuesta con CORS permisivo para que el frontend pueda caché
+    res.set('Cache-Control', 'public, max-age=300');
+    return res.json(data);
+  } catch (err) {
+    return res.status(502).json({ message: `No se pudo obtener la clave del banco ${bankCode}`, error: err.message });
+  }
+};
+
+module.exports = { firmarQR, publicKey, discoverKey };

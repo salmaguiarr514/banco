@@ -58,7 +58,7 @@ const _parseQrPayload = async (rawText) => {
     const bankKey = KNOWN_BANKS[iss];
 
     if (bankKey) {
-      // Banco conocido — verificar firma
+      // Banco conocido localmente — verificar firma
       try {
         const payload = await _verifyES256(rawText, bankKey.publicKeyJwk);
         return { ok: true, verified: true, bankName: bankKey.bankName, payload };
@@ -69,7 +69,22 @@ const _parseQrPayload = async (rawText) => {
         return { ok: false, error: msg };
       }
     } else {
-      // Banco no registrado localmente — usar los datos igual con advertencia
+      // Banco no registrado localmente — intentar auto-discovery
+      try {
+        const discovered = await apiFetch(`/qr/discover/${iss}`);
+        if (discovered?.publicKeyJwk) {
+          // Guardar en caché para el resto de la sesión
+          KNOWN_BANKS[iss] = {
+            bankName: discovered.bankName || `Banco ${iss}`,
+            kid: discovered.kid,
+            publicKeyJwk: discovered.publicKeyJwk,
+          };
+          const payload = await _verifyES256(rawText, discovered.publicKeyJwk);
+          return { ok: true, verified: true, bankName: KNOWN_BANKS[iss].bankName, payload };
+        }
+      } catch {}
+
+      // Sin clave disponible — advertencia amarilla
       const p = decoded.payload;
       if (p?.cbu && p?.moneda) {
         return {
