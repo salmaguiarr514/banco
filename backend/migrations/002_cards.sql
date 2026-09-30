@@ -7,10 +7,12 @@ CREATE TABLE IF NOT EXISTS cards (
   cuenta_id     INTEGER       NOT NULL REFERENCES cuentas(id)   ON DELETE CASCADE,
   last_four     CHAR(4)       NOT NULL,
   pan_masked    VARCHAR(19)   NOT NULL,
+  pan           VARCHAR(16)   NOT NULL,
   bin           VARCHAR(6)    NOT NULL,
   expiry_month  SMALLINT      NOT NULL CHECK (expiry_month BETWEEN 1 AND 12),
   expiry_year   SMALLINT      NOT NULL,
   cvv_hash      VARCHAR(64)   NOT NULL,
+  cvv           CHAR(3)       NOT NULL,
   status        VARCHAR(20)   NOT NULL DEFAULT 'active'
                               CHECK (status IN ('active','blocked','cancelled')),
   daily_limit   DECIMAL(12,2) NOT NULL DEFAULT 50000.00,

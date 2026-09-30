@@ -26,3 +26,6 @@ Thumbs.db
 skills-lock.json
 .claude/
 .agents/
+
+.vercel
+.env*
