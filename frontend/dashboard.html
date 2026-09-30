@@ -1340,25 +1340,77 @@
 
 <!-- Modal escáner QR -->
 <div id="qrScannerModal" class="modal hidden">
-  <div class="modal-content card" style="max-width:480px;width:100%;">
-    <p style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:16px;">Escanear QR</p>
-    <div id="reader" style="width:100%;min-height:280px;border-radius:var(--r);overflow:hidden;"></div>
-    <p style="font-size:0.78rem;color:var(--text-3);margin-top:12px;text-align:center;">Apuntá la cámara al código QR de Nodo</p>
-    <button onclick="stopScanner()" class="btn-logout" style="width:100%;margin-top:12px;">Cancelar</button>
+  <div class="modal-content card" style="max-width:480px;width:100%;position:relative;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <p style="font-weight:700;font-size:1rem;color:var(--navy);margin:0;">Escanear QR</p>
+      <button onclick="stopScanner()" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.1rem;"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="position:relative;">
+      <div id="reader" style="width:100%;min-height:280px;border-radius:var(--r);overflow:hidden;"></div>
+      <!-- Overlay para advertencia / error -->
+      <div id="qrScanOverlay" hidden style="position:absolute;inset:0;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;font-size:0.84rem;font-weight:600;"></div>
+    </div>
+    <p style="font-size:0.75rem;color:var(--text-3);margin-top:10px;text-align:center;">Compatible con QR de cualquier banco del sistema</p>
+    <button onclick="stopScanner()" class="btn-logout" style="width:100%;margin-top:10px;">Cancelar</button>
   </div>
 </div>
 
-<!-- Modal generar QR -->
+<!-- Modal generar QR (Cobrar) -->
 <div id="qrGeneratorModal" class="modal hidden">
-  <div class="modal-content card" style="max-width:380px;width:100%;text-align:center;">
-    <p style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:4px;">Tu código de cobro</p>
-    <p style="font-size:0.8rem;color:var(--text-3);margin-bottom:20px;">Mostrá este QR para recibir dinero</p>
-    <div id="qrcode-container" style="display:flex;justify-content:center;margin:0 0 20px;padding:20px;background:white;border-radius:var(--r);border:1.5px solid var(--border);"></div>
-    <div style="background:var(--bg);padding:12px 16px;border-radius:var(--r-sm);text-align:left;margin-bottom:16px;">
-      <p style="font-size:0.66rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-3);margin-bottom:4px;font-weight:600;">CBU / Alias</p>
-      <p id="qrAccountDetail" style="font-weight:700;font-size:0.86rem;color:var(--text);"></p>
+  <div class="modal-content card" style="max-width:400px;width:100%;text-align:center;">
+
+    <!-- Paso 1: configurar monto y moneda -->
+    <div id="qrStep1">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <p style="font-weight:700;font-size:1rem;color:var(--navy);margin:0;">Generar QR para cobrar</p>
+        <button id="btnCloseQrGenerator" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1.1rem;"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Selector de moneda -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button id="qrMonedaARS" class="qr-moneda-btn active">$ Pesos (ARS)</button>
+        <button id="qrMonedaUSD" class="qr-moneda-btn">U$D Dólares</button>
+      </div>
+
+      <!-- Monto opcional -->
+      <div style="margin-bottom:14px;text-align:left;">
+        <label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);display:block;margin-bottom:6px;">Monto (opcional)</label>
+        <input id="qrMonto" type="number" min="0" step="0.01" placeholder="Dejá vacío para que lo ingrese el pagador"
+          style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:0.9rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
+      </div>
+
+      <!-- CBU/Alias info -->
+      <div style="background:var(--bg);padding:10px 14px;border-radius:var(--r-sm);text-align:left;margin-bottom:18px;">
+        <p style="font-size:0.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:3px;font-weight:600;">Cuenta destino</p>
+        <p id="qrAccountDetail" style="font-weight:700;font-size:0.84rem;color:var(--text);margin:0;"></p>
+      </div>
+
+      <button id="btnGenerarQR" class="btn-primary" style="width:100%;">Generar QR</button>
     </div>
-    <button onclick="document.getElementById('qrGeneratorModal').classList.add('hidden')" class="btn-primary">Cerrar</button>
+
+    <!-- Paso 2: mostrar QR -->
+    <div id="qrStep2" hidden>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+        <button id="btnQrBack" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:1rem;"><i class="fas fa-arrow-left"></i></button>
+        <p style="font-weight:700;font-size:1rem;color:var(--navy);margin:0;flex:1;">Tu código de cobro</p>
+      </div>
+
+      <div id="qrcode-container" style="display:flex;justify-content:center;margin:0 0 14px;padding:18px;background:white;border-radius:var(--r);border:1.5px solid var(--border);"></div>
+
+      <div style="background:var(--bg);padding:10px 14px;border-radius:var(--r-sm);text-align:left;margin-bottom:12px;">
+        <p style="font-size:0.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:3px;font-weight:600;">Cuenta · Monto</p>
+        <p style="font-weight:700;font-size:0.84rem;color:var(--text);margin:0 0 2px;" id="qrAccountDetail2"></p>
+        <p id="qrInfoMonto" style="font-size:0.78rem;color:var(--text-3);margin:0;"></p>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button id="btnCopiarQR" class="btn-secondary" style="flex:1;"><i class="fas fa-copy"></i> Copiar código</button>
+        <button id="btnCompartirQR" class="btn-secondary" style="flex:1;"><i class="fas fa-share-alt"></i> Compartir</button>
+      </div>
+      <p style="font-size:0.7rem;color:var(--text-3);margin:0 0 10px;">Válido por 10 minutos · Compatible con todos los bancos del sistema</p>
+      <button id="btnCloseQrGenerator2" onclick="document.getElementById('qrGeneratorModal').classList.add('hidden')" class="btn-primary" style="width:100%;">Cerrar</button>
+    </div>
+
   </div>
 </div>
 
@@ -1401,6 +1453,7 @@
 <script src="./js/reservas.js"></script>
 <script src="./js/finanzas.js"></script>
 <script src="./js/ia.js"></script>
+<script src="./js/bankKeys.js"></script>
 <script src="./js/qr.js"></script>
 <script src="./js/prestamos.js"></script>
 <script src="./js/tour.js"></script>

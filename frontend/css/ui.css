@@ -332,6 +332,42 @@
   .dropdown-tools { grid-template-columns: repeat(3, 1fr); }
 }
 
+/* ── QR Interbancario ── */
+.qr-moneda-btn {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 9px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text-3);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .17s;
+}
+.qr-moneda-btn.active {
+  background: var(--green, #10B981);
+  border-color: var(--green, #10B981);
+  color: #fff;
+}
+.qr-moneda-btn:hover:not(.active) {
+  border-color: var(--green, #10B981);
+  color: var(--green, #10B981);
+}
+.qr-scan-overlay {
+  background: rgba(15,23,42,.88);
+  backdrop-filter: blur(4px);
+  gap: 12px;
+}
+.qr-scan-warn { color: #f59e0b; }
+.qr-scan-warn i { font-size: 1.6rem; }
+.qr-scan-error { color: #ef4444; }
+.qr-scan-error i { font-size: 1.6rem; }
+.qr-scan-actions { display: flex; gap: 8px; margin-top: 4px; }
+.qr-scan-btn { padding: 8px 18px; border-radius: 8px; border: none; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+.qr-scan-btn-ok     { background: var(--green, #10B981); color: #fff; }
+.qr-scan-btn-cancel { background: rgba(148,163,184,.15); color: #94a3b8; }
+
 /* Very small (â‰¤ 400px) */
 @media (max-width: 400px) {
   .balance-hero   { padding: 16px 14px; }
