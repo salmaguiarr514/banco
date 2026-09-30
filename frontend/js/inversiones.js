@@ -62,11 +62,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const preview = document.getElementById("pfPreview");
     if (!preview) return;
     if (!monto || !pfDias) { preview.hidden = true; return; }
-    const rend = interes(monto, tasas.pf, pfDias);
+    const rend  = interes(monto, tasas.pf, pfDias);
     const total = monto + rend;
+    const acred = new Date(); acred.setDate(acred.getDate() + pfDias);
+    const acredStr = acred.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
     const el = document.getElementById.bind(document);
-    if (el("pfRendimiento")) el("pfRendimiento").textContent = `+${_fmtARS(rend)}`;
-    if (el("pfTotal"))       el("pfTotal").textContent       = _fmtARS(total);
+    if (el("pfRendimiento"))  el("pfRendimiento").textContent  = `+${_fmtARS(rend)}`;
+    if (el("pfTotal"))        el("pfTotal").textContent        = _fmtARS(total);
+    if (el("pfFechaAcred"))   el("pfFechaAcred").textContent   = `Acredita el ${acredStr}`;
     preview.hidden = false;
   };
 
@@ -104,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!list) return;
     try {
       const pfs = await apiFetch("/inversiones/plazo-fijo");
-      if (!pfs.length) { list.innerHTML = `<li class="inv-empty">No tenés plazos fijos activos</li>`; return; }
+      if (!pfs.length) { list.innerHTML = `<li class="inv-empty-state"><i class="fas fa-piggy-bank inv-empty-icon"></i><p class="inv-empty-title">Aún no tenés plazos fijos</p><p class="inv-empty-sub">Constituí tu primer plazo fijo para empezar a hacer rendir tu dinero día a día.</p></li>`; return; }
       list.innerHTML = pfs.map(pf => {
         const dias = Number(pf.dias);
         const monto = Number(pf.monto);
@@ -154,9 +157,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const preview = document.getElementById("caucionPreview");
     if (!preview) return;
     if (!monto || !cauDias) { preview.hidden = true; return; }
-    const rend = interes(monto, tasas.caucion, cauDias);
-    const el = document.getElementById("caucionRendimiento");
-    if (el) el.textContent = `+${_fmtARS(rend)}`;
+    const rend  = interes(monto, tasas.caucion, cauDias);
+    const total = monto + rend;
+    const acred = new Date(); acred.setDate(acred.getDate() + cauDias);
+    const acredStr = acred.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
+    const el = document.getElementById.bind(document);
+    if (el("caucionRendimiento"))  el("caucionRendimiento").textContent  = `+${_fmtARS(rend)}`;
+    if (el("caucionTotal"))        el("caucionTotal").textContent        = _fmtARS(total);
+    if (el("caucionFechaAcred"))   el("caucionFechaAcred").textContent   = `Acredita el ${acredStr}`;
     preview.hidden = false;
   };
 
@@ -194,7 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!list) return;
     try {
       const cauciones = await apiFetch("/inversiones/cauciones");
-      if (!cauciones.length) { list.innerHTML = `<li class="inv-empty">No tenés cauciones activas</li>`; return; }
+      if (!cauciones.length) { list.innerHTML = `<li class="inv-empty-state"><i class="fas fa-chart-line inv-empty-icon"></i><p class="inv-empty-title">Sin cauciones activas</p><p class="inv-empty-sub">Colocá una caución y recibí rendimientos en 1, 7 o 14 días.</p></li>`; return; }
       list.innerHTML = cauciones.map(c => {
         const monto = Number(c.monto);
         const tna   = Number(c.tna);
@@ -292,6 +300,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (el) el.textContent = total > 0 ? _fmtARS(total) : "$0,00";
     } catch {}
   };
+
+  // ── Chips de monto rápido ──
+  const _setChipMonto = (inputId, amount) => {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    let val;
+    if (amount === "all") {
+      val = Math.floor(saldoActual);
+    } else {
+      const current = Number((input.value || "").replace(/\./g, "").replace(/,/g, ".")) || 0;
+      val = current + Number(amount);
+    }
+    input.value = val > 0 ? val.toLocaleString("es-AR") : "";
+    input.dispatchEvent(new Event("input"));
+  };
+  document.querySelectorAll(".inv-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      _setChipMonto(chip.dataset.target, chip.dataset.amount);
+    });
+  });
 
   // ── Init ──
   await loadTasas();

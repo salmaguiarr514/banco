@@ -625,7 +625,7 @@
     <div id="inv-tab-plazo-fijo" class="inv-tab-panel">
 
       <!-- Formulario -->
-      <div class="card" style="padding:20px 24px">
+      <div class="card inv-form-card">
         <div class="card-header" style="margin-bottom:16px">
           <h3 class="card-title">Constituir Plazo Fijo</h3>
           <span class="inv-tna-badge" id="pfTNABadge">— TNA</span>
@@ -640,14 +640,25 @@
             <span class="inv-currency">$</span>
             <input type="text" id="pfMonto" inputmode="numeric" placeholder="Monto a invertir">
           </div>
+          <div class="inv-preset-chips">
+            <button type="button" class="inv-chip" data-target="pfMonto" data-amount="10000">+$10.000</button>
+            <button type="button" class="inv-chip" data-target="pfMonto" data-amount="50000">+$50.000</button>
+            <button type="button" class="inv-chip" data-target="pfMonto" data-amount="100000">+$100.000</button>
+            <button type="button" class="inv-chip inv-chip--all" data-target="pfMonto" data-amount="all">Todo mi saldo</button>
+          </div>
           <div id="pfPreview" class="inv-preview" hidden>
-            <div class="inv-preview-row">
-              <span>Rendimiento estimado</span>
-              <span id="pfRendimiento" style="color:var(--green,#10b981)">—</span>
+            <div class="inv-preview-highlight">
+              <span class="inv-preview-highlight-label">Ganancia neta</span>
+              <span class="inv-preview-highlight-value" id="pfRendimiento">—</span>
             </div>
+            <div class="inv-preview-divider"></div>
             <div class="inv-preview-row">
               <span>Total al vencimiento</span>
-              <span id="pfTotal" style="font-size:1.05rem">—</span>
+              <span id="pfTotal">—</span>
+            </div>
+            <div class="inv-preview-row">
+              <span>Fecha de acreditación</span>
+              <span id="pfFechaAcred" style="color:#94a3b8">—</span>
             </div>
           </div>
           <button type="submit" class="btn-primary" style="width:100%">Constituir Plazo Fijo</button>
@@ -660,7 +671,11 @@
           <h3 class="card-title">Mis Plazos Fijos</h3>
         </div>
         <ul id="pfList" class="inv-list" style="list-style:none;padding:0;margin:0">
-          <li class="inv-empty">Cargando…</li>
+          <li class="inv-empty-state">
+            <i class="fas fa-piggy-bank inv-empty-icon"></i>
+            <p class="inv-empty-title">Aún no tenés plazos fijos</p>
+            <p class="inv-empty-sub">Constituí tu primer plazo fijo para empezar a hacer rendir tu dinero día a día.</p>
+          </li>
         </ul>
       </div>
 
@@ -669,7 +684,7 @@
     <!-- ── Tab: Cauciones ── -->
     <div id="inv-tab-cauciones" class="inv-tab-panel" hidden>
 
-      <div class="card" style="padding:20px 24px">
+      <div class="card inv-form-card">
         <div class="card-header" style="margin-bottom:16px">
           <h3 class="card-title">Colocar Caución <span class="inv-info-icon" data-tip="Préstamo bursátil de muy corto plazo (1-14 días). Ofrecés liquidez al mercado a cambio de una tasa garantizada.">i</span></h3>
           <span class="inv-tna-badge" id="caucionTNABadge">— TNA</span>
@@ -684,10 +699,25 @@
             <span class="inv-currency">$</span>
             <input type="text" id="caucionMonto" inputmode="numeric" placeholder="Monto a colocar">
           </div>
+          <div class="inv-preset-chips">
+            <button type="button" class="inv-chip" data-target="caucionMonto" data-amount="10000">+$10.000</button>
+            <button type="button" class="inv-chip" data-target="caucionMonto" data-amount="50000">+$50.000</button>
+            <button type="button" class="inv-chip" data-target="caucionMonto" data-amount="100000">+$100.000</button>
+            <button type="button" class="inv-chip inv-chip--all" data-target="caucionMonto" data-amount="all">Todo mi saldo</button>
+          </div>
           <div id="caucionPreview" class="inv-preview" hidden>
+            <div class="inv-preview-highlight">
+              <span class="inv-preview-highlight-label">Ganancia neta</span>
+              <span class="inv-preview-highlight-value" id="caucionRendimiento">—</span>
+            </div>
+            <div class="inv-preview-divider"></div>
             <div class="inv-preview-row">
-              <span>Rendimiento estimado</span>
-              <span id="caucionRendimiento" style="color:var(--green,#10b981)">—</span>
+              <span>Total al vencimiento</span>
+              <span id="caucionTotal">—</span>
+            </div>
+            <div class="inv-preview-row">
+              <span>Fecha de acreditación</span>
+              <span id="caucionFechaAcred" style="color:#94a3b8">—</span>
             </div>
           </div>
           <button type="submit" class="btn-primary" style="width:100%">Colocar Caución</button>
@@ -699,7 +729,11 @@
           <h3 class="card-title">Mis Cauciones</h3>
         </div>
         <ul id="caucionesList" class="inv-list" style="list-style:none;padding:0;margin:0">
-          <li class="inv-empty">Cargando…</li>
+          <li class="inv-empty-state">
+            <i class="fas fa-chart-line inv-empty-icon"></i>
+            <p class="inv-empty-title">Sin cauciones activas</p>
+            <p class="inv-empty-sub">Colocá una caución y recibí rendimientos en 1, 7 o 14 días.</p>
+          </li>
         </ul>
       </div>
 
@@ -713,7 +747,11 @@
           <span class="inv-badge-info">Precios referenciales en ARS · CCL live</span>
         </div>
         <ul id="cedearsList" class="inv-cedears-list">
-          <li class="inv-empty">Seleccioná la pestaña para cargar</li>
+          <li class="inv-empty-state">
+            <i class="fas fa-globe inv-empty-icon"></i>
+            <p class="inv-empty-title">Cargando cotizaciones…</p>
+            <p class="inv-empty-sub">Seleccioná la pestaña para ver los precios en tiempo real.</p>
+          </li>
         </ul>
       </div>
     </div><!-- /inv-tab-cedears -->
