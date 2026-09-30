@@ -1,18 +1,16 @@
 require("dotenv").config();
-const db   = require("./src/config/db");
-const app  = require("./src/app");
+const db  = require("./src/config/db");
+const app = require("./src/app");
 
-// DB is initialized once per cold-start container.
-// On Vercel each serverless function invocation may reuse a warm container.
-let _dbInit = null;
+// Attempt DB init once per warm container; failures don't block static files.
+let _dbReady = false;
+db.initDb()
+  .then(() => { _dbReady = true; })
+  .catch(err => {
+    console.error("[vercel] DB init failed:", err.message);
+    // API routes will fail individually; static files still work.
+  });
 
-module.exports = async (req, res) => {
-  if (!_dbInit) {
-    _dbInit = db.initDb().catch(err => {
-      _dbInit = null; // allow retry on next invocation
-      throw err;
-    });
-  }
-  await _dbInit;
+module.exports = (req, res) => {
   app(req, res);
 };

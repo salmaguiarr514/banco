@@ -2,30 +2,27 @@ const { Pool } = require("pg");
 const { URL } = require("url");
 require("dotenv").config();
 
-if (!process.env.DATABASE_URL) {
-  console.error("[DB] ERROR CRÍTICO: La variable de entorno DATABASE_URL no está definida.");
-  process.exit(1); // Salir si la variable crítica no está presente
-}
-
 let connectionConfig;
 
-try {
-  // Parseamos la URL manualmente para asegurar que el usuario largo (postgres.project-id) se extraiga correctamente
-  const dbUrl = new URL(process.env.DATABASE_URL);
-  
-  connectionConfig = {
-    user: decodeURIComponent(dbUrl.username),
-    password: decodeURIComponent(dbUrl.password),
-    host: dbUrl.hostname,
-    port: dbUrl.port || 5432,
-    database: dbUrl.pathname.split("/")[1],
-    ssl: { rejectUnauthorized: false },
-  };
-
-  console.log(`[DB] Configuración cargada para el usuario: ${connectionConfig.user}`);
-} catch (err) {
-  console.error("[DB] Error al procesar DATABASE_URL. Verifica el formato en el .env");
-  process.exit(1);
+if (!process.env.DATABASE_URL) {
+  console.error("[DB] WARNING: DATABASE_URL no está definida. Las rutas de API fallarán.");
+  connectionConfig = { host: 'localhost', database: 'nodo', ssl: false };
+} else {
+  try {
+    const dbUrl = new URL(process.env.DATABASE_URL);
+    connectionConfig = {
+      user: decodeURIComponent(dbUrl.username),
+      password: decodeURIComponent(dbUrl.password),
+      host: dbUrl.hostname,
+      port: dbUrl.port || 5432,
+      database: dbUrl.pathname.split("/")[1],
+      ssl: { rejectUnauthorized: false },
+    };
+    console.log(`[DB] Configuración cargada para el usuario: ${connectionConfig.user}`);
+  } catch (err) {
+    console.error("[DB] Error al procesar DATABASE_URL:", err.message);
+    connectionConfig = { host: 'localhost', database: 'nodo', ssl: false };
+  }
 }
 
 const pool = new Pool(connectionConfig);
