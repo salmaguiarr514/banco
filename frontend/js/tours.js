@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const KEYS = {
     inicio:    'nodo_tour_inicio_v1',
     dolares:   'nodo_tour_dolares_v1',
@@ -148,13 +148,38 @@ document.addEventListener('DOMContentLoaded', () => {
     ],
   };
 
+  // ── Estado guardado en Supabase (cross-device) + localStorage como caché ──
+  let _meta = {};
+
+  const _loadMeta = async () => {
+    try {
+      const { data: { user } } = await _supabase.auth.getUser();
+      _meta = user?.user_metadata || {};
+      // Sincronizar caché local
+      Object.values(KEYS).forEach(k => { if (_meta[k]) localStorage.setItem(k, '1'); });
+    } catch {
+      // Sin sesión: usar solo localStorage
+      Object.values(KEYS).forEach(k => { if (localStorage.getItem(k)) _meta[k] = '1'; });
+    }
+  };
+
+  const _seen = (key) => _meta[key] === '1' || localStorage.getItem(key) === '1';
+
+  const _markSeen = async (key) => {
+    localStorage.setItem(key, '1');
+    _meta[key] = '1';
+    try { await _supabase.auth.updateUser({ data: { [key]: '1' } }); } catch {}
+  };
+
+  await _loadMeta();
+
   const startTour = (section) => {
     const steps = STEPS[section];
     if (!steps) return;
-    NodoTour.start(steps, { onEnd: () => localStorage.setItem(KEYS[section], '1') });
+    NodoTour.start(steps, { onEnd: () => _markSeen(KEYS[section]) });
   };
 
-  // Inject help bar at the top of each full section
+  // Inyectar barra de ayuda en cada sección principal
   const SECTION_KEYS = Object.keys(KEYS).filter(k => k !== 'dolares');
   SECTION_KEYS.forEach(section => {
     const sectionEl = document.getElementById(`section-${section}`);
@@ -166,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bar.querySelector(`#helpBtn-${section}`)?.addEventListener('click', () => startTour(section));
   });
 
-  // Help button inside the USD panel (lives inside section-inicio)
+  // Botón de ayuda dentro del panel USD
   const heroUSD = document.getElementById('heroUSD');
   if (heroUSD) {
     const usdBar = document.createElement('div');
@@ -176,26 +201,26 @@ document.addEventListener('DOMContentLoaded', () => {
     usdBar.querySelector('#helpBtn-dolares')?.addEventListener('click', () => startTour('dolares'));
   }
 
-  // Auto-launch on first visit to each full section
+  // Auto-lanzar al entrar a cada sección por primera vez
   document.querySelectorAll('.sidebar-nav-item[data-section]').forEach(btn => {
     btn.addEventListener('click', () => {
       const s = btn.dataset.section;
       if (s === 'inversiones') return;
-      if (KEYS[s] && !localStorage.getItem(KEYS[s])) {
+      if (KEYS[s] && !_seen(KEYS[s])) {
         setTimeout(() => startTour(s), 800);
       }
     });
   });
 
-  // Auto-launch dólares tour on first click of the USD tab
+  // Auto-lanzar tour dólares al clickear la pestaña USD
   document.getElementById('tabUSD')?.addEventListener('click', () => {
-    if (!localStorage.getItem(KEYS.dolares)) {
+    if (!_seen(KEYS.dolares)) {
       setTimeout(() => startTour('dolares'), 500);
     }
   });
 
-  // Auto-launch inicio tour on first ever load
-  if (!localStorage.getItem(KEYS.inicio)) {
+  // Auto-lanzar tour inicio en el primer acceso
+  if (!_seen(KEYS.inicio)) {
     setTimeout(() => startTour('inicio'), 1200);
   }
 });

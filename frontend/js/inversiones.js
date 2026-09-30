@@ -315,7 +315,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     { sel: '.inv-segmented',   title: 'Tres instrumentos',    text: 'Navegá entre las pestañas para operar cada instrumento. Solo se muestra el seleccionado para mantener la interfaz limpia y enfocada.' },
     { sel: '#pfForm',          title: '¿Qué instrumento elegir?', html: '<b>Plazo Fijo:</b> tasa garantizada a 30, 60 o 90 días.<br><br><b>Cauciones:</b> préstamos bursátiles de 1–14 días, ideal para liquidez rápida.<br><br><b>CEDEARs:</b> Apple, Nvidia y más, en pesos atados al dólar CCL.' },
   ];
-  const _launchInvTour = () => NodoTour.start(INV_STEPS, { onEnd: () => localStorage.setItem(TOUR_KEY, '1') });
+  const _markInvSeen = async () => {
+    localStorage.setItem(TOUR_KEY, '1');
+    try { await _supabase.auth.updateUser({ data: { [TOUR_KEY]: '1' } }); } catch {}
+  };
+  const _invSeen = async () => {
+    if (localStorage.getItem(TOUR_KEY)) return true;
+    try {
+      const { data: { user } } = await _supabase.auth.getUser();
+      return user?.user_metadata?.[TOUR_KEY] === '1';
+    } catch { return false; }
+  };
+  const _launchInvTour = () => NodoTour.start(INV_STEPS, { onEnd: _markInvSeen });
   document.getElementById('invHelpBtn')?.addEventListener('click', _launchInvTour);
-  if (!localStorage.getItem(TOUR_KEY)) setTimeout(_launchInvTour, 900);
+  _invSeen().then(seen => { if (!seen) setTimeout(_launchInvTour, 900); });
 });
