@@ -98,55 +98,89 @@
 
         <!-- Dropdown panel -->
         <div class="user-dropdown">
-          <!-- Cabecera del perfil -->
+
+          <!-- Cabecera -->
           <div class="udrop-header">
             <div class="udrop-avatar-sm">
               <img id="avatarImgDrop" src="" alt="" class="avatar-img hidden">
               <span id="avatarInitialsDrop" class="udrop-initials">?</span>
             </div>
-            <div class="udrop-info">
-              <span id="udropName" class="udrop-name">Usuario</span>
-              <span class="udrop-badge"><i class="fas fa-check-circle"></i> Verificado</span>
+            <div class="udrop-greeting-wrap">
+              <span class="udrop-hola">¡Hola, <span id="udropFirstName">Usuario</span>!</span>
+              <span class="udrop-badge"><i class="fas fa-circle udrop-badge-dot"></i> Cuenta Activa</span>
             </div>
           </div>
-          <!-- Barra de completitud -->
+
+          <!-- Progreso de perfil -->
           <div class="udrop-progress">
-            <div class="udrop-progress-label">
-              <span>Completitud del perfil</span>
-              <span id="udropPct">—</span>
+            <div class="udrop-progress-row">
+              <span class="udrop-progress-text"><strong id="udropPct">—</strong> completado</span>
+              <button id="udropCompletarBtn" class="udrop-completar-link">Completar &rsaquo;</button>
             </div>
             <div class="udrop-progress-track">
               <div class="udrop-progress-fill" id="udropFill"></div>
             </div>
           </div>
-          <!-- Menú -->
+
+          <div class="udrop-divider"></div>
+
+          <!-- Email y alias -->
+          <div class="udrop-account-info">
+            <div class="udrop-info-row">
+              <i class="fas fa-envelope udrop-ii"></i>
+              <span id="udropEmail" class="udrop-iv udrop-iv-truncate">—</span>
+            </div>
+            <div class="udrop-info-row">
+              <i class="fas fa-at udrop-ii"></i>
+              <span id="udropAliasVal" class="udrop-iv udrop-iv-truncate">—</span>
+              <button class="udrop-copy-alias" id="udropCopyAlias" title="Copiar alias">
+                <i class="fas fa-copy"></i>
+              </button>
+              <button class="udrop-copy-alias" id="udropEditAliasInline" title="Editar alias">
+                <i class="fas fa-pen"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="udrop-divider"></div>
+
+          <!-- Navegación -->
           <nav class="udrop-menu" aria-label="Menú de perfil">
             <button id="loadPerfilBtn" class="udrop-item">
               <i class="fas fa-user udrop-item-icon"></i>
-              <span>Mis Datos</span>
+              <span>Editar Perfil</span>
               <i class="fas fa-chevron-right udrop-arrow"></i>
             </button>
             <button id="changePasswordBtn" class="udrop-item">
-              <i class="fas fa-lock udrop-item-icon"></i>
-              <span>Seguridad</span>
+              <i class="fas fa-key udrop-item-icon"></i>
+              <span>Cambiar Contraseña</span>
               <i class="fas fa-chevron-right udrop-arrow"></i>
             </button>
             <button class="udrop-item udrop-item-disabled" disabled>
-              <i class="fas fa-sliders-h udrop-item-icon"></i>
-              <span>Límites</span>
+              <i class="fas fa-shield-alt udrop-item-icon"></i>
+              <span>Seguridad</span>
               <span class="udrop-soon">Próximamente</span>
             </button>
-            <div class="udrop-divider"></div>
+          </nav>
+
+          <div class="udrop-divider"></div>
+
+          <!-- Cerrar sesión -->
+          <div class="udrop-footer">
             <button id="logoutBtn" class="udrop-item udrop-item-logout">
               <i class="fas fa-sign-out-alt udrop-item-icon"></i>
-              <span>Cerrar Sesión</span>
+              <span>Cerrar sesión</span>
             </button>
-          </nav>
-          <!-- Controles ocultos que usa perfil.js (compatibilidad) -->
+          </div>
+
+          <!-- Controles ocultos que usa perfil.js -->
           <div hidden>
             <div id="perfilData" class="perfil-data"></div>
             <button id="editAliasBtn">Alias</button>
             <button id="editPerfilBtn">Perfil</button>
+            <button id="editAliasDrop">editAlias</button>
+            <span id="udropName"></span>
+            <span id="udropFullName"></span>
           </div>
         </div>
       </div>

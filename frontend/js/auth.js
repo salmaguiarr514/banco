@@ -11,6 +11,24 @@ const actualizarIndicadorPerfil = () => {
   const initials = [u.nombre, u.apellido].filter(Boolean).map(s => s[0].toUpperCase()).join("") || "?";
   const initialsEl = document.getElementById("avatarInitialsDrop");
   if (initialsEl) initialsEl.textContent = initials;
+
+  // Saludo: primer nombre
+  const firstNameEl = document.getElementById("udropFirstName");
+  if (firstNameEl && u.nombre) firstNameEl.textContent = u.nombre;
+
+  // Nombre completo, email y alias en la sección de info
+  const fullNameEl = document.getElementById("udropFullName");
+  if (fullNameEl) fullNameEl.textContent = `${u.nombre || ""} ${u.apellido || ""}`.trim() || "—";
+  const emailEl = document.getElementById("udropEmail");
+  if (emailEl) emailEl.textContent = u.email || "—";
+
+  // Alias: intentar desde displayAlias (cargado por saldo.js)
+  const aliasDisplay = document.getElementById("displayAlias");
+  const aliasVal = aliasDisplay?.dataset.value || aliasDisplay?.textContent || "";
+  const aliasValEl = document.getElementById("udropAliasVal");
+  if (aliasValEl) aliasValEl.textContent = aliasVal || "—";
+
+  // Compatibilidad: udropName (hidden)
   const nameEl = document.getElementById("udropName");
   if (nameEl && u.nombre) nameEl.textContent = `${u.nombre} ${u.apellido || ""}`.trim();
 
@@ -206,6 +224,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Logout
   if (logoutBtn) logoutBtn.addEventListener("click", cerrarSesion);
+
+  // Dropdown: Completar perfil
+  document.getElementById("udropCompletarBtn")?.addEventListener("click", () => {
+    document.getElementById("editPerfilBtn")?.click();
+  });
+
+  // Dropdown: Copiar alias
+  document.getElementById("udropCopyAlias")?.addEventListener("click", () => {
+    const alias = document.getElementById("udropAliasVal")?.textContent || "";
+    if (alias && alias !== "—") {
+      navigator.clipboard.writeText(alias)
+        .then(() => showToast("Alias copiado", 2000, "success"))
+        .catch(() => showToast("No se pudo copiar", 2500, "error"));
+    }
+  });
+
+  // Dropdown: Cambiar alias (botón oculto de compatibilidad)
+  document.getElementById("editAliasDrop")?.addEventListener("click", () => {
+    document.getElementById("editAliasBtn")?.click();
+  });
+
+  // Dropdown: Editar alias inline (ícono de lápiz en fila de alias)
+  document.getElementById("udropEditAliasInline")?.addEventListener("click", () => {
+    document.getElementById("editAliasBtn")?.click();
+  });
 
   // Theme toggle
   document.querySelectorAll(".btn-theme-toggle").forEach(btn => btn.addEventListener("click", toggleTheme));

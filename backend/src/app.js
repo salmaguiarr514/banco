@@ -17,7 +17,15 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "../../frontend")));
+app.use(express.static(path.join(__dirname, "../../frontend"), {
+  etag: false,
+  lastModified: false,
+  setHeaders: (res) => {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+  },
+}));
 
 app.get("/", (_req, res) => res.redirect("/login.html"));
 

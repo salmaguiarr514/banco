@@ -123,6 +123,20 @@ const _parseQrPayload = async (rawText) => {
 
 // ─── Módulo COBRAR ─────────────────────────────────────────────────────────────
 
+const _qrCuentaParaMoneda = (moneda) =>
+  moneda === 'USD' ? (typeof _cuentaUSD !== 'undefined' ? _cuentaUSD : null) : cuentaActiva;
+
+const _setQrAccountDetail = (moneda) => {
+  const cuenta = _qrCuentaParaMoneda(moneda);
+  const el = document.getElementById('qrAccountDetail');
+  if (!el) return;
+  if (!cuenta) {
+    el.textContent = moneda === 'USD' ? '⚠ Sin cuenta USD — activala primero' : '—';
+  } else {
+    el.textContent = `${cuenta.alias || ''} · ${cuenta.cbu}`;
+  }
+};
+
 const _openCobrarModal = () => {
   if (!cuentaActiva) return void showToast('Cargando datos de cuenta…', 3000, 'info');
 
@@ -132,8 +146,7 @@ const _openCobrarModal = () => {
   document.getElementById('qrMonto').value = '';
   document.getElementById('qrMonedaARS').classList.add('active');
   document.getElementById('qrMonedaUSD').classList.remove('active');
-  document.getElementById('qrAccountDetail').textContent =
-    `${cuentaActiva.alias || ''} · ${cuentaActiva.cbu}`;
+  _setQrAccountDetail('ARS');
 
   document.getElementById('qrGeneratorModal').classList.remove('hidden');
 };
@@ -149,7 +162,12 @@ const _generarQR = async () => {
   btnGen.textContent = 'Generando…';
 
   try {
-    const body = { cbu: cuentaActiva.cbu, alias: cuentaActiva.alias, moneda };
+    const cuenta = _qrCuentaParaMoneda(moneda);
+    if (!cuenta) {
+      showToast(moneda === 'USD' ? 'Necesitás activar tu cuenta en dólares primero' : 'Sin cuenta activa', 4000, 'error');
+      btnGen.disabled = false; btnGen.textContent = 'Generar QR'; return;
+    }
+    const body = { cbu: cuenta.cbu, alias: cuenta.alias, moneda };
     if (monto && !isNaN(Number(monto)) && Number(monto) > 0) body.monto = Number(monto);
 
     const data = await apiFetch('/qr/firmar', { method: 'POST', body: JSON.stringify(body) });
@@ -214,13 +232,49 @@ const _compartirQR = async () => {
 let _html5QrCode = null;
 
 const _prefillTransfer = (payload) => {
+  const isUSD = (payload.moneda || 'ARS') === 'USD';
+
+  if (isUSD) {
+    // USD: abrir el modal de transferencia en dólares
+    if (typeof abrirTransferirUSD !== 'function') {
+      showToast('Transferencias USD no disponibles', 3000, 'error');
+      return;
+    }
+    abrirTransferirUSD();
+    // Prefill destino en el input del modal USD
+    setTimeout(() => {
+      const dest = document.getElementById('usdTransferDest');
+      if (dest) {
+        dest.value = payload.alias || payload.cbu || '';
+        dest.dispatchEvent(new Event('input'));
+      }
+      // Prefill monto si existe
+      if (payload.monto) {
+        const step2 = document.getElementById('usdTransferStep2');
+        const obs = new MutationObserver(() => {
+          if (step2 && !step2.classList.contains('hidden')) {
+            const montoEl = document.getElementById('usdTransferMonto');
+            if (montoEl && !montoEl.value) {
+              montoEl.value = payload.monto;
+              montoEl.dispatchEvent(new Event('input'));
+            }
+            obs.disconnect();
+          }
+        });
+        if (step2) obs.observe(step2, { attributes: true, attributeFilter: ['class'] });
+        setTimeout(() => obs.disconnect(), 30000);
+      }
+    }, 100);
+    return;
+  }
+
+  // ARS: modal de transferencia en pesos
   openTransferModal();
   const input = document.getElementById('cbuDestino');
   if (!input) return;
   input.value = payload.alias || payload.cbu || '';
   input.dispatchEvent(new Event('input'));
 
-  // Prefill monto cuando el paso 2 sea visible (es un paso posterior al de CBU)
   if (payload.monto) {
     const step2 = document.getElementById('transferStep2');
     if (!step2) return;
@@ -235,7 +289,6 @@ const _prefillTransfer = (payload) => {
       }
     });
     obs.observe(step2, { attributes: true, attributeFilter: ['class'] });
-    // Desconectar automáticamente si el modal se cierra sin avanzar
     setTimeout(() => obs.disconnect(), 30000);
   }
 };
@@ -321,10 +374,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('qrMonedaARS')?.addEventListener('click', () => {
     document.getElementById('qrMonedaARS').classList.add('active');
     document.getElementById('qrMonedaUSD').classList.remove('active');
+    _setQrAccountDetail('ARS');
   });
   document.getElementById('qrMonedaUSD')?.addEventListener('click', () => {
     document.getElementById('qrMonedaUSD').classList.add('active');
     document.getElementById('qrMonedaARS').classList.remove('active');
+    _setQrAccountDetail('USD');
   });
   document.getElementById('btnGenerarQR')?.addEventListener('click', _generarQR);
   document.getElementById('btnCopiarQR')?.addEventListener('click', _copiarQR);

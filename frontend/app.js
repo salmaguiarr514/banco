@@ -1322,19 +1322,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
-    // Banner explicativo dentro del dropdown
-    const dropdown = document.querySelector(".user-dropdown");
-    if (dropdown) {
-      let banner = dropdown.querySelector(".perfil-banner");
-      if (incompleto && !banner) {
-        banner = document.createElement("div");
-        banner.className = "perfil-banner";
-        banner.innerHTML = `<i class="fas fa-circle-info"></i><span>Completá tu perfil agregando teléfono y dirección para tener tu cuenta al día.</span>`;
-        dropdown.insertAdjacentElement("afterbegin", banner);
-      } else if (!incompleto && banner) {
-        banner.remove();
-      }
-    }
+    // La barra de progreso del dropdown muestra el estado de completitud
+    // No inyectar banner rojo — ya existe la UI de progreso en el nuevo diseño
   };
 
   if (savedUser) {
