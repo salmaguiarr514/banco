@@ -1,5 +1,5 @@
-﻿// â”€â”€ Mercado (cotizaciones integradas en la tarjeta USD) â”€â”€
-const fmt = (n) => n != null ? `$${Number(n).toLocaleString('es-AR')}` : 'â€”';
+?// ── Mercado (cotizaciones integradas en la tarjeta USD) ──
+const fmt = (n) => n != null ? `$${Number(n).toLocaleString('es-AR')}` : '—';
 
 let _dolares = [];
 
@@ -19,12 +19,12 @@ const renderHeroMovimientos = (movimientos) => {
   if (!movimientos || movimientos.length === 0) { el.classList.add('hidden'); return; }
   const ultimos = movimientos.slice(0, 3);
   el.classList.remove('hidden');
-  el.innerHTML = `<p class="hero-mov-hdr">Últimos movimientos</p>` + ultimos.map(mov => {
+  el.innerHTML = `<p class="hero-mov-hdr">�ltimos movimientos</p>` + ultimos.map(mov => {
     const ingreso = mov.tipo === 'credito' || mov.tipo === 'deposito' || mov.tipo === 'transferencia_recibida' || mov.tipo === 'conversion_entrada';
     const monto = Math.abs(mov.monto);
     const fecha = new Date(mov.fecha_movimiento).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' });
     const icon  = ingreso ? 'fa-arrow-down' : 'fa-arrow-up';
-    const desc  = (mov.descripcion || 'Operación').replace(/^(Depósito|Deposito) ficticio$/i, 'Depósito');
+    const desc  = (mov.descripcion || 'Operaci�n').replace(/^(Dep�sito|Deposito) ficticio$/i, 'Dep�sito');
     return `
       <div class="hero-mov-item">
         <div class="hero-mov-icon ${ingreso ? 'ingreso' : 'egreso'}"><i class="fas ${icon}"></i></div>
@@ -72,7 +72,7 @@ const renderCotizacionesUSD = () => {
 
   el.innerHTML = `
     <div class="cotiz-widget-hdr">
-      <span class="cotiz-widget-title">Cotización USD</span>
+      <span class="cotiz-widget-title">Cotizaci�n USD</span>
       ${ts ? `<span class="cotiz-ts">Act. ${ts}</span>` : ''}
     </div>
     <div class="cotiz-grid">
@@ -86,12 +86,12 @@ const renderCotizacionesUSD = () => {
     const eq = document.getElementById('usdEquivalente');
     if (eq) {
       const saldo = parseFloat(eq.dataset.saldo || '0');
-      eq.textContent = saldo > 0 ? `≈ ${fmt(saldo * blue.venta)} ARS (blue)` : '';
+      eq.textContent = saldo > 0 ? `� ${fmt(saldo * blue.venta)} ARS (blue)` : '';
     }
   }
 };
 
-// â”€â”€ Toggle hero ARS/USD â”€â”€
+// ── Toggle hero ARS/USD ──
 const _setHeroTab = (vista) => {
   document.getElementById('tabARS')?.classList.toggle('active', vista === 'ARS');
   document.getElementById('tabUSD')?.classList.toggle('active', vista === 'USD');
@@ -110,7 +110,7 @@ const mostrarHeroUSD = () => {
   renderCotizacionesUSD();
 };
 
-// â”€â”€ Modal compra/venta USD â”€â”€
+// ── Modal compra/venta USD ──
 const abrirConvertModal = (de, a) => {
   const modal   = document.getElementById('usdConvertModal');
   const title   = document.getElementById('usdConvertTitle');
@@ -127,10 +127,10 @@ const abrirConvertModal = (de, a) => {
   const tasa = de === 'ARS' ? blue?.venta : blue?.compra;
   const esCompra = de === 'ARS';
 
-  title.textContent  = esCompra ? 'Comprar dólares' : 'Vender dólares';
+  title.textContent  = esCompra ? 'Comprar d�lares' : 'Vender d�lares';
   badge.textContent  = esCompra
-    ? `Tasa blue venta · ${fmt(tasa)}`
-    : `Tasa blue compra · ${fmt(tasa)}`;
+    ? `Tasa blue venta � ${fmt(tasa)}`
+    : `Tasa blue compra � ${fmt(tasa)}`;
   prefix.textContent = esCompra ? '$' : 'U$D';
   suffix.textContent = esCompra ? 'ARS' : 'USD';
   input.value = '';
@@ -166,14 +166,14 @@ const abrirConvertModal = (de, a) => {
       showToast(data.message, 4000, 'success');
       await loadSaldo();
     } catch (e) {
-      showToast(e.message || 'Error en la conversión', 4000, 'error');
+      showToast(e.message || 'Error en la conversi�n', 4000, 'error');
     } finally {
       btnLoad(confirm, false);
     }
   };
 };
 
-// â”€â”€ Modal transferir USD (2 pasos) â”€â”€
+// ── Modal transferir USD (2 pasos) ──
 const abrirTransferirUSD = () => {
   const modal   = document.getElementById('usdTransferModal');
   if (!modal) return;
@@ -214,7 +214,7 @@ const abrirTransferirUSD = () => {
     if (confirm) confirm.disabled = true;
 
     // Badge tasa
-    if (badge && blue) badge.textContent = `Referencia blue · ${fmt(blue.compra)} ARS/USD`;
+    if (badge && blue) badge.textContent = `Referencia blue � ${fmt(blue.compra)} ARS/USD`;
 
     // Tarjeta destinatario
     if (recipCard) {
@@ -235,7 +235,7 @@ const abrirTransferirUSD = () => {
   modal.classList.remove('hidden');
   goStep1();
 
-  // â”€â”€ Paso 1: buscar destinatario â”€â”€
+  // ── Paso 1: buscar destinatario ──
   let _destinatarioUSD = null;
   let _searchTimer = null;
 
@@ -249,19 +249,19 @@ const abrirTransferirUSD = () => {
     if (valor.length < 3) return;
     _searchTimer = setTimeout(async () => {
       try {
-        // CBU â†’ BC primero, fallback local; alias â†’ BC primero, fallback local
+        // CBU → BC primero, fallback local; alias → BC primero, fallback local
         const esCBU = /^\d{22}$/.test(valor);
         let data;
         if (esCBU) {
           try {
             data = await apiFetch(`/transferencias/buscar/${encodeURIComponent(valor)}`);
           } catch (_) {
-            // BC no encontrÃ³ por CBU (cuentas USD no estÃ¡n en /persons) â€” buscar en DB local
+            // BC no encontró por CBU (cuentas USD no están en /persons) — buscar en DB local
             const local = await apiFetch(`/cuentas/buscar-usd/${encodeURIComponent(valor)}`);
             if (local.found) {
               data = local;
             } else {
-              // CBU externo vÃ¡lido â€” BC acepta la transacciÃ³n aunque no devuelva el nombre
+              // CBU externo válido — BC acepta la transacción aunque no devuelva el nombre
               data = { cbu: valor, nombre: 'Cuenta', apellido: 'externa', alias: valor };
             }
           }
@@ -269,9 +269,9 @@ const abrirTransferirUSD = () => {
           try {
             data = await apiFetch(`/transferencias/alias/${encodeURIComponent(valor)}`);
           } catch (_) {
-            // BC no lo encontrÃ³ â€” buscar alias en DB local (cuentas USD de este banco)
+            // BC no lo encontró — buscar alias en DB local (cuentas USD de este banco)
             const local = await apiFetch(`/cuentas/buscar-usd/${encodeURIComponent(valor)}`);
-            if (!local.found) throw new Error('No se encontró una cuenta USD con ese alias o CBU');
+            if (!local.found) throw new Error('No se encontr� una cuenta USD con ese alias o CBU');
             data = local;
           }
         }
@@ -297,7 +297,7 @@ const abrirTransferirUSD = () => {
         if (searchResult) searchResult.classList.add('hidden');
         if (searchErr) {
           searchErr.textContent = e.message?.includes('404') || e.message?.includes('no encontrad')
-            ? 'No se encontró una cuenta con ese alias o CBU'
+            ? 'No se encontr� una cuenta con ese alias o CBU'
             : (e.message || 'No encontrado');
           searchErr.style.display = '';
         }
@@ -307,12 +307,12 @@ const abrirTransferirUSD = () => {
 
   if (nextBtn) nextBtn.onclick = () => { if (_destinatarioUSD) goStep2(_destinatarioUSD); };
 
-  // â”€â”€ Paso 2: monto â”€â”€
+  // ── Paso 2: monto ──
   montoInput.oninput = () => {
     const n = Number(montoInput.value.replace(',', '.'));
     if (confirm) confirm.disabled = !n || n <= 0;
     if (n > 0 && blue?.compra) {
-      if (equiv) { equiv.textContent = `≈ ${fmt(n * blue.compra)} ARS al tipo de cambio blue`; equiv.classList.add('visible'); }
+      if (equiv) { equiv.textContent = `� ${fmt(n * blue.compra)} ARS al tipo de cambio blue`; equiv.classList.add('visible'); }
     } else {
       equiv?.classList.remove('visible');
     }

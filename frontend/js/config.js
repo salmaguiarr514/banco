@@ -1,6 +1,6 @@
-﻿const API_URL = "/api";
+?const API_URL = "/api";
 
-// â”€â”€ Tema claro / oscuro â”€â”€
+// ── Tema claro / oscuro ──
 const THEME_KEY = 'nodo_theme';
 const applyTheme = (theme) => {
   document.documentElement.setAttribute('data-theme', theme);
@@ -17,7 +17,7 @@ const toggleTheme = () => applyTheme(
 );
 applyTheme(localStorage.getItem(THEME_KEY) || 'light');
 
-// InicializaciÃ³n de Supabase Client
+// Inicialización de Supabase Client
 // Reemplaza estas cadenas con la URL y la Anon Key de TU PROPIO proyecto de Supabase (Settings -> API)
 const SUPABASE_URL = 'https://zzbuslbocmqhahllabxy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6YnVzbGJvY21xaGFobGxhYnh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MzUzMDAsImV4cCI6MjA5NDExMTMwMH0.qWm7Q8U9Freq3S69AxmB3bYNYMA4KkwzaSN4jcWxF2Y';
@@ -43,7 +43,7 @@ let cuentaActiva = null;
 let cbuDestinoVerificado = "";
 // Objeto para guardar info completa del destinatario validado
 let destinatarioValidado = null;
-// Instancia del escÃ¡ner
+// Instancia del escáner
 let html5QrCode = null;
 
 const tabs = document.querySelectorAll(".tab");
@@ -56,7 +56,7 @@ const debounce = (fn, delay) => {
   };
 };
 
-// â”€â”€ BotÃ³n loading â”€â”€
+// ── Botón loading ──
 const btnLoad = (btn, on) => {
   if (!btn) return;
   if (on) {
@@ -72,7 +72,7 @@ const btnLoad = (btn, on) => {
 };
 const formLoad = (form, on) => btnLoad(form?.querySelector('button[type="submit"]'), on);
 
-// â”€â”€ Toast â”€â”€
+// ── Toast ──
 const showToast = (msg, duration = 3500, type = 'success') => {
   const toast    = document.getElementById('syncToast');
   const toastMsg = document.getElementById('syncToastMsg');
@@ -96,7 +96,7 @@ const setOutput = (data) => {
   }
 };
 
-// â”€â”€ Card Engine â”€â”€
+// ── Card Engine ──
 let tarjetaActiva = null;
 let payCardCBUVerificado = '';
 

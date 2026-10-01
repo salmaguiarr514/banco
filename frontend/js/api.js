@@ -1,4 +1,4 @@
-﻿const apiFetch = async (endpoint, options = {}) => {
+?const apiFetch = async (endpoint, options = {}) => {
   const { data: { session } } = await _supabase.auth.getSession();
 
   const headers = {
@@ -14,7 +14,7 @@
     throw new Error("Sin conexion con el servidor. Verifica tu red o que el servidor este activo.");
   }
 
-  // Parsear de forma segura â€” el servidor puede devolver HTML en errores 404/500
+  // Parsear de forma segura — el servidor puede devolver HTML en errores 404/500
   let data = {};
   try {
     const text = await response.text();
