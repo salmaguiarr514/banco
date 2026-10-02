@@ -1,16 +1,13 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "backend/vercel.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": "frontend/**"
-      }
-    }
+    { "src": "backend/vercel.js", "use": "@vercel/node" },
+    { "src": "frontend/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "backend/vercel.js" }
+    { "src": "/api/(.*)", "dest": "backend/vercel.js" },
+    { "src": "/", "dest": "/frontend/login.html" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
   ],
   "crons": [
     {
