@@ -942,43 +942,53 @@ const insertarMovimientoEnDOM = (mov) => {
   }
 };
 
-/**
- * Descarga el comprobante de recarga como archivo de texto formateado
- */
 const descargarComprobanteRecarga = () => {
   const comprobante = recargaComprobante || "REC-000000";
-  const texto = [
-    "═══════════════════════════════════════════════",
-    "               NODO HOME BANKING               ",
-    "         COMPROBANTE DE RECARGA CELULAR        ",
-    "═══════════════════════════════════════════════",
-    "",
-    `Número de Comprobante: ${comprobante}`,
-    `Fecha y Hora:         ${new Date().toLocaleString("es-AR")}`,
-    `Operador:             ${recargaOperador}`,
-    `Línea:                +54 9 ${formatearNumeroArgentino(recargaNumero)}`,
-    `Monto Recargado:      $ ${recargaMonto.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-    `Estado:               Acreditado con éxito`,
-    "",
-    "───────────────────────────────────────────────",
-    "¡Gracias por operar con NODO!",
-    "El nodo de tu crecimiento.",
-    "═══════════════════════════════════════════════"
-  ].join("\n");
+  const fecha = new Date().toLocaleString("es-AR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Comprobante ${comprobante}</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,sans-serif;max-width:400px;margin:40px auto;color:#1e293b;padding:0 16px}
+  .hdr{text-align:center;padding-bottom:16px;margin-bottom:20px;border-bottom:2px solid #10B981}
+  .logo{font-size:1.6rem;font-weight:800;color:#10B981;letter-spacing:3px}
+  .sub{font-size:.85rem;color:#64748b;margin-top:4px}
+  .icon{display:block;margin:12px auto 4px;width:44px;height:44px;border-radius:50%;background:#d1fae5;line-height:44px;text-align:center;font-size:1.4rem;color:#10B981}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #e2e8f0;font-size:.88rem}
+  .lbl{color:#64748b}.val{font-weight:600}
+  .green{color:#10B981}
+  .ftr{text-align:center;margin-top:22px;color:#94a3b8;font-size:.78rem}
+  @media print{body{margin:10px}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">NODO</div>
+  <div class="sub">Comprobante de Recarga Celular</div>
+  <span class="icon">✓</span>
+</div>
+<div class="row"><span class="lbl">Comprobante</span><span class="val">${comprobante}</span></div>
+<div class="row"><span class="lbl">Operador</span><span class="val">${recargaOperador || "—"}</span></div>
+<div class="row"><span class="lbl">Número</span><span class="val">+54 9 ${formatearNumeroArgentino(recargaNumero)}</span></div>
+<div class="row"><span class="lbl">Monto recargado</span><span class="val green">$ ${recargaMonto.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</span></div>
+<div class="row"><span class="lbl">Estado</span><span class="val green">✓ Acreditado</span></div>
+<div class="row"><span class="lbl">Fecha y hora</span><span class="val">${fecha} hs</span></div>
+<div class="ftr">Operado por NODO Home Banking · El nodo de tu crecimiento</div>
+</body>
+</html>`;
 
-  const blob = new Blob([texto], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `Comprobante_${comprobante}.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-
-  if (typeof showToast === "function") {
-    showToast("Comprobante descargado", 2500, "success");
+  const win = window.open("", "_blank", "width=500,height=620");
+  if (win) {
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    setTimeout(() => win.print(), 350);
   }
+
+  if (typeof showToast === "function") showToast("Abriendo comprobante para imprimir", 2500, "success");
 };
 
 const REPORTES_STORAGE_KEYS = ["nodo_recargas_movimientos", "nodo_historial_global", "nodo_movimientos"];
@@ -1851,6 +1861,14 @@ const inicializarSeguridad = () => {
 // ── Inicialización y Event Listeners ──
 document.addEventListener("DOMContentLoaded", () => {
   actualizarSaldoBadgeRecarga();
+
+  // Actualizar saldo badge cada vez que la sección Recargas se hace visible
+  const _secRecargas = document.getElementById("section-recargas");
+  if (_secRecargas) {
+    new MutationObserver(() => {
+      if (_secRecargas.classList.contains("active")) actualizarSaldoBadgeRecarga();
+    }).observe(_secRecargas, { attributes: true, attributeFilter: ["class"] });
+  }
 
   // 1. Botón de acceso rápido en el balance hero
   const btnShortcut = document.getElementById("btn-recarga-shortcut");
