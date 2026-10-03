@@ -1,4 +1,5 @@
-const BUILD_ID = "2026-10-01-v2";
+const { BUILD } = require("./src/build-info");
+console.log("[NODO] build:", BUILD);
 require("dotenv").config();
 const db  = require("./src/config/db");
 const app = require("./src/app");
