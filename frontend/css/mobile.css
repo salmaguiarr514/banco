@@ -1,0 +1,204 @@
+/* ════════════════════════════════════════════════════
+   NODO — Mobile Overrides  (max-width: 720px)
+   Desktop: sin cambios. Todo dentro de @media.
+════════════════════════════════════════════════════ */
+
+@media (max-width: 720px) {
+
+  /* ── Header ── */
+  .header {
+    padding: 8px 12px;
+    border-radius: var(--r);
+  }
+
+  .header-user {
+    width: 100%;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  #userName { font-size: 0.82rem; }
+
+  /* Ocultar botón "Ayuda" para no saturar el header en mobile */
+  .btn-header-ayuda { display: none; }
+
+  /* ── Balance Hero ── */
+  .balance-hero {
+    padding: 18px 14px;
+    border-radius: var(--r-lg);
+    gap: 12px;
+  }
+
+  .hero-tab {
+    font-size: 0.7rem;
+    padding: 8px 6px;
+    gap: 4px;
+  }
+
+  .balance-amount-row { gap: 4px; }
+
+  .currency {
+    font-size: 1rem;
+    margin-top: 6px;
+  }
+
+  #displayBalance,
+  #usdDisplayBalance {
+    font-size: clamp(1.9rem, 9vw, 2.5rem);
+  }
+
+  /* CBU + Alias: columna en mobile */
+  .balance-account-info {
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .account-info-row {
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  .account-info-value { font-size: 0.7rem; }
+
+  /* Botones de acción: wrap en 2 filas (3 + 2) */
+  .balance-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+    margin-top: 4px;
+  }
+
+  .action-card {
+    flex: 0 1 calc(33.33% - 6px);
+    min-width: 0;
+    padding: 12px 4px;
+    gap: 6px;
+    font-size: 0.62rem;
+    border-radius: var(--r);
+  }
+
+  .action-card i { font-size: 1rem; }
+
+  /* USD actions: siempre 3 en fila */
+  .balance-actions-usd .action-card {
+    flex: 1;
+  }
+
+  /* ── USD promo banner ── */
+  .usd-promo-banner {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  /* ── Two-column cards → stack ── */
+  .two-col-cards {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ── Cards generales ── */
+  .card {
+    padding: 16px;
+    border-radius: var(--r-lg);
+  }
+
+  .card-header {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .card-header h2 { font-size: 0.88rem; }
+
+  .card-collapsible-trigger { padding: 14px 16px; }
+  .card-collapsible-body    { padding: 0 16px 16px; }
+
+  /* ── Actividad ── */
+  .actividad-toolbar { flex-wrap: wrap; gap: 8px; }
+  .actividad-filters { flex-wrap: wrap; gap: 6px; }
+  .movement-item     { padding: 10px 0; }
+
+  /* ── Hero movimientos recientes ── */
+  .hero-mov-desc   { font-size: 0.7rem; }
+  .hero-mov-amount { font-size: 0.72rem; }
+  .hero-mov-icon   { width: 26px; height: 26px; }
+
+  /* ── Cotizaciones ── */
+  .cotiz-row { padding: 6px 8px; }
+  .cotiz-val { font-size: 0.75rem; }
+  .cotiz-label { font-size: 0.68rem; }
+
+  /* ── Mora banner ── */
+  .mora-banner {
+    font-size: 0.78rem;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ── Modals ── */
+  .usd-modal-card {
+    margin: 0;
+    border-radius: 20px 20px 0 0;
+    max-width: 100% !important;
+    width: 100%;
+  }
+
+  .usd-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  /* ── Transferencias ── */
+  .transfer-form-grid { grid-template-columns: 1fr; }
+
+  /* ── Finanzas / Inversiones / Recargas: cards con menos padding ── */
+  #section-finanzas   .card,
+  #section-inversiones .card,
+  #section-recargas   .card,
+  #section-tarjetas   .card,
+  #section-prestamos  .card {
+    padding: 16px;
+  }
+
+  /* ── Tabla de movimientos en tarjeta: horizontal scroll ── */
+  .tarjeta-movimientos-table,
+  .inv-lista,
+  .recarga-form-section {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── App shell: sin gap extra ── */
+  .app-shell { gap: 10px; }
+
+  /* ── Network canvas de fondo del dashboard: ajustar ── */
+  .dash-network { opacity: 0.3; }
+}
+
+/* ── Teléfonos pequeños (≤ 430px) ── */
+@media (max-width: 430px) {
+  .balance-hero { padding: 14px 12px; }
+
+  #displayBalance,
+  #usdDisplayBalance { font-size: clamp(1.6rem, 10vw, 2rem); }
+
+  .action-card {
+    flex: 0 1 calc(33.33% - 5px);
+    font-size: 0.58rem;
+    padding: 10px 2px;
+  }
+
+  .action-card i { font-size: 0.9rem; }
+
+  .card { padding: 14px; }
+
+  .sidebar-nav-item { font-size: 0.56rem; gap: 2px; }
+  .sidebar-nav-item i { font-size: 1.1rem; }
+
+  .header { padding: 6px 10px; }
+
+  .account-info-label { font-size: 0.55rem; }
+  .account-info-value { font-size: 0.65rem; }
+}

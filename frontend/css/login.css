@@ -508,3 +508,42 @@ button:active { transform: translateY(0); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
+/* ── Login: Mobile ── */
+@media (max-width: 720px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+  }
+
+  .login-brand {
+    height: auto;
+    min-height: unset;
+    position: relative;
+    padding: 28px 20px 20px;
+    overflow: hidden;
+  }
+
+  .login-card-col { display: none; }
+
+  .brand-tagline {
+    flex: none;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 10px 0 2px;
+  }
+
+  .brand-tagline h2 { font-size: 1.5rem; }
+  .brand-tagline p  { display: none; }
+  .brand-footer     { display: none; }
+
+  .login-form-panel {
+    padding: 28px 20px 48px;
+    align-items: flex-start;
+  }
+
+  .login-form-inner { max-width: 100%; }
+
+  /* Canvas decorativo del panel derecho: ocultar en mobile */
+  .login-network-canvas { display: none !important; }
+}
+

@@ -109,25 +109,68 @@
 }
 .content-section.active { display: flex; }
 
-/* Mobile: sidebar â†’ barra horizontal arriba */
+/* Mobile: sidebar → barra de navegación fija en la parte inferior */
 @media (max-width: 720px) {
-  .app-body { flex-direction: column; gap: 16px; }
-  .sidebar {
-    width: 100%;
-    position: static;
-    padding: 8px 10px;
-    border-radius: var(--r-sm);
+  .app-shell {
+    padding: 12px 12px 0;
+    gap: 10px;
   }
+
+  .app-body {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Sidebar → fixed bottom navbar estilo fintech */
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 200;
+    border-radius: 18px 18px 0 0;
+    padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+    box-shadow: 0 -2px 20px rgba(0,0,0,0.14);
+    border-top: 1px solid var(--border);
+  }
+
   .sidebar-brand { display: none; }
-  .sidebar-nav-list { flex-direction: row; gap: 4px; }
+
+  .sidebar-nav-list {
+    flex-direction: row;
+    gap: 0;
+    justify-content: space-around;
+    padding: 0;
+  }
+
   .sidebar-nav-item {
     flex: 1;
     flex-direction: column;
     justify-content: center;
-    gap: 5px;
-    padding: 8px 4px;
-    font-size: 0.68rem;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 2px;
+    font-size: 0.6rem;
     text-align: center;
+    border-right: none !important;
+    border-radius: 12px;
+  }
+
+  .sidebar-nav-item i {
+    font-size: 1.2rem;
+    width: auto;
+  }
+
+  .sidebar-nav-item.active {
+    color: var(--green);
+    background: rgba(16,185,129,0.1);
+    border-right: none !important;
+  }
+
+  /* Espacio para la navbar fija */
+  .content-area {
+    padding-bottom: 76px;
   }
 }
 

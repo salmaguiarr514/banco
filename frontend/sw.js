@@ -1,4 +1,4 @@
-const CACHE = "nodo-v1";
+const CACHE = "nodo-v2";
 
 const STATIC = [
   "/dashboard.html",
@@ -15,6 +15,7 @@ const STATIC = [
   "/css/prestamos.css",
   "/css/inversiones.css",
   "/css/recarga.css",
+  "/css/mobile.css",
   "/favicon.svg",
   "/manifest.json",
 ];
