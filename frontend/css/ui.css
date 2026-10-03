@@ -235,6 +235,11 @@
 
 /* Componentes nuevos — dark mode (necesarios para no ser pisados por [data-theme="dark"] button) */
 [data-theme="dark"] .actividad-refresh-btn        { background: rgba(255,255,255,.05); border-color: var(--border); color: var(--text-2); }
+[data-theme="dark"] .reserva-historial-toggle     { background: transparent; }
+[data-theme="dark"] .btn-ghost-green              { background: transparent; color: var(--green); }
+[data-theme="dark"] .btn-ghost-green:hover        { background: rgba(16,185,129,.1); }
+[data-theme="dark"] .btn-icon-refresh             { background: transparent; color: rgba(148,163,184,.45); }
+[data-theme="dark"] .btn-icon-refresh:hover       { background: rgba(16,185,129,.08); color: var(--green); }
 [data-theme="dark"] .actividad-refresh-btn:hover  { background: rgba(255,255,255,.1); color: var(--text); opacity: 1; }
 [data-theme="dark"] .actividad-filter             { background: rgba(255,255,255,.05); border-color: var(--border); color: var(--text-2); }
 [data-theme="dark"] .actividad-filter.active,
