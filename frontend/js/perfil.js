@@ -48,11 +48,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const newAlias = document.getElementById("newAliasInput")?.value;
       formLoad(aliasForm, true);
       try {
-        await apiFetch("/auth/perfil", { method: "PUT", body: JSON.stringify({ alias: newAlias }) });
+        const data = await apiFetch("/auth/perfil", { method: "PUT", body: JSON.stringify({ alias: newAlias }) });
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          if (typeof actualizarIndicadorPerfil === "function") actualizarIndicadorPerfil();
+        }
         showToast("Alias actualizado con éxito", 3000, "success");
         document.getElementById("newAliasInput").value = "";
         aliasModal?.classList.add("hidden");
-        loadPerfilBtn?.click();
       } catch (error) {
         showToast(error.message?.includes("409") ? "El alias ya está en uso." : error.message || "Error al cambiar alias", 4000, "error");
       } finally {
@@ -83,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         showToast("Perfil actualizado correctamente", 3000, "success");
         perfilModal?.classList.add("hidden");
-        loadPerfilBtn?.click();
       } catch (error) {
         showToast(error.message || "Error al actualizar perfil", 4000, "error");
       } finally {

@@ -268,8 +268,10 @@
   justify-content: center;
   overflow: hidden;
   font-size: 0.85rem;
-  border: 2px solid var(--green);
+  border: 2px solid rgba(16,185,129,.4);
+  transition: border-color .2s;
 }
+.avatar-wrapper:hover .avatar-circle { border-color: rgba(16,185,129,.8); }
 
 .avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -287,9 +289,11 @@
   cursor: pointer;
   font-size: 0.44rem;
   color: var(--navy);
+  opacity: 0;
+  transition: opacity .2s;
 }
-
-.avatar-edit-btn:hover { background: white; box-shadow: 0 0 0 2px var(--green); }
+.avatar-wrapper:hover .avatar-edit-btn { opacity: 1; }
+.avatar-edit-btn:hover { background: white; }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    PROFILE (in dropdown)
