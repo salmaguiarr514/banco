@@ -30,7 +30,12 @@ app.use(express.static(path.join(__dirname, "../../frontend"), {
 app.get("/", (_req, res) => res.redirect("/login.html"));
 
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, modulo: "homebanking" });
+  const fs = require("fs");
+  const frontendDir = path.join(__dirname, "../../frontend");
+  const dashPath = path.join(frontendDir, "dashboard.html");
+  let preview = null;
+  try { preview = fs.readFileSync(dashPath, "utf8").slice(0, 200); } catch (e) { preview = "ERR:" + e.message; }
+  res.json({ ok: true, modulo: "homebanking", build: "2026-10-02-002", __dirname, frontendDir, dashExists: fs.existsSync(dashPath), preview });
 });
 
 app.get("/api/debug-static", (_req, res) => {
