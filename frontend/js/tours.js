@@ -179,20 +179,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     NodoTour.start(steps, { onEnd: () => _markSeen(KEYS[section]) });
   };
 
-  // Inyectar barra de ayuda en cada sección principal
-  const SECTION_KEYS = Object.keys(KEYS).filter(k => k !== 'dolares');
-  SECTION_KEYS.forEach(section => {
-    const sectionEl = document.getElementById(`section-${section}`);
-    if (!sectionEl) return;
-    const bar = document.createElement('div');
-    bar.className = 'nodo-help-bar';
-    bar.innerHTML = `<button class="nodo-help-btn" id="helpBtn-${section}"><i class="fas fa-question-circle"></i> Ayuda</button>`;
-    sectionEl.prepend(bar);
-    bar.querySelector(`#helpBtn-${section}`)?.addEventListener('click', () => startTour(section));
-  });
+  // Botón Ayuda en el header — lanza el tour de la sección activa
+  const headerAyudaBtn = document.getElementById('headerAyudaBtn');
+  if (headerAyudaBtn) {
+    headerAyudaBtn.addEventListener('click', () => {
+      const activeSection = document.querySelector('.content-section.active');
+      const sectionId = activeSection?.id?.replace('section-', '') || 'inicio';
+      startTour(sectionId);
+    });
+  }
 
-  // El tour de dólares se lanza desde el botón Ayuda de la sección inicio (arriba)
-  // o automáticamente al clickear la pestaña USD por primera vez.
+  // El tour de dólares se lanza automáticamente al clickear la pestaña USD por primera vez.
 
   // Auto-lanzar al entrar a cada sección por primera vez
   document.querySelectorAll('.sidebar-nav-item[data-section]').forEach(btn => {

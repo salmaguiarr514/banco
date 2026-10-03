@@ -186,9 +186,5 @@
   background: rgba(16,185,129,.18);
 }
 
-/* ── Help bar container injected at the top of each section ── */
-.nodo-help-bar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 6px;
-}
+/* ── Help bar (deprecated — Ayuda moved to header) ── */
+.nodo-help-bar { display: none; }

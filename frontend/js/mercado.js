@@ -13,29 +13,7 @@ const loadMercado = async () => {
   } catch (_) {}
 };
 
-const renderHeroMovimientos = (movimientos) => {
-  const el = document.getElementById('heroMovimientos');
-  if (!el) return;
-  if (!movimientos || movimientos.length === 0) { el.classList.add('hidden'); return; }
-  const ultimos = movimientos.slice(0, 3);
-  el.classList.remove('hidden');
-  el.innerHTML = `<p class="hero-mov-hdr">�ltimos movimientos</p>` + ultimos.map(mov => {
-    const ingreso = mov.tipo === 'credito' || mov.tipo === 'deposito' || mov.tipo === 'transferencia_recibida' || mov.tipo === 'conversion_entrada';
-    const monto = Math.abs(mov.monto);
-    const fecha = new Date(mov.fecha_movimiento).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' });
-    const icon  = ingreso ? 'fa-arrow-down' : 'fa-arrow-up';
-    const desc  = (mov.descripcion || 'Operaci�n').replace(/^(Dep�sito|Deposito) ficticio$/i, 'Dep�sito');
-    return `
-      <div class="hero-mov-item">
-        <div class="hero-mov-icon ${ingreso ? 'ingreso' : 'egreso'}"><i class="fas ${icon}"></i></div>
-        <div class="hero-mov-text">
-          <p class="hero-mov-desc">${desc}</p>
-          <p class="hero-mov-date">${fecha}</p>
-        </div>
-        <span class="hero-mov-amount ${ingreso ? 'ingreso' : 'egreso'}">${ingreso ? '+' : '-'}$${monto.toLocaleString('es-AR')}</span>
-      </div>`;
-  }).join('');
-};
+const renderHeroMovimientos = () => {};
 
 const renderCotizacionesUSD = () => {
   const el = document.getElementById('usdCotizaciones');

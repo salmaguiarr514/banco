@@ -668,7 +668,7 @@
 .mov-date      { font-size: .7rem; color: var(--text-3); }
 .mov-amount-v2 { font-size: .88rem; font-weight: 700; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .mov-amount-pos { color: var(--green); }
-.mov-amount-neg { color: var(--text); }
+.mov-amount-neg { color: #cbd5e1; }
 .mov-bank-badge {
   display: inline-block; margin-left: 6px;
   font-size: .62rem; font-weight: 600;
@@ -729,4 +729,21 @@
   justify-content: center !important;
   line-height: 1;
 }
+
+/* ── Botón Ayuda en header ──────────────────────────────────────────────────── */
+.btn-header-ayuda {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  border: 1px solid rgba(16,185,129,.35);
+  background: rgba(16,185,129,.07);
+  color: #10b981;
+  transition: background .2s, border-color .2s;
+  white-space: nowrap;
+}
+.btn-header-ayuda:hover { background: rgba(16,185,129,.16); border-color: rgba(16,185,129,.55); }
+[data-theme="dark"] .btn-header-ayuda { border-color: rgba(16,185,129,.3); background: rgba(16,185,129,.06); }
+
+/* ── Búsqueda actividad: foco esmeralda ────────────────────────────────────── */
+.actividad-search:focus { border-color: rgba(16,185,129,.45) !important; box-shadow: 0 0 0 2px rgba(16,185,129,.12); }
 
