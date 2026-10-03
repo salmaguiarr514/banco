@@ -410,3 +410,69 @@
   .inv-preset-chips { gap: 5px; }
   .inv-chip { font-size: .72rem; padding: 4px 10px; }
 }
+
+/* ── Modal Detalle Plazo Fijo ────────────────────────────────────────────────── */
+.pf-detail-hero {
+  background: linear-gradient(135deg, #0D1B2E 0%, #0F1E34 100%);
+  border-radius: var(--r-sm);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+.pf-detail-hero-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: rgba(255,255,255,.5);
+  font-weight: 600;
+}
+.pf-detail-hero-monto {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.pf-detail-grid {
+  display: flex;
+  flex-direction: column;
+}
+.pf-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+.pf-detail-row--last { border-bottom: none; }
+.pf-detail-label {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  font-weight: 500;
+}
+.pf-detail-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.pf-detail-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(148,163,184,.07);
+  border: 1px solid rgba(148,163,184,.15);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  line-height: 1.55;
+}
+.pf-detail-alert-icon {
+  color: rgba(148,163,184,.55);
+  flex-shrink: 0;
+  margin-top: 1px;
+}

@@ -65,10 +65,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     cargarGastos().finally(() => btnLoad(loadGastosBtn, false));
   });
 
-  // Refrescar gastos al navegar a la sección Finanzas
-  document.querySelector('[data-section="finanzas"]')?.addEventListener("click", () => {
-    if (session) cargarGastos();
-  });
+  // Refrescar gastos cada vez que la sección Finanzas se hace visible
+  const _secFinanzas = document.getElementById("section-finanzas");
+  if (_secFinanzas && session) {
+    new MutationObserver(() => {
+      if (_secFinanzas.classList.contains("active")) cargarGastos();
+    }).observe(_secFinanzas, { attributes: true, attributeFilter: ["class"] });
+  }
 
   // ── Tabs ARS / USD ──
   document.getElementById("tabARS")?.addEventListener("click", mostrarHeroARS);

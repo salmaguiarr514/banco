@@ -131,7 +131,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           </li>`;
       }).join("");
       list.querySelectorAll(".inv-rescatar-btn[data-tipo='pf']").forEach(btn => {
-        btn.addEventListener("click", () => showToast(`El plazo fijo vence el ${btn.dataset.venc}. No se permite rescate anticipado.`, 4000, "info"));
+        const pfData = pfs.find(p => String(p.id) === btn.dataset.id);
+        btn.addEventListener("click", () => abrirPFDetail(pfData));
       });
     } catch { list.innerHTML = `<li class="inv-empty">Error al cargar</li>`; }
   };
@@ -228,6 +229,47 @@ document.addEventListener("DOMContentLoaded", async () => {
         btn.addEventListener("click", () => rescatar("cau", btn.dataset.id, btn));
       });
     } catch { list.innerHTML = `<li class="inv-empty">Error al cargar</li>`; }
+  };
+
+  // ── Modal Detalle Plazo Fijo ──
+  const pfDetailModal = document.getElementById("pfDetailModal");
+  const pfDetailBody  = document.getElementById("pfDetailBody");
+  document.getElementById("closePFDetail")?.addEventListener("click", () => pfDetailModal?.classList.add("hidden"));
+  pfDetailModal?.addEventListener("click", e => { if (e.target === pfDetailModal) pfDetailModal.classList.add("hidden"); });
+
+  const abrirPFDetail = (pf) => {
+    if (!pf || !pfDetailBody) return;
+    const monto   = Number(pf.monto);
+    const tna     = Number(pf.tna);
+    const dias    = Number(pf.dias);
+    const dT      = diasTranscurridos(pf.fecha_inicio);
+    const rend    = interes(monto, tna, dias); // ganancia estimada al vencimiento
+    const total   = monto + rend;
+
+    const fmtFecha = (str) => {
+      if (!str) return "—";
+      const [y, m, d] = str.slice(0, 10).split("-");
+      return new Date(+y, +m - 1, +d).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
+    };
+
+    pfDetailBody.innerHTML = `
+      <div class="pf-detail-hero">
+        <span class="pf-detail-hero-label">Monto Total Estimado al vencimiento</span>
+        <span class="pf-detail-hero-monto">${_fmtARS(total)}</span>
+      </div>
+      <div class="pf-detail-grid">
+        <div class="pf-detail-row"><span class="pf-detail-label">Monto depositado</span><span class="pf-detail-value">${_fmtARS(monto)}</span></div>
+        <div class="pf-detail-row"><span class="pf-detail-label">Tasa Nominal Anual (TNA)</span><span class="pf-detail-value">${(tna * 100).toFixed(1)}%</span></div>
+        <div class="pf-detail-row"><span class="pf-detail-label">Plazo seleccionado</span><span class="pf-detail-value">${dias} días</span></div>
+        <div class="pf-detail-row"><span class="pf-detail-label">Ganancia estimada</span><span class="pf-detail-value amount-positive">+${_fmtARS(rend)}</span></div>
+        <div class="pf-detail-row"><span class="pf-detail-label">Fecha de constitución</span><span class="pf-detail-value">${fmtFecha(pf.fecha_inicio)}</span></div>
+        <div class="pf-detail-row pf-detail-row--last"><span class="pf-detail-label">Fecha de vencimiento</span><span class="pf-detail-value">${fmtFecha(pf.fecha_vencimiento)}</span></div>
+      </div>
+      <div class="pf-detail-alert">
+        <i class="fas fa-info-circle pf-detail-alert-icon"></i>
+        Esta inversión finaliza automáticamente en la fecha de vencimiento y los fondos se acreditarán en tu cuenta. No permite rescate anticipado.
+      </div>`;
+    pfDetailModal?.classList.remove("hidden");
   };
 
   // ── Rescate genérico ──
