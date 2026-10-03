@@ -9,8 +9,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const data = await apiFetch("/auth/gastos-categoria");
       const categorias = (data.categorias || []).filter(c => c.monto > 0);
-      const ctx = document.getElementById("gastosChart")?.getContext("2d");
-      if (!ctx) return;
+      const canvas = document.getElementById("gastosChart");
+      if (!canvas) return;
+      const wrap = canvas.parentElement;
+
+      if (categorias.length === 0) {
+        if (gastosChart) { gastosChart.destroy(); gastosChart = null; }
+        canvas.style.display = "none";
+        let emp = wrap.querySelector(".gastos-empty");
+        if (!emp) {
+          emp = document.createElement("div");
+          emp.className = "gastos-empty";
+          emp.innerHTML = `<i class="fas fa-chart-pie"></i><p>Aún no tenés gastos registrados este mes</p>`;
+          wrap.appendChild(emp);
+        }
+        emp.style.display = "flex";
+        return;
+      }
+
+      // Hay datos: ocultar empty state y mostrar chart
+      const emp = wrap.querySelector(".gastos-empty");
+      if (emp) emp.style.display = "none";
+      canvas.style.display = "";
+
+      const ctx = canvas.getContext("2d");
       if (gastosChart) gastosChart.destroy();
       gastosChart = new Chart(ctx, {
         type: "doughnut",
