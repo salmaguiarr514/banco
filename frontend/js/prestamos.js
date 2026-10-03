@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cfs   = [-monto, ...rows.map(row => row.cuotaConIVA)];
     const totalIntereses = rows.reduce((s, row) => s + row.interes, 0);
     const totalIVA       = rows.reduce((s, row) => s + row.iva, 0);
-    const totalPagar     = rows.reduce((s, row) => s + row.cuotaConIVA, 0);
+    const totalPagar     = monto + Math.round(totalIntereses) + Math.round(totalIVA);
     const tea = Math.pow(1 + r, 12) - 1;
     const cft = Math.pow(1 + _irr(cfs), 12) - 1;
     return { cuota, totalIntereses, iva: totalIVA, totalPagar, tea, cft };
@@ -57,9 +57,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   function _fmtARS(n) { return "$" + Math.round(n).toLocaleString("es-AR"); }
   function _fmtPct(n) { return (n * 100).toFixed(2).replace(".", ",") + " %"; }
 
-  let _prestamoMonto  = 100000;
-  let _prestamoCuotas = 6;
+  let _prestamoMonto    = 100000;
+  let _prestamoCuotas   = 6;
   let _limitePreaprobado = P_MONTO_MAX;
+  let _prestamosActivos  = [];
 
   const prestamoSlider       = document.getElementById("prestamoSlider");
   const prestamoMontoInput   = document.getElementById("prestamoMontoInput");
@@ -164,12 +165,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function _actualizarLimite(saldoARS) {
-    // Solo actualizar si el saldo ya se cargó (evita pisar $5M por defecto con $100k en race condition)
     if (saldoARS > 0) {
-      _limitePreaprobado = Math.min(P_MONTO_MAX, Math.max(100000, saldoARS * 5));
-      if (prestamoSlider) prestamoSlider.max = _limitePreaprobado;
+      const baseLimit      = Math.min(P_MONTO_MAX, Math.max(100000, saldoARS * 5));
+      const capitalActivo  = _prestamosActivos.reduce((s, p) => s + Number(p.monto), 0);
+      _limitePreaprobado   = Math.max(0, baseLimit - capitalActivo);
+      if (prestamoSlider) {
+        prestamoSlider.max   = _limitePreaprobado;
+        prestamoSlider.value = Math.min(Number(prestamoSlider.value), _limitePreaprobado);
+      }
       if (pLimiteMax)  pLimiteMax.textContent  = _fmtARS(_limitePreaprobado);
       if (pLimiteInfo) pLimiteInfo.textContent = `Límite: ${_fmtARS(_limitePreaprobado)}`;
+      if (_limitePreaprobado === 0 && prestamoSolicitarBtn) {
+        prestamoSolicitarBtn.disabled = true;
+        if (pWarnLimite) {
+          pWarnLimite.classList.remove("hidden");
+          pWarnLimite.innerHTML = `<i class="fas fa-ban"></i> Límite crediticio agotado. Saldá un préstamo activo para solicitar uno nuevo.`;
+        }
+      }
     }
     _actualizarSimulador();
   }
@@ -538,6 +550,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const enMora  = lista.find(p => p.en_mora);
       _aplicarBloqueoPorMora(!!enMora, enMora);
       const activos = lista.filter(p => p.estado === "activo");
+      _prestamosActivos = activos;
       if (ptabBadge) {
         ptabBadge.textContent = activos.length || "";
         ptabBadge.classList.toggle("hidden", !activos.length);
