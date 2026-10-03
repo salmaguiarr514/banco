@@ -58,13 +58,18 @@
 .ptab:hover { color: var(--text); transform: none; }
 .ptab.active { color: var(--green); border-bottom-color: var(--green); }
 .ptab-badge {
-  background: #ef4444;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  background: var(--green);
   color: #fff;
   font-size: 0.65rem;
   font-weight: 800;
   border-radius: 999px;
-  padding: 1px 6px;
-  line-height: 1.4;
+  padding: 0 5px;
+  line-height: 1;
 }
 .ptab-panel { /* visible by default */ }
 .ptab-panel.hidden { display: none; }
