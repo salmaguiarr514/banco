@@ -98,6 +98,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
           <p class="reserva-detail-date"><i class="far fa-calendar-alt"></i> ${finalizado ? "Venció el" : "Vence el"} ${new Date(res.fecha_vencimiento).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}</p>
         </div>
+        <div class="reserva-modal-acciones">
+          <button class="btn-secondary reserva-accion-btn" id="reservaIngresarBtn"><i class="fas fa-plus-circle"></i> Ingresar más</button>
+          <button class="btn-danger reserva-accion-btn" id="reservaRescatarBtn"><i class="fas fa-hand-holding-usd"></i> Retirar reserva</button>
+        </div>
         ${historial.length > 0 ? `
         <div class="reserva-historial-wrap">
           <button class="reserva-historial-toggle" id="rvHistorialBtn" aria-expanded="false">
@@ -105,14 +109,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             <span>Historial de rendimientos (${historial.length} días)</span>
             <i class="fas fa-chevron-down reserva-historial-chevron"></i>
           </button>
-          <ul class="reserva-historial-list hidden" id="rvHistorialList">
+          <ul class="reserva-historial-list" id="rvHistorialList">
             ${historial.map(e => `<li class="reserva-historial-item"><span class="reserva-historial-fecha">${e.label}</span><span class="reserva-historial-ganancia amount-positive">+$${_fmt2(e.ganancia)}</span></li>`).join("")}
           </ul>
-        </div>` : ""}
-        <div class="reserva-modal-acciones">
-          <button class="btn-secondary reserva-accion-btn" id="reservaIngresarBtn"><i class="fas fa-plus-circle"></i> Ingresar más</button>
-          <button class="btn-danger reserva-accion-btn" id="reservaRescatarBtn"><i class="fas fa-hand-holding-usd"></i> Retirar reserva</button>
-        </div>`;
+        </div>` : ""}`;
 
       document.getElementById("rvHistorialBtn")?.addEventListener("click", () => {
         const list = document.getElementById("rvHistorialList");
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const open = btn.getAttribute("aria-expanded") === "true";
         btn.setAttribute("aria-expanded", String(!open));
         btn.querySelector(".reserva-historial-chevron")?.classList.toggle("rotated", !open);
-        list?.classList.toggle("hidden", open);
+        list?.classList.toggle("open", !open);
       });
 
       document.getElementById("reservaIngresarBtn")?.addEventListener("click", () => {

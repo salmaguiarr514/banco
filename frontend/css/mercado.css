@@ -174,51 +174,54 @@
   gap: 7px;
 }
 
-/* Historial colapsable */
-.reserva-historial-wrap { margin-top: 12px; border-top: 1px solid var(--border); }
+/* Historial colapsable — accordion minimalista */
+.reserva-historial-wrap {
+  margin-top: 24px;
+  border-top: 1px solid rgba(148,163,184,.12);
+  padding-top: 2px;
+}
 .reserva-historial-toggle {
   width: 100%;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 0;
+  padding: 10px 0;
   background: none;
   border: none;
-  color: var(--text-secondary);
-  font-size: 0.8rem;
+  color: var(--text-3);
+  font-size: 0.76rem;
   font-weight: 600;
+  letter-spacing: .02em;
   cursor: pointer;
   transition: color .15s;
 }
-.reserva-historial-toggle:hover { color: var(--text); }
+.reserva-historial-toggle:hover { color: var(--text-2); }
 .reserva-historial-toggle span  { flex: 1; text-align: left; }
-.reserva-historial-chevron { font-size: 0.75rem; transition: transform .25s; }
+.reserva-historial-chevron { font-size: 0.68rem; transition: transform .28s ease; }
 .reserva-historial-chevron.rotated { transform: rotate(180deg); }
 .reserva-historial-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
+  max-height: 0;
   overflow: hidden;
-  margin-bottom: 4px;
+  transition: max-height .32s ease;
 }
+.reserva-historial-list.open { max-height: 560px; }
 .reserva-historial-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 9px 14px;
-  border-bottom: 1px solid var(--border);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(148,163,184,.08);
   font-size: 0.8rem;
 }
 .reserva-historial-item:last-child { border-bottom: none; }
-.reserva-historial-fecha   { color: var(--text-secondary); }
+.reserva-historial-fecha   { color: var(--text-3); }
 .reserva-historial-ganancia { font-weight: 700; color: var(--green-2); }
 
-[data-theme="dark"] .reserva-item:hover     { background: rgba(16,185,129,0.07); }
-[data-theme="dark"] .reserva-detail-total   { background: rgba(16,185,129,0.1); }
-[data-theme="dark"] .reserva-historial-list { background: var(--navy-2); }
-[data-theme="dark"] .reserva-historial-item { border-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .reserva-item:hover   { background: rgba(16,185,129,0.07); }
+[data-theme="dark"] .reserva-detail-total { background: rgba(16,185,129,0.1); }
 .reserva-dias-group { display: flex; gap: 8px; margin-bottom: 2px; }
 .reserva-dia-btn { flex: 1; padding: 9px 0; border: 1.5px solid var(--border); border-radius: var(--r-sm); background: var(--bg); color: var(--text-2); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.18s; }
 .reserva-dia-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); }
