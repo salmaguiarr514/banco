@@ -343,13 +343,14 @@ const getGastosCategoria = async (req, res) => {
 
     const movimientos = movimientosResult.rows;
 
-    const categorias = { transporte: 0, comida: 0, recargas: 0, servicios: 0, otros: 0 };
+    const categorias = { inversiones: 0, transporte: 0, comida: 0, recargas: 0, servicios: 0, otros: 0 };
 
     const keywords = {
-      recargas:   ['recarga', 'movistar', 'personal claro', 'tuenti', 'celular'],
-      transporte: ['transporte', 'taxi', 'uber', 'combustible', 'nafta', 'gasolina', 'subte', 'colectivo', 'tren', 'peaje', 'estacionamiento'],
-      comida:     ['comida', 'restaurante', 'supermercado', 'almuerzo', 'cena', 'desayuno', 'kiosko', 'panaderia', 'carniceria', 'verduleria'],
-      servicios:  ['servicio', 'factura', 'electricidad', 'gas', 'agua', 'internet', 'telefono', 'seguro', 'alquiler'],
+      inversiones: ['plazo fijo', 'cauci', 'reserva creada', 'cedear'],
+      recargas:    ['recarga', 'movistar', 'personal claro', 'tuenti', 'celular'],
+      transporte:  ['transporte', 'taxi', 'uber', 'combustible', 'nafta', 'gasolina', 'subte', 'colectivo', 'tren', 'peaje', 'estacionamiento'],
+      comida:      ['comida', 'restaurante', 'supermercado', 'almuerzo', 'cena', 'desayuno', 'kiosko', 'panaderia', 'carniceria', 'verduleria'],
+      servicios:   ['servicio', 'factura', 'electricidad', 'gas', 'agua', 'internet', 'telefono', 'seguro', 'alquiler'],
     };
 
     movimientos.forEach(mov => {
@@ -364,11 +365,12 @@ const getGastosCategoria = async (req, res) => {
 
     return res.json({
       categorias: [
-        { nombre: "Recargas",   monto: categorias.recargas   },
-        { nombre: "Transporte", monto: categorias.transporte },
-        { nombre: "Comida",     monto: categorias.comida     },
-        { nombre: "Servicios",  monto: categorias.servicios  },
-        { nombre: "Otros",      monto: categorias.otros      },
+        { nombre: "Inversiones", monto: categorias.inversiones },
+        { nombre: "Recargas",    monto: categorias.recargas    },
+        { nombre: "Transporte",  monto: categorias.transporte  },
+        { nombre: "Comida",      monto: categorias.comida      },
+        { nombre: "Servicios",   monto: categorias.servicios   },
+        { nombre: "Otros",       monto: categorias.otros       },
       ],
       total: Object.values(categorias).reduce((a, b) => a + b, 0)
     });

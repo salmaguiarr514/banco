@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!saldoOculto) animarSaldo(ant, resp.nuevoSaldo); else actualizarDisplaySaldo();
       }
       await cargarPFs();
-      actualizarPatrimonio();
+      await actualizarPatrimonio();
       await loadSaldo?.();
       if (loadMovimientosBtn) loadMovimientosBtn.click();
     } catch (err) {
@@ -115,7 +115,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const dT    = diasTranscurridos(pf.fecha_inicio);
         const rend  = interes(monto, tna, dT);
         const total = monto + rend;
-        const venc  = new Date(pf.fecha_vencimiento).toLocaleDateString("es-AR");
+        const [vy, vm, vd] = (pf.fecha_vencimiento || "").slice(0, 10).split("-");
+        const venc = new Date(+vy, +vm - 1, +vd).toLocaleDateString("es-AR");
         return `
           <li class="inv-inversion-item">
             <div class="inv-inversion-left">
@@ -125,12 +126,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="inv-inversion-right">
               <span class="inv-inversion-monto">${_fmtARS(total)}</span>
               <span class="inv-inversion-rend">+${_fmtARS(rend)} acumulado</span>
-              <button class="inv-rescatar-btn" data-id="${pf.id}" data-tipo="pf">Rescatar</button>
+              <button class="inv-rescatar-btn inv-detalle-btn" data-id="${pf.id}" data-tipo="pf" data-venc="${venc}">Detalles</button>
             </div>
           </li>`;
       }).join("");
       list.querySelectorAll(".inv-rescatar-btn[data-tipo='pf']").forEach(btn => {
-        btn.addEventListener("click", () => rescatar("pf", btn.dataset.id, btn));
+        btn.addEventListener("click", () => showToast(`El plazo fijo vence el ${btn.dataset.venc}. No se permite rescate anticipado.`, 4000, "info"));
       });
     } catch { list.innerHTML = `<li class="inv-empty">Error al cargar</li>`; }
   };
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!saldoOculto) animarSaldo(ant, resp.nuevoSaldo); else actualizarDisplaySaldo();
       }
       await cargarCauciones();
-      actualizarPatrimonio();
+      await actualizarPatrimonio();
       await loadSaldo?.();
       if (loadMovimientosBtn) loadMovimientosBtn.click();
     } catch (err) {
@@ -208,7 +209,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const tna   = Number(c.tna);
         const dT    = diasTranscurridos(c.fecha_inicio);
         const rend  = interes(monto, tna, dT);
-        const venc  = new Date(c.fecha_vencimiento).toLocaleDateString("es-AR");
+        const [cy, cm, cd] = (c.fecha_vencimiento || "").slice(0, 10).split("-");
+        const venc = new Date(+cy, +cm - 1, +cd).toLocaleDateString("es-AR");
         return `
           <li class="inv-inversion-item">
             <div class="inv-inversion-left">

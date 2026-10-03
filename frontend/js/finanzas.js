@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           labels: categorias.map(c => c.nombre),
           datasets: [{
             data: categorias.map(c => c.monto),
-            backgroundColor: ["#10B981","#3B82F6","#F59E0B","#EF4444","#8B5CF6","#EC4899"],
+            backgroundColor: ["#6366F1","#10B981","#3B82F6","#F59E0B","#EF4444","#8B5CF6"],
             borderWidth: 2,
             borderColor: "transparent"
           }]
@@ -63,6 +63,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadGastosBtn.addEventListener("animationend", () => loadGastosBtn.classList.remove("is-spinning"), { once: true });
     btnLoad(loadGastosBtn, true);
     cargarGastos().finally(() => btnLoad(loadGastosBtn, false));
+  });
+
+  // Refrescar gastos al navegar a la sección Finanzas
+  document.querySelector('[data-section="finanzas"]')?.addEventListener("click", () => {
+    if (session) cargarGastos();
   });
 
   // ── Tabs ARS / USD ──
