@@ -27,40 +27,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     return x;
   }
-  function _calcPrestamo(monto, cuotas) {
-    const r    = PRESTAMO_TNA / 12;
-    const cuota = _pmt(monto, cuotas);
-    const cfs  = [-monto];
-    let saldo  = monto;
-    let totalIntereses = 0, totalIVA = 0;
-    for (let i = 1; i <= cuotas; i++) {
-      const interes = saldo * r;
-      const capital = cuota - interes;
-      const iva_k   = interes * PRESTAMO_IVA;
-      cfs.push(cuota + iva_k);
-      totalIntereses += interes;
-      totalIVA       += iva_k;
-      saldo = Math.max(0, saldo - capital);
-    }
-    const totalPagar = monto + totalIntereses + totalIVA;
-    const tea = Math.pow(1 + r, 12) - 1;
-    const cft = Math.pow(1 + _irr(cfs), 12) - 1;
-    return { cuota, totalIntereses, iva: totalIVA, totalPagar, tea, cft };
-  }
   function _tablaAmortizacion(monto, cuotas) {
-    const r = PRESTAMO_TNA / 12;
+    const r     = PRESTAMO_TNA / 12;
     const cuota = _pmt(monto, cuotas);
-    let saldo = monto;
-    const rows = [];
+    let saldo   = monto;
+    const rows  = [];
     for (let i = 1; i <= cuotas; i++) {
-      const interes    = saldo * r;
-      const capital    = cuota - interes;
-      const iva        = interes * PRESTAMO_IVA;
-      const cuotaConIVA = cuota + iva;
+      const interes     = saldo * r;
+      const capital     = cuota - interes;
+      const iva         = interes * PRESTAMO_IVA;
+      const cuotaConIVA = Math.round(cuota + iva);
       saldo = Math.max(0, saldo - capital);
       rows.push({ n: i, capital, interes, iva, cuotaConIVA, saldo });
     }
     return rows;
+  }
+  function _calcPrestamo(monto, cuotas) {
+    const r     = PRESTAMO_TNA / 12;
+    const cuota = _pmt(monto, cuotas);
+    const rows  = _tablaAmortizacion(monto, cuotas);
+    const cfs   = [-monto, ...rows.map(row => row.cuotaConIVA)];
+    const totalIntereses = rows.reduce((s, row) => s + row.interes, 0);
+    const totalIVA       = rows.reduce((s, row) => s + row.iva, 0);
+    const totalPagar     = rows.reduce((s, row) => s + row.cuotaConIVA, 0);
+    const tea = Math.pow(1 + r, 12) - 1;
+    const cft = Math.pow(1 + _irr(cfs), 12) - 1;
+    return { cuota, totalIntereses, iva: totalIVA, totalPagar, tea, cft };
   }
   function _fmtARS(n) { return "$" + Math.round(n).toLocaleString("es-AR"); }
   function _fmtPct(n) { return (n * 100).toFixed(2).replace(".", ",") + " %"; }
@@ -432,7 +424,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <i class="fas fa-bolt"></i> Débito automático activado desde tu cuenta en pesos
           </div>
           <div class="prestamo-acciones" style="margin-top:0;">
-            <button class="btn-primary${diasVenc !== null && diasVenc <= 0 ? ' pagar-cuota-urgente' : ''} pagar-cuota-btn" data-id="${p.id}" style="flex:1">
+            <button class="btn-primary${diasVenc !== null && diasVenc <= 0 ? ' pagar-cuota-urgente' : ''} pagar-cuota-btn" data-id="${p.id}" data-cuota="${p.cuota_mensual}" style="flex:1">
               <i class="fas fa-${diasVenc !== null && diasVenc <= 0 ? 'exclamation-circle' : 'clock'}"></i> ${diasVenc !== null && diasVenc <= 0 ? `Pagar cuota vencida (${_fmtARS(p.cuota_mensual)})` : `Adelantar pago de cuota (${_fmtARS(p.cuota_mensual)})`}
             </button>
             <button class="btn-secondary descargar-resumen-btn" data-id="${p.id}" title="Descargar resumen">
@@ -475,7 +467,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     misPrestamosContent.querySelectorAll(".pagar-cuota-btn").forEach(btn => {
       btn.addEventListener("click", async () => {
-        const id = btn.dataset.id;
+        const id       = btn.dataset.id;
+        const cuotaAmt = Number(btn.dataset.cuota) || 0;
+        if (cuotaAmt > 0 && (saldoActual || 0) < cuotaAmt) {
+          showToast("Saldo insuficiente en tu cuenta para pagar la cuota", 4000, "error");
+          return;
+        }
         btn.disabled = true; btn.textContent = "Procesando…";
         try {
           const r = await apiFetch(`/prestamos/${id}/pagar-cuota`, { method: "POST" });

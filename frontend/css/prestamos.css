@@ -338,7 +338,7 @@
 .prestamo-accordion-btn span { flex: 1; text-align: left; }
 .prestamo-acc-icon { transition: transform .25s; }
 .prestamo-accordion-btn[aria-expanded="true"] .prestamo-acc-icon { transform: rotate(180deg); }
-.prestamo-tabla-wrap { overflow: hidden; }
+.prestamo-tabla-wrap { overflow: visible; }
 .prestamo-tabla-scroll { overflow-x: auto; margin-bottom: 12px; margin-top: 8px; }
 .prestamo-tabla {
   width: 100%;
