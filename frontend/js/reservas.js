@@ -67,7 +67,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const fecha = new Date(hoy);
       fecha.setDate(fecha.getDate() - i);
       return {
-        label:   i === 0 ? "Hoy" : fecha.toLocaleDateString("es-AR", { day: "2-digit", month: "short" }),
+        label:   i === 0 ? `Hoy, ${fecha.toLocaleDateString("es-AR", { day: "numeric", month: "short" })}`
+               : i === 1 ? `Ayer, ${fecha.toLocaleDateString("es-AR", { day: "numeric", month: "short" })}`
+               : fecha.toLocaleDateString("es-AR", { day: "2-digit", month: "short" }),
         ganancia: _gananciaEnDia(monto, diaDesdeInicio),
       };
     });

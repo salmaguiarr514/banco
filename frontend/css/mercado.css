@@ -174,35 +174,36 @@
   gap: 7px;
 }
 
-/* Historial colapsable — accordion minimalista */
+/* Historial colapsable — accordion plano/transparente */
 .reserva-historial-wrap {
-  margin-top: 24px;
-  border-top: 1px solid rgba(148,163,184,.12);
-  padding-top: 2px;
+  margin-top: 20px;
+  border-top: 1px solid rgba(148,163,184,.10);
+  padding-top: 0;
 }
 .reserva-historial-toggle {
   width: 100%;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 0;
-  background: none;
+  padding: 11px 0;
+  background: transparent;
   border: none;
   color: var(--text-3);
   font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: .02em;
+  font-weight: 500;
+  letter-spacing: .01em;
   cursor: pointer;
-  transition: color .15s;
+  opacity: 0.65;
+  transition: opacity .18s;
 }
-.reserva-historial-toggle:hover { color: var(--text-2); }
+.reserva-historial-toggle:hover { opacity: 1; }
 .reserva-historial-toggle span  { flex: 1; text-align: left; }
-.reserva-historial-chevron { font-size: 0.68rem; transition: transform .28s ease; }
+.reserva-historial-chevron { font-size: 0.65rem; transition: transform .28s ease; flex-shrink: 0; }
 .reserva-historial-chevron.rotated { transform: rotate(180deg); }
 .reserva-historial-list {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 4px;
   max-height: 0;
   overflow: hidden;
   transition: max-height .32s ease;
@@ -212,13 +213,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(148,163,184,.08);
-  font-size: 0.8rem;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(30,41,59,.6);
+  font-size: 0.82rem;
 }
 .reserva-historial-item:last-child { border-bottom: none; }
-.reserva-historial-fecha   { color: var(--text-3); }
-.reserva-historial-ganancia { font-weight: 700; color: var(--green-2); }
+.reserva-historial-fecha   { color: rgba(148,163,184,.75); font-weight: 400; }
+.reserva-historial-ganancia { font-weight: 700; color: #10b981; }
 
 [data-theme="dark"] .reserva-item:hover   { background: rgba(16,185,129,0.07); }
 [data-theme="dark"] .reserva-detail-total { background: rgba(16,185,129,0.1); }
