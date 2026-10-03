@@ -113,10 +113,7 @@
 
           <!-- Progreso de perfil -->
           <div class="udrop-progress">
-            <div class="udrop-progress-row">
-              <span class="udrop-progress-text"><strong id="udropPct">—</strong> completado</span>
-              <button id="udropCompletarBtn" class="udrop-completar-link">Completar &rsaquo;</button>
-            </div>
+            <span class="udrop-progress-text">Perfil <strong id="udropPct">—</strong> completado</span>
             <div class="udrop-progress-track">
               <div class="udrop-progress-fill" id="udropFill"></div>
             </div>
@@ -1320,13 +1317,25 @@
     <div class="transfer-modal-card" style="max-width:400px;">
       <div class="transfer-modal-header">
         <h2 class="transfer-modal-title">Editar Perfil</h2>
-        <button id="cancelPerfilBtn" class="modal-close-btn"><i class="fas fa-times"></i></button>
+        <button id="cancelPerfilBtn" class="modal-close-btn modal-close-btn--centered"><i class="fas fa-times"></i></button>
       </div>
       <form id="perfilForm" class="styled-form">
-        <input type="text" id="perfilNombre"    placeholder="Nombre">
-        <input type="text" id="perfilApellido"  placeholder="Apellido">
-        <input type="text" id="perfilTelefono"  placeholder="Teléfono">
-        <input type="text" id="perfilDireccion" placeholder="Dirección">
+        <div class="form-field">
+          <label for="perfilNombre" class="form-label">Nombre</label>
+          <input type="text" id="perfilNombre" class="form-input-labeled" placeholder="Tu nombre">
+        </div>
+        <div class="form-field">
+          <label for="perfilApellido" class="form-label">Apellido</label>
+          <input type="text" id="perfilApellido" class="form-input-labeled" placeholder="Tu apellido">
+        </div>
+        <div class="form-field">
+          <label for="perfilTelefono" class="form-label">Teléfono</label>
+          <input type="text" id="perfilTelefono" class="form-input-labeled" placeholder="Ej: +54 9 11 1234 5678">
+        </div>
+        <div class="form-field">
+          <label for="perfilDireccion" class="form-label">Dirección</label>
+          <input type="text" id="perfilDireccion" class="form-input-labeled" placeholder="Tu dirección">
+        </div>
         <button type="submit" class="btn-primary">Guardar</button>
       </form>
     </div>

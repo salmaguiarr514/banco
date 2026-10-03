@@ -13,27 +13,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const perfilModal       = document.getElementById("perfilModal");
   const passwordModal     = document.getElementById("passwordModal");
 
-  // Cargar datos del perfil
-  if (loadPerfilBtn) {
-    loadPerfilBtn.addEventListener("click", async () => {
-      try {
-        const user     = JSON.parse(localStorage.getItem("user") || "{}");
-        const cuentas  = await apiFetch("/cuentas/saldo");
-        const cuenta   = cuentas[0] || {};
-        const perfilData = document.getElementById("perfilData");
-        if (perfilData) {
-          perfilData.innerHTML = `
-            <div class="profile-card">
-              <div class="info-row"><span class="label">Nombre completo</span><span class="value">${user.nombre || ""} ${user.apellido || ""}</span></div>
-              <div class="info-row"><span class="label">Email</span><span class="value">${user.email || ""}</span></div>
-            </div>`;
-        }
-        editAliasBtn?.classList.remove("hidden");
-        editPerfilBtn?.classList.remove("hidden");
-        changePasswordBtn?.classList.remove("hidden");
-      } catch {}
-    });
-  }
+  const openPerfilModal = () => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const el = id => document.getElementById(id);
+    if (el("perfilNombre"))    el("perfilNombre").value    = user.nombre    || "";
+    if (el("perfilApellido"))  el("perfilApellido").value  = user.apellido  || "";
+    if (el("perfilTelefono"))  el("perfilTelefono").value  = user.telefono  || "";
+    if (el("perfilDireccion")) el("perfilDireccion").value = user.direccion || "";
+    perfilModal?.classList.remove("hidden");
+  };
+
+  // Cargar datos del perfil — ahora abre el modal directamente
+  loadPerfilBtn?.addEventListener("click", openPerfilModal);
+  editPerfilBtn?.addEventListener("click", openPerfilModal);
 
   // Modal alias
   editAliasBtn?.addEventListener("click", () => aliasModal?.classList.remove("hidden"));
@@ -41,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
   aliasModal?.addEventListener("click", e => { if (e.target === aliasModal) aliasModal.classList.add("hidden"); });
 
   // Modal perfil
-  editPerfilBtn?.addEventListener("click",  () => perfilModal?.classList.remove("hidden"));
   cancelPerfilBtn?.addEventListener("click", () => perfilModal?.classList.add("hidden"));
   perfilModal?.addEventListener("click", e => { if (e.target === perfilModal) perfilModal.classList.add("hidden"); });
 
