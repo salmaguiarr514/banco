@@ -721,10 +721,18 @@
   padding: 32px;
   box-shadow: 0 24px 80px rgba(11,17,32,0.28);
   max-height: 90vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   scrollbar-width: thin;
   scrollbar-color: #475569 transparent;
 }
+.prestamo-confirm-detalles {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.prestamo-tyc-label { flex-shrink: 0; margin-top: 14px; }
+.modal-actions      { flex-shrink: 0; }
 .modal-box::-webkit-scrollbar       { width: 4px; }
 .modal-box::-webkit-scrollbar-track { background: transparent; }
 .modal-box::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
