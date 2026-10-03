@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="inv-inversion-right">
               <span class="inv-inversion-monto">${_fmtARS(total)}</span>
               <span class="inv-inversion-rend">+${_fmtARS(rend)} acumulado</span>
-              <button class="inv-rescatar-btn inv-detalle-btn" data-id="${pf.id}" data-tipo="pf" data-venc="${venc}">Detalles</button>
+              <button class="inv-detalle-btn" data-id="${pf.id}" data-tipo="pf" data-venc="${venc}">Ver detalle</button>
             </div>
           </li>`;
       }).join("");

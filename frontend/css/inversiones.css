@@ -476,3 +476,17 @@
   flex-shrink: 0;
   margin-top: 1px;
 }
+
+/* Botón Ver detalle — plazo fijo */
+.inv-detalle-btn {
+  font-size: .72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border: 1px solid rgba(148,163,184,.2);
+  border-radius: 6px;
+  background: rgba(148,163,184,.07);
+  color: var(--text-3);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.inv-detalle-btn:hover { background: rgba(16,185,129,.09); border-color: rgba(16,185,129,.35); color: var(--green); opacity: 1; transform: none; }
