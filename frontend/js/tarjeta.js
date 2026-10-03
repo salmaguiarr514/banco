@@ -1,4 +1,4 @@
-?const cargarTarjeta = async () => {
+const cargarTarjeta = async () => {
   try {
     const data = await apiFetch('/cards');
     const cards = data.cards || [];

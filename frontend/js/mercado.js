@@ -1,4 +1,4 @@
-?// ── Mercado (cotizaciones integradas en la tarjeta USD) ──
+// ── Mercado (cotizaciones integradas en la tarjeta USD) ──
 const fmt = (n) => n != null ? `$${Number(n).toLocaleString('es-AR')}` : '—';
 
 let _dolares = [];

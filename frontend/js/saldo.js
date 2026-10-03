@@ -1,4 +1,4 @@
-?const getCuentaLabel = (cuenta) => cuenta.nombre_cuenta || `Cuenta ${cuenta.id || cuenta.numero_cuenta || ""}`.trim();
+const getCuentaLabel = (cuenta) => cuenta.nombre_cuenta || `Cuenta ${cuenta.id || cuenta.numero_cuenta || ""}`.trim();
 
 const getCuentaCbu = (cuenta) => cuenta.cbu || cuenta.CBU || "No disponible";
 

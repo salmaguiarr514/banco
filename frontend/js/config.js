@@ -1,4 +1,4 @@
-?const API_URL = "/api";
+const API_URL = "/api";
 
 // ── Tema claro / oscuro ──
 const THEME_KEY = 'nodo_theme';

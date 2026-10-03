@@ -1,4 +1,4 @@
-?const apiFetch = async (endpoint, options = {}) => {
+const apiFetch = async (endpoint, options = {}) => {
   const { data: { session } } = await _supabase.auth.getSession();
 
   const headers = {
