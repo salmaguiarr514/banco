@@ -58,14 +58,14 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--text);
 }
 
 .operation-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--text);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -353,7 +353,7 @@
   margin: 12px 0 4px;
 }
 
-#receiptAmount { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; color: var(--navy); }
+#receiptAmount { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; color: var(--text); }
 .receipt-body  { text-align: left; }
 .receipt-date  { font-size: 0.78rem; color: var(--text-2); text-align: center; margin-bottom: 20px; }
 .receipt-section { margin-bottom: 16px; }
@@ -369,7 +369,7 @@
 .btn-receipt-action {
   flex: 1;
   background: var(--bg);
-  color: var(--navy);
+  color: var(--text);
   border: 1.5px solid var(--border);
   padding: 11px;
   font-size: 0.84rem;
@@ -401,7 +401,7 @@ button:active { transform: translateY(0); }
   justify-content: center;
   gap: 7px;
   background: var(--green);
-  color: var(--navy);
+  color: #fff;
   border-radius: var(--r-sm);
   padding: 13px;
   font-size: 0.92rem;

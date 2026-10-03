@@ -1,0 +1,49 @@
+{
+  "name": "NODO Homebanking",
+  "short_name": "NODO",
+  "description": "Tu homebanking digital. El nodo de tu crecimiento.",
+  "start_url": "/dashboard.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1120",
+  "theme_color": "#10B981",
+  "lang": "es",
+  "categories": ["finance"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Transferir",
+      "short_name": "Transferir",
+      "description": "Realizar una transferencia",
+      "url": "/dashboard.html#transferencias",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Inversiones",
+      "short_name": "Invertir",
+      "description": "Ver mis inversiones",
+      "url": "/dashboard.html#inversiones",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

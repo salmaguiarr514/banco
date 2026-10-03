@@ -111,14 +111,18 @@ const renderUSDAccount = (cuenta) => {
     const aliasEl = document.getElementById('usdDisplayAlias');
     if (cbuEl)   cbuEl.textContent   = cuenta.cbu   || '—';
     if (aliasEl) aliasEl.textContent = cuenta.alias || '—';
-    // botones compra/venta
-    document.getElementById('btnComprarUSD')?.addEventListener('click', () => abrirConvertModal('ARS','USD'));
-    document.getElementById('btnVenderUSD')?.addEventListener('click',  () => abrirConvertModal('USD','ARS'));
-    document.getElementById('btnTransferirUSD')?.addEventListener('click', abrirTransferirUSD);
+    // botones compra/venta — onclick evita listeners duplicados al llamar loadSaldo() varias veces
+    const btnComprar     = document.getElementById('btnComprarUSD');
+    const btnVender      = document.getElementById('btnVenderUSD');
+    const btnTransferUSD = document.getElementById('btnTransferirUSD');
+    if (btnComprar)     btnComprar.onclick     = () => abrirConvertModal('ARS','USD');
+    if (btnVender)      btnVender.onclick      = () => abrirConvertModal('USD','ARS');
+    if (btnTransferUSD) btnTransferUSD.onclick = abrirTransferirUSD;
   } else {
     sinEl.classList.remove('hidden');
     conEl.classList.add('hidden');
-    document.getElementById('btnAbrirUSD')?.addEventListener('click', handleAbrirUSD);
+    const btnAbrir = document.getElementById('btnAbrirUSD');
+    if (btnAbrir) btnAbrir.onclick = handleAbrirUSD;
   }
   renderCotizacionesUSD();
 };

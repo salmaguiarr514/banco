@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await apiFetch("/auth/perfil", {
           method: "PUT",
           body: JSON.stringify({
-            alias:     document.getElementById("perfilAlias")?.value    || undefined,
             nombre:    document.getElementById("perfilNombre")?.value   || undefined,
             apellido:  document.getElementById("perfilApellido")?.value || undefined,
             telefono:  document.getElementById("perfilTelefono")?.value || undefined,

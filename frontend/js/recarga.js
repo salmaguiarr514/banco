@@ -1433,7 +1433,7 @@ const SEGURIDAD_STORAGE_KEY = "nodo_seguridad_config";
 const construirConfigSeguridadBase = () => ({
   twoFactorEnabled: false,
   twoFactorMethod: "sms",
-  currentPassword: "Nodo2024!",
+  currentPassword: "",
   questions: [
     { question: "Nombre de tu primera mascota", answer: "Luna" },
     { question: "Ciudad de nacimiento", answer: "Buenos Aires" }
@@ -1994,6 +1994,5 @@ document.addEventListener("DOMContentLoaded", () => {
     localMovs.forEach(mov => insertarMovimientoEnDOM(mov));
   } catch {}
 
-  inicializarReportes();
 });
 

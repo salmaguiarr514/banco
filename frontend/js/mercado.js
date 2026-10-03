@@ -50,7 +50,7 @@ const renderCotizacionesUSD = () => {
 
   el.innerHTML = `
     <div class="cotiz-widget-hdr">
-      <span class="cotiz-widget-title">Cotizaci�n USD</span>
+      <span class="cotiz-widget-title">Cotización USD</span>
       ${ts ? `<span class="cotiz-ts">Act. ${ts}</span>` : ''}
     </div>
     <div class="cotiz-grid">
@@ -64,7 +64,7 @@ const renderCotizacionesUSD = () => {
     const eq = document.getElementById('usdEquivalente');
     if (eq) {
       const saldo = parseFloat(eq.dataset.saldo || '0');
-      eq.textContent = saldo > 0 ? `� ${fmt(saldo * blue.venta)} ARS (blue)` : '';
+      eq.textContent = saldo > 0 ? `≈ ${fmt(saldo * blue.venta)} ARS (blue)` : '';
     }
   }
 };
@@ -105,10 +105,10 @@ const abrirConvertModal = (de, a) => {
   const tasa = de === 'ARS' ? blue?.venta : blue?.compra;
   const esCompra = de === 'ARS';
 
-  title.textContent  = esCompra ? 'Comprar d�lares' : 'Vender d�lares';
+  title.textContent  = esCompra ? 'Comprar dólares' : 'Vender dólares';
   badge.textContent  = esCompra
-    ? `Tasa blue venta � ${fmt(tasa)}`
-    : `Tasa blue compra � ${fmt(tasa)}`;
+    ? `Tasa blue venta · ${fmt(tasa)}`
+    : `Tasa blue compra · ${fmt(tasa)}`;
   prefix.textContent = esCompra ? '$' : 'U$D';
   suffix.textContent = esCompra ? 'ARS' : 'USD';
   input.value = '';

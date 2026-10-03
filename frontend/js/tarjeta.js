@@ -101,7 +101,7 @@ const cargarHistorialTarjeta = async (cardId) => {
         </div>
         <div class="ctx-tx-info">
           <span class="ctx-tx-desc">${tx.merchant_name}${badge}</span>
-          <span class="ctx-tx-meta">${fecha} � Auth: ${tx.authorization_code}</span>
+          <span class="ctx-tx-meta">${fecha} · Auth: ${tx.authorization_code}</span>
         </div>
         <span class="movement-amount" style="color:${amtColor};font-variant-numeric:tabular-nums">${sign}$${Number(tx.amount).toLocaleString('es-AR')}</span>
       </li>`;

@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
           </li>`;
       }).join("");
-      list.querySelectorAll(".inv-rescatar-btn[data-tipo='pf']").forEach(btn => {
+      list.querySelectorAll(".inv-detalle-btn[data-tipo='pf']").forEach(btn => {
         const pfData = pfs.find(p => String(p.id) === btn.dataset.id);
         btn.addEventListener("click", () => abrirPFDetail(pfData));
       });
