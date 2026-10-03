@@ -595,11 +595,12 @@
   flex: 1; position: relative;
 }
 .actividad-search-icon {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  font-size: .75rem; color: var(--text-3); pointer-events: none;
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  font-size: .8rem; color: var(--text-3); pointer-events: none;
+  z-index: 1;
 }
 .actividad-search {
-  width: 100%; padding: 8px 12px 8px 36px;
+  width: 100%; padding: 8px 12px 8px 40px;
   border-radius: 8px;
   background: var(--bg);
   border: 1px solid var(--border);
