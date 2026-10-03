@@ -59,6 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (session) cargarGastos();
 
   loadGastosBtn?.addEventListener("click", () => {
+    loadGastosBtn.classList.add("is-spinning");
+    loadGastosBtn.addEventListener("animationend", () => loadGastosBtn.classList.remove("is-spinning"), { once: true });
     btnLoad(loadGastosBtn, true);
     cargarGastos().finally(() => btnLoad(loadGastosBtn, false));
   });

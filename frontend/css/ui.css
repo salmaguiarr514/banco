@@ -769,3 +769,42 @@
 }
 .gastos-empty i { font-size: 2.2rem; color: var(--border); }
 .gastos-empty p { font-size: 0.85rem; color: var(--text-3); margin: 0; }
+
+/* ── Ghost button "+ Nueva" en card-header ──────────────────────────────────── */
+.btn-ghost-green {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s;
+}
+.btn-ghost-green:hover { background: rgba(16,185,129,.1); opacity: 1; transform: none; }
+
+/* ── Botón ícono refresh en card-header ─────────────────────────────────────── */
+.btn-icon-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: rgba(148,163,184,.5);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: color .2s, background .2s;
+}
+.btn-icon-refresh:hover { color: var(--green); background: rgba(16,185,129,.08); opacity: 1; transform: none; }
+.btn-icon-refresh i { transition: transform .5s ease; display: block; }
+.btn-icon-refresh:hover i { transform: rotate(180deg); }
+.btn-icon-refresh.is-spinning i { animation: refresh-spin .55s ease; }
+@keyframes refresh-spin { to { transform: rotate(360deg); } }
