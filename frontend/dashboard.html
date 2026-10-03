@@ -1147,18 +1147,18 @@
             <span class="card-data-value" id="cardDataLimit">—</span>
           </div>
         </div>
-        <!-- Dar de baja (acción destructiva, relegada al panel de datos) -->
-        <div class="card-data-baja-wrap">
-          <button id="cancelarTarjetaBtn" class="card-data-baja-btn">
-            <i class="fas fa-times-circle"></i> Dar de baja tarjeta
-          </button>
-        </div>
-        <div id="cancelCardConfirm" class="cancel-card-confirm hidden">
-          <p><i class="fas fa-exclamation-triangle"></i> ¿Seguro que querés dar de baja la tarjeta? Esta acción no se puede deshacer.</p>
-          <div class="cancel-card-confirm-btns">
-            <button id="cancelCardConfirmYes" class="btn-primary" style="background:#ef4444;flex:1;">Sí, dar de baja</button>
-            <button id="cancelCardConfirmNo" class="btn-logout" style="flex:1;">No, volver</button>
-          </div>
+      </div>
+      <!-- Dar de baja (acción destructiva, fuera del panel) -->
+      <div class="card-data-baja-wrap">
+        <button id="cancelarTarjetaBtn" class="card-data-baja-btn">
+          <i class="fas fa-trash-alt"></i> Dar de baja tarjeta
+        </button>
+      </div>
+      <div id="cancelCardConfirm" class="cancel-card-confirm hidden">
+        <p><i class="fas fa-exclamation-triangle"></i> ¿Seguro que querés dar de baja la tarjeta? Esta acción no se puede deshacer.</p>
+        <div class="cancel-card-confirm-btns">
+          <button id="cancelCardConfirmYes" class="btn-primary" style="background:#ef4444;flex:1;">Sí, dar de baja</button>
+          <button id="cancelCardConfirmNo" class="btn-logout" style="flex:1;">No, volver</button>
         </div>
       </div>
 
@@ -1182,10 +1182,10 @@
         <button id="closeCardPayModal" class="modal-close-btn"><i class="fas fa-times"></i></button>
       </div>
 
-      <!-- Tabs -->
-      <div class="tabs" style="margin-bottom:18px;">
-        <button class="tab active" data-pay-tab="merchant">Comercio</button>
-        <button class="tab" data-pay-tab="person">Persona / Alias</button>
+      <!-- Toggle tabs -->
+      <div class="pay-tab-toggle">
+        <button class="pay-tab-btn active" data-pay-tab="merchant">Comercio</button>
+        <button class="pay-tab-btn" data-pay-tab="person">Persona / Alias</button>
       </div>
 
       <form id="cardPayForm" class="styled-form">
@@ -1209,7 +1209,10 @@
           <div id="payAliasPreview" class="receptor-info-msg"></div>
         </div>
 
-        <input type="text" inputmode="numeric" id="payAmount" placeholder="$ Monto" required>
+        <div class="pay-amount-wrap">
+          <span class="pay-amount-prefix">$</span>
+          <input type="text" inputmode="numeric" id="payAmount" class="pay-amount-input" placeholder="Monto" required>
+        </div>
         <button type="submit" class="btn-primary">Confirmar pago</button>
       </form>
     </div>

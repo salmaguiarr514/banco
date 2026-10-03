@@ -54,7 +54,7 @@ const renderTarjeta = () => {
     const mm = String(tarjetaActiva.expiry_month).padStart(2, '0');
     expiryD.textContent = `${mm}/${tarjetaActiva.expiry_year}`;
   }
-  if (limitEl) limitEl.textContent = `$${Number(tarjetaActiva.daily_limit).toLocaleString('es-AR')} / d�a`;
+  if (limitEl) limitEl.textContent = `$${Number(tarjetaActiva.daily_limit).toLocaleString('es-AR')} / día`;
 
   // CVV — siempre empieza oculto
   const cvvEl = document.getElementById('cardDataCvv');
@@ -82,7 +82,7 @@ const cargarHistorialTarjeta = async (cardId) => {
     if (!list) return;
     const txs = data.transactions || [];
     if (txs.length === 0) {
-      list.innerHTML = '<li class="list-empty">Sin movimientos con tarjeta todav�a</li>';
+      list.innerHTML = '<li class="list-empty">Sin movimientos con tarjeta todavía</li>';
       return;
     }
     list.innerHTML = txs.map(tx => {

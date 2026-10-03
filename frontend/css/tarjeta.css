@@ -162,26 +162,73 @@
 .btn-card-cancel { border-color: rgba(239,68,68,0.4); color: #ef4444; background: rgba(239,68,68,0.06); }
 .btn-card-cancel:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
 
-/* "Dar de baja" â€” relegado al panel de datos */
+/* “Dar de baja” — botón discreto debajo del panel */
 .card-data-baja-wrap {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--border);
-  text-align: right;
+  margin-top: 10px;
+  text-align: center;
 }
 .card-data-baja-btn {
   background: none;
   border: none;
-  color: var(--text-secondary);
-  font-size: 0.78rem;
+  color: var(--text-3);
+  font-size: 0.75rem;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 6px 10px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  transition: color .15s;
+  gap: 5px;
+  border-radius: 6px;
+  transition: color .15s, background .15s;
 }
-.card-data-baja-btn:hover { color: #ef4444; }
+.card-data-baja-btn:hover { color: #ef4444; background: rgba(239,68,68,.07); }
+
+/* Toggle tabs del modal de pago */
+.pay-tab-toggle {
+  display: flex;
+  background: rgba(15,23,42,.6);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 18px;
+  border: 1px solid var(--border);
+}
+.pay-tab-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 7px;
+  font-size: .83rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-2);
+  transition: background .18s, color .18s;
+}
+.pay-tab-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+}
+
+/* Input monto con prefijo $ */
+.pay-amount-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.pay-amount-prefix {
+  position: absolute;
+  left: 12px;
+  color: var(--text-3);
+  font-weight: 600;
+  font-size: .9rem;
+  pointer-events: none;
+  z-index: 1;
+}
+.pay-amount-input {
+  width: 100%;
+  padding-left: 26px !important;
+}
 
 .cancel-card-confirm {
   margin-top: 12px;
