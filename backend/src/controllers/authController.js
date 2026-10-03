@@ -319,26 +319,15 @@ const getGastosCategoria = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // Obtener cuenta del usuario
-    const cuentaResult = await db.query(
-      "SELECT id FROM cuentas WHERE usuario_id = $1",
-      [userId]
-    );
-    const cuenta = cuentaResult.rows[0];
-
-    if (!cuenta) {
-      return res.status(404).json({ message: "Cuenta no encontrada" });
-    }
-
-    // Obtener movimientos de débito de los últimos 30 días
+    // Obtener movimientos de débito de los últimos 30 días (todas las cuentas del usuario)
     const movimientosResult = await db.query(
       `SELECT descripcion, monto, fecha_movimiento
        FROM movimientos
-       WHERE cuenta_id = $1
+       WHERE cuenta_id IN (SELECT id FROM cuentas WHERE usuario_id = $1)
          AND tipo IN ('transferencia_enviada', 'debito', 'pago', 'compra', 'recarga')
          AND fecha_movimiento >= NOW() - INTERVAL '30 days'
        ORDER BY fecha_movimiento DESC`,
-      [cuenta.id]
+      [userId]
     );
 
     const movimientos = movimientosResult.rows;
