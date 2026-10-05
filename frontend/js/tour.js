@@ -85,6 +85,7 @@ const NodoTour = (() => {
       <div class="nodo-tour-label">Paso ${pos + 1} de ${total}</div>
       <div class="nodo-tour-title">${s.title}</div>
       <div class="nodo-tour-text">${s.html || s.text || ''}</div>
+      ${s.info ? `<button class="nodo-tour-info-btn" id="_ntInfoBtn">+ info</button><div class="nodo-tour-info-expanded" id="_ntInfoExpanded">${s.info}</div>` : ''}
       <div class="nodo-tour-actions">
         <div class="nodo-tour-dots">
           ${valid.map((_, i) => `<div class="nodo-tour-dot${i === pos ? ' active' : ''}"></div>`).join('')}
@@ -96,6 +97,15 @@ const NodoTour = (() => {
         </div>
       </div>`;
 
+    document.getElementById('_ntInfoBtn')?.addEventListener('click', () => {
+      const expanded = document.getElementById('_ntInfoExpanded');
+      const btn = document.getElementById('_ntInfoBtn');
+      if (!expanded) return;
+      const isVisible = expanded.classList.toggle('visible');
+      if (btn) btn.textContent = isVisible ? '− info' : '+ info';
+      clearTimeout(_posTimer);
+      _posTimer = setTimeout(_positionElements, 100);
+    });
     document.getElementById('_ntPrev')?.addEventListener('click', () => {
       if (pos > 0) { _step = valid[pos - 1]; _render(); }
     });

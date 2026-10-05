@@ -97,15 +97,14 @@
 
 .nodo-tour-actions {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 16px;
 }
 
 .nodo-tour-dots {
   display: flex;
   gap: 5px;
-  flex: 1;
 }
 
 .nodo-tour-dot {
@@ -122,7 +121,40 @@
   display: flex;
   gap: 6px;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
+
+/* + info button */
+.nodo-tour-info-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #10B981;
+  background: rgba(16,185,129,.1);
+  border: 1px solid rgba(16,185,129,.25);
+  cursor: pointer;
+  transition: background .2s;
+}
+.nodo-tour-info-btn:hover { background: rgba(16,185,129,.2); }
+
+.nodo-tour-info-expanded {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(16,185,129,.06);
+  border: 1px solid rgba(16,185,129,.15);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+.nodo-tour-info-expanded.visible { display: block; }
 
 .nodo-tour-prev,
 .nodo-tour-skip,
