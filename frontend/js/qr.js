@@ -118,6 +118,29 @@ const _parseQrPayload = async (rawText) => {
     };
   }
 
+  // Capa 5: CBU puro (22 dígitos)
+  if (/^\d{22}$/.test(rawText.trim())) {
+    return {
+      ok: true, verified: false,
+      payload: { cbu: rawText.trim(), moneda: 'ARS' },
+    };
+  }
+
+  // Capa 6: URL con parámetros cbu= / alias= / monto= (formato QR web)
+  try {
+    const url = new URL(rawText);
+    const cbu   = url.searchParams.get('cbu');
+    const alias = url.searchParams.get('alias');
+    const monto = url.searchParams.get('monto') || url.searchParams.get('amount');
+    if (cbu || alias) {
+      return {
+        ok: true, verified: false,
+        warn: 'QR de origen externo. Verificá los datos antes de transferir.',
+        payload: { cbu, alias, monto, moneda: url.searchParams.get('moneda') || 'ARS' },
+      };
+    }
+  } catch {}
+
   return { ok: false, error: 'QR no reconocido' };
 };
 
