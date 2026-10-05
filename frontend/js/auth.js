@@ -166,10 +166,34 @@ document.addEventListener("DOMContentLoaded", async () => {
             <span class="mov-date">${fecha} · ${hora}</span>
           </div>
         </div>
-        <span class="mov-amount-v2 ${isIngreso ? "mov-amount-pos" : "mov-amount-neg"}">
-          ${isIngreso ? "+" : "-"}${mov.moneda === 'USD' ? 'U$D' : '$'}${monto.toLocaleString("es-AR", { minimumFractionDigits: 2 })}
+        <span class="mov-amount-v2 ${isIngreso ? "mov-amount-pos" : "mov-amount-neg"}"
+          data-final="${monto}"
+          data-prefix="${isIngreso ? "+" : "-"}"
+          data-currency="${mov.moneda === 'USD' ? 'U$D' : '$'}"
+          data-delay="${delay}">
+          ${isIngreso ? "+" : "-"}${mov.moneda === 'USD' ? 'U$D' : '$'}0,00
         </span>
       </li>`;
+  };
+
+  const _animateAmounts = () => {
+    document.querySelectorAll('#movimientosList .mov-amount-v2[data-final]').forEach(el => {
+      const final    = parseFloat(el.dataset.final);
+      const prefix   = el.dataset.prefix;
+      const currency = el.dataset.currency;
+      const delayMs  = parseFloat(el.dataset.delay || '0') * 1000 + 120;
+      setTimeout(() => {
+        const dur = 700;
+        const t0  = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - t0) / dur, 1);
+          const e = 1 - Math.pow(1 - p, 3);
+          el.textContent = `${prefix}${currency}${(final * e).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }, delayMs);
+    });
   };
 
   let _movimientosCached = [];
@@ -212,6 +236,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
           }
           movimientosList.innerHTML = movimientos.map((m, i) => _renderMovRow(m, i)).join("");
+          _animateAmounts();
           _applyFilters();
         }
         if (typeof setOutput === "function") setOutput(movimientos);
