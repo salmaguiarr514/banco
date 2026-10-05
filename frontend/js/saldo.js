@@ -49,10 +49,11 @@ const loadSaldo = async () => {
     if (saldoList) saldoList.innerHTML = cuentas.map(renderCuentaSaldo).join("");
     if (setOutput) setOutput(cuentas);
     
-    if (cuentas.length > 0) {
-      cuentaActiva = cuentas[0];
+    const cuentaARS = cuentas.find(c => c.moneda === 'ARS') || cuentas[0];
+    if (cuentaARS) {
+      cuentaActiva = cuentaARS;
       const anterior = saldoActual;
-      saldoActual = cuentas[0].saldo;
+      saldoActual = cuentaARS.saldo;
 
       const icon = document.getElementById("balanceIcon");
       if (icon) icon.className = saldoOculto ? "fas fa-eye" : "fas fa-eye-slash";

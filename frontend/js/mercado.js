@@ -141,7 +141,10 @@ const abrirConvertModal = (de, a) => {
         body: JSON.stringify({ de, a, monto }),
       });
       modal.classList.add('hidden');
-      showToast(data.message, 4000, 'success');
+      const nuevoARS = esCompra ? data.saldoOrigen : data.saldoDest;
+      const nuevoUSD = esCompra ? data.saldoDest   : data.saldoOrigen;
+      const detalle  = `Nuevo saldo ARS: $${nuevoARS?.toLocaleString('es-AR',{minimumFractionDigits:2})} · USD: U$D${nuevoUSD?.toLocaleString('es-AR',{minimumFractionDigits:2})}`;
+      showToast(`${data.message} — ${detalle}`, 6000, 'success');
       await loadSaldo();
     } catch (e) {
       showToast(e.message || 'Error en la conversi�n', 4000, 'error');
