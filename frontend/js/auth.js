@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return { icon: "fa-minus", bg: "mov-bg-slate" };
   };
 
-  const _renderMovRow = (mov) => {
+  const _renderMovRow = (mov, idx = 0) => {
     const isIngreso = mov.tipo === "credito" || mov.tipo === "deposito"
                    || mov.tipo === "transferencia_recibida" || mov.tipo === "conversion_entrada";
     const { icon, bg } = _movIconMap(mov);
@@ -156,8 +156,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const desc   = (mov.descripcion || "Operación Nodo").replace(/^(Depósito|Deposito) ficticio$/i, "Depósito");
     const bankBadge = mov.banco_nombre ? `<span class="mov-bank-badge">${mov.banco_nombre}</span>` : "";
     const filtroClass = isIngreso ? "mov-ingreso" : "mov-egreso";
+    const delay = (idx * 0.07).toFixed(2);
     return `
-      <li class="movement-item ${filtroClass}" data-desc="${desc.toLowerCase()}" data-monto="${monto}">
+      <li class="movement-item ${filtroClass} mov-animate" style="animation-delay:${delay}s" data-desc="${desc.toLowerCase()}" data-monto="${monto}">
         <div class="mov-info">
           <div class="mov-icon-wrap ${bg}"><i class="fas ${icon}"></i></div>
           <div class="mov-text">
@@ -210,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             movimientosList.innerHTML = '<li class="mov-empty">No hay movimientos recientes</li>';
             return;
           }
-          movimientosList.innerHTML = movimientos.map(_renderMovRow).join("");
+          movimientosList.innerHTML = movimientos.map((m, i) => _renderMovRow(m, i)).join("");
           _applyFilters();
         }
         if (typeof setOutput === "function") setOutput(movimientos);

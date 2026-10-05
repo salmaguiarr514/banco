@@ -49,9 +49,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => { loader.style.display = "none"; }, 380);
       }
     });
+    // Auto-expandir actividad y cargar movimientos al entrar
+    const _actBody   = document.getElementById('actividadBody');
+    const _actToggle = document.getElementById('actividadToggle');
+    if (_actBody)   _actBody.classList.remove('hidden');
+    if (_actToggle) _actToggle.setAttribute('aria-expanded', 'true');
     if (loadMovimientosBtn) loadMovimientosBtn.click();
 
-    // Polling automático cada 15 min para no perder transferencias
+    // Polling: refrescar movimientos cada 45 s (solo BD local, sin Banco Central)
+    setInterval(() => {
+      if (loadMovimientosBtn) loadMovimientosBtn.click();
+    }, 45 * 1000);
+
+    // Polling de sincronización con Banco Central cada 5 min
     setInterval(async () => {
       try {
         const data = await apiFetch("/transferencias/sincronizar");
@@ -62,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           showToast(`${n} transferencia${n > 1 ? "s" : ""} recibida${n > 1 ? "s" : ""}`);
         }
       } catch {}
-    }, 15 * 60 * 1000);
+    }, 5 * 60 * 1000);
   }
 
   // ── Avatar ──
