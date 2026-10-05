@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
         </div>
         <span class="mov-amount-v2 ${isIngreso ? "mov-amount-pos" : "mov-amount-neg"}">
-          ${isIngreso ? "+" : "-"}$${monto.toLocaleString("es-AR", { minimumFractionDigits: 2 })}
+          ${isIngreso ? "+" : "-"}${mov.moneda === 'USD' ? 'U$D' : '$'}${monto.toLocaleString("es-AR", { minimumFractionDigits: 2 })}
         </span>
       </li>`;
   };

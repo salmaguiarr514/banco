@@ -3,7 +3,7 @@ const db = require("../config/db");
 const obtenerMovimientos = async (req, res) => {
   try {
     const result = await db.query(
-      `SELECT m.*
+      `SELECT m.*, c.moneda
        FROM movimientos m
        INNER JOIN cuentas c ON c.id = m.cuenta_id
        WHERE c.usuario_id = $1
