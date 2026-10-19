@@ -123,8 +123,9 @@
 
   /* Sidebar → fixed bottom navbar estilo fintech */
   .sidebar {
-    position: fixed;
-    bottom: 0;
+    position: fixed !important;
+    bottom: 0 !important;
+    top: auto !important;
     left: 0;
     right: 0;
     width: 100%;
