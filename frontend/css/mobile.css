@@ -6,7 +6,24 @@
 @media (max-width: 720px) {
 
   /* Evitar desborde horizontal global */
-  html, body { overflow-x: hidden; max-width: 100vw; }
+  *, *::before, *::after { box-sizing: border-box !important; }
+  html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+
+  /* Contenedores raíz: nunca más anchos que la pantalla */
+  .app-shell,
+  .app-body,
+  .content-area,
+  .content-section,
+  .card,
+  .balance-hero,
+  .balance-hero-body,
+  .card-collapsible,
+  .card-collapsible-body,
+  .card-header {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
 
   /* ── Header ── */
   .header {
