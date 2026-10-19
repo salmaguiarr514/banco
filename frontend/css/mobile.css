@@ -205,6 +205,23 @@
   /* ── Network canvas de fondo del dashboard: ajustar ── */
   .dash-network { opacity: 0.3; }
 
+  /* ── Dropdown de perfil: centrado en pantalla ── */
+  .user-dropdown {
+    position: fixed !important;
+    top: 64px !important;
+    left: 50% !important;
+    right: auto !important;
+    width: min(90vw, 310px) !important;
+    max-height: 72vh !important;
+    overflow-y: auto !important;
+    transform: translateX(-50%) translateY(-6px) scale(.97) !important;
+  }
+  .user-menu:hover .user-dropdown,
+  .user-menu:focus-within .user-dropdown,
+  .user-menu.open .user-dropdown {
+    transform: translateX(-50%) translateY(0) scale(1) !important;
+  }
+
   /* ── Avatar: tamaño fijo para que no se deforme ── */
   .avatar-circle {
     width: 36px !important;
