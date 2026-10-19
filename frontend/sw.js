@@ -1,4 +1,4 @@
-const CACHE = "nodo-v2";
+const CACHE = "nodo-v3";
 
 const STATIC = [
   "/dashboard.html",
@@ -49,7 +49,10 @@ self.addEventListener("fetch", (e) => {
     e.respondWith(
       caches.match(request).then((cached) => {
         const fresh = fetch(request).then((res) => {
-          if (res.ok) caches.open(CACHE).then((c) => c.put(request, res.clone()));
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE).then((c) => c.put(request, clone));
+          }
           return res;
         }).catch(() => cached);
         return cached || fresh;
@@ -63,7 +66,10 @@ self.addEventListener("fetch", (e) => {
     caches.match(request).then((cached) => {
       if (cached) return cached;
       return fetch(request).then((res) => {
-        if (res.ok) caches.open(CACHE).then((c) => c.put(request, res.clone()));
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then((c) => c.put(request, clone));
+        }
         return res;
       });
     })
