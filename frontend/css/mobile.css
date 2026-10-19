@@ -5,6 +5,9 @@
 
 @media (max-width: 720px) {
 
+  /* Evitar desborde horizontal global */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+
   /* ── Header ── */
   .header {
     padding: 8px 12px;
@@ -116,11 +119,17 @@
   .card-collapsible-body    { padding: 0 16px 16px; }
 
   /* ── Actividad: montos no cortados ── */
-  .card-collapsible  { overflow: visible; }   /* evita clipear el monto derecho */
+  .card-collapsible  { overflow: visible; }
   .actividad-toolbar { flex-wrap: wrap; gap: 8px; }
   .actividad-filters { flex-wrap: wrap; gap: 6px; }
-  .movement-item     { padding: 10px 4px; }   /* respiro horizontal mínimo */
-  .mov-amount-v2     { font-size: 0.8rem; white-space: nowrap; flex-shrink: 0; }
+  .movement-item     { padding: 10px 0; overflow: hidden; }
+  .mov-amount-v2 {
+    font-size: 0.78rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 84px;       /* reserva espacio para que la animación no rompa el layout */
+    text-align: right;
+  }
 
   /* ── Hero movimientos recientes ── */
   .hero-mov-desc   { font-size: 0.7rem; }
