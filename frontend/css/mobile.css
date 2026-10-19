@@ -191,6 +191,28 @@
     padding: 16px;
   }
 
+  /* ── Tarjetas: botones principales y "Dar de baja" ── */
+  .card-controls-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+  .btn-card-ctrl {
+    padding: 9px 6px !important;
+    font-size: 0.76rem !important;
+    gap: 5px !important;
+  }
+  /* "Dar de baja": texto rojo sutil, sin fondo pesado */
+  .card-data-baja-btn {
+    background: transparent !important;
+    border: none !important;
+    color: #f87171 !important;
+    font-size: 0.78rem !important;
+    padding: 8px 12px !important;
+  }
+  .card-data-baja-wrap {
+    background: transparent !important;
+  }
+
   /* ── Tabla de movimientos en tarjeta: horizontal scroll ── */
   .tarjeta-movimientos-table,
   .inv-lista,
@@ -215,10 +237,19 @@
     max-height: 72vh !important;
     overflow-y: auto !important;
     transform: translateX(-50%) translateY(-6px) scale(.97) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
+  /* Solo .open controla el dropdown en mobile (no :hover ni :focus-within) */
   .user-menu:hover .user-dropdown,
-  .user-menu:focus-within .user-dropdown,
+  .user-menu:focus-within .user-dropdown {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateX(-50%) translateY(-6px) scale(.97) !important;
+  }
   .user-menu.open .user-dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
     transform: translateX(-50%) translateY(0) scale(1) !important;
   }
 
