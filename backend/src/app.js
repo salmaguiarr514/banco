@@ -34,8 +34,14 @@ app.use(express.static(path.join(__dirname, "../../frontend"), {
 
 app.get("/", (_req, res) => res.redirect("/login.html"));
 
-app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, modulo: "homebanking" });
+app.get("/api/health", async (_req, res) => {
+  try {
+    const db = require("./config/db");
+    const { rows } = await db.query("SELECT NOW() AS ts");
+    res.json({ ok: true, modulo: "homebanking", db: "ok", ts: rows[0].ts });
+  } catch (e) {
+    res.status(503).json({ ok: false, error: e.message });
+  }
 });
 
 
