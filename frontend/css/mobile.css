@@ -61,17 +61,18 @@
 
   .account-info-value { font-size: 0.7rem; }
 
-  /* Botones de acción: wrap en 2 filas (3 + 2) */
+  /* Botones de acción: grilla 3 columnas (5 botones = 3+2, centrados) */
   .balance-actions {
-    flex-wrap: wrap;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     padding-top: 12px;
     margin-top: 4px;
   }
 
   .action-card {
-    flex: 0 1 calc(33.33% - 6px);
     min-width: 0;
+    width: 100%;
     padding: 12px 4px;
     gap: 6px;
     font-size: 0.62rem;
@@ -114,10 +115,12 @@
   .card-collapsible-trigger { padding: 14px 16px; }
   .card-collapsible-body    { padding: 0 16px 16px; }
 
-  /* ── Actividad ── */
+  /* ── Actividad: montos no cortados ── */
+  .card-collapsible  { overflow: visible; }   /* evita clipear el monto derecho */
   .actividad-toolbar { flex-wrap: wrap; gap: 8px; }
   .actividad-filters { flex-wrap: wrap; gap: 6px; }
-  .movement-item     { padding: 10px 0; }
+  .movement-item     { padding: 10px 4px; }   /* respiro horizontal mínimo */
+  .mov-amount-v2     { font-size: 0.8rem; white-space: nowrap; flex-shrink: 0; }
 
   /* ── Hero movimientos recientes ── */
   .hero-mov-desc   { font-size: 0.7rem; }
