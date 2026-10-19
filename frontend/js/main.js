@@ -49,11 +49,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => { loader.style.display = "none"; }, 380);
       }
     });
-    // Auto-expandir actividad y cargar movimientos al entrar
-    const _actBody   = document.getElementById('actividadBody');
-    const _actToggle = document.getElementById('actividadToggle');
-    if (_actBody)   _actBody.classList.remove('hidden');
-    if (_actToggle) _actToggle.setAttribute('aria-expanded', 'true');
+    // En mobile abrir "Tu actividad" por defecto
+    if (window.innerWidth <= 720) {
+      document.getElementById("actividadToggle")?.click();
+    }
     if (loadMovimientosBtn) loadMovimientosBtn.click();
 
     // Polling: refrescar movimientos cada 45 s (solo BD local, sin Banco Central)

@@ -175,6 +175,28 @@
 
   /* ── Network canvas de fondo del dashboard: ajustar ── */
   .dash-network { opacity: 0.3; }
+
+  /* ── Avatar: tamaño fijo para que no se deforme ── */
+  .avatar-circle {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px;
+    flex-shrink: 0;
+  }
+  .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ── Bot flotante: por encima de la bottom nav ── */
+  .ai-assistant { bottom: 78px !important; right: 14px !important; }
+  .ai-window    { bottom: 132px !important; }
+
+  /* ── Bottom nav: texto no desborda ── */
+  .sidebar-nav-item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    display: block;
+  }
 }
 
 /* ── Teléfonos pequeños (≤ 430px) ── */
