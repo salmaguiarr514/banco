@@ -222,7 +222,7 @@
     transform: translateX(-50%) translateY(0) scale(1) !important;
   }
 
-  /* ── Avatar: tamaño fijo para que no se deforme ── */
+  /* ── Avatar: tamaño fijo + sin cámara accidental en header ── */
   .avatar-circle {
     width: 36px !important;
     height: 36px !important;
@@ -230,6 +230,22 @@
     flex-shrink: 0;
   }
   .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Ocultar botón cámara en el header (evita tap accidental al abrir dropdown) */
+  .header .avatar-edit-btn { display: none !important; }
+
+  /* Mostrar chevron en mobile con área táctil generosa */
+  .user-chevron {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem !important;
+    padding: 6px 4px 6px 8px;
+    color: var(--text-3);
+  }
+
+  /* Todo el trigger es clickeable */
+  .user-trigger { cursor: pointer !important; gap: 8px !important; }
 
   /* ── Bot flotante: por encima de la bottom nav ── */
   .ai-assistant { bottom: 78px !important; right: 14px !important; }

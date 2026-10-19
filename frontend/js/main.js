@@ -119,4 +119,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     e.preventDefault();
     document.querySelector("[data-section=\"prestamos\"]")?.click();
   });
+
+  // ── User dropdown: toggle por click (necesario en mobile donde no hay hover) ──
+  const _userMenu    = document.querySelector(".user-menu");
+  const _userTrigger = document.querySelector(".user-trigger");
+  if (_userMenu && _userTrigger) {
+    _userTrigger.addEventListener("click", (e) => {
+      // No propagar si tocaron directamente la cámara (por si acaso en desktop)
+      if (e.target.closest(".avatar-edit-btn")) return;
+      _userMenu.classList.toggle("open");
+    });
+    // Cerrar al hacer click fuera
+    document.addEventListener("click", (e) => {
+      if (!_userMenu.contains(e.target)) _userMenu.classList.remove("open");
+    });
+  }
 });
