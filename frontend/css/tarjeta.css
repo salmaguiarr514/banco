@@ -250,17 +250,26 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     margin-top: 14px;
-    align-items: stretch;
   }
+  /* Los 3 botones: exactamente el mismo alto y padding */
   .btn-card-ctrl {
     flex: none;
     width: 100%;
-    min-height: 44px;
-    padding: 10px 6px;
-    font-size: 0.75rem;
-    gap: 5px;
+    height: 40px;
+    min-height: unset;
+    padding: 0 4px;
+    font-size: 0.72rem;
+    gap: 4px;
     white-space: nowrap;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Neutralizar las diferencias visuales de Pagar en mobile */
+  .btn-card-pay {
+    background: rgba(16,185,129,.08);
+    border-color: rgba(16,185,129,.35);
   }
   .card-data-baja-btn {
     background: transparent;
