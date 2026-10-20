@@ -1,4 +1,4 @@
-const CACHE = "nodo-v4";
+const CACHE = "nodo-v5";
 
 const STATIC = [
   "/dashboard.html",
