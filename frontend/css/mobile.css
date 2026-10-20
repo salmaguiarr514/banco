@@ -203,15 +203,18 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 5px !important;
-    padding: 10px 4px !important;
-    font-size: 0.74rem !important;
+    gap: 4px !important;
+    padding: 8px 2px !important;
+    font-size: 0.7rem !important;
     font-weight: 600 !important;
     white-space: nowrap !important;
-    min-height: 42px !important;
+    height: 38px !important;
+    min-height: unset !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    overflow: hidden !important;
   }
+  .btn-card-ctrl i { font-size: 0.8rem !important; flex-shrink: 0 !important; }
   /* "Dar de baja": texto rojo sutil, sin fondo pesado */
   .card-data-baja-btn {
     background: transparent !important;
