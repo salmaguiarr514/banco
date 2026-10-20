@@ -177,10 +177,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   const _animateAmounts = () => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     document.querySelectorAll('#movimientosList .mov-amount-v2[data-final]').forEach(el => {
       const final    = parseFloat(el.dataset.final);
       const prefix   = el.dataset.prefix;
       const currency = el.dataset.currency;
+      if (reduced) {
+        el.textContent = `${prefix}${currency}${final.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        return;
+      }
       const delayMs  = parseFloat(el.dataset.delay || '0') * 1000 + 120;
       setTimeout(() => {
         const dur = 700;

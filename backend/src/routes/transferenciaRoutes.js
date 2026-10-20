@@ -16,7 +16,7 @@ const router = express.Router();
 
 // Transferencias
 router.post("/",        authMiddleware, transferir);
-router.get("/sincronizar", sincronizarTransferencias);
+router.get("/sincronizar", authMiddleware, sincronizarTransferencias);
 
 // Búsqueda de personas
 router.get("/buscar/:cbu",   authMiddleware, buscarPersonaPorCbu);

@@ -1,4 +1,7 @@
 function initNetwork(canvas, opts) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    opts = Object.assign({}, opts, { animated: false });
+  }
   const ctx  = canvas.getContext('2d');
   let color         = opts.color       || 'rgba(100,116,139,';
   const count       = opts.count       || 55;
@@ -8,6 +11,8 @@ function initNetwork(canvas, opts) {
   const lineOpacity = opts.lineOpacity || 0.13;
 
   let nodes = [], W = 0, H = 0;
+  let rafId = null;
+  let running = true;
 
   function resize() {
     W = canvas.width  = canvas.offsetWidth  || parseInt(canvas.getAttribute('width'))  || 400;
@@ -53,11 +58,22 @@ function initNetwork(canvas, opts) {
       if (n.y < 0 || n.y > H) n.vy *= -1;
     });
 
-    if (opts.animated !== false) requestAnimationFrame(frame);
+    if (opts.animated !== false && running) rafId = requestAnimationFrame(frame);
   }
 
+  // Pausar cuando la pestaña está oculta para no quemar CPU en background
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      running = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    } else {
+      running = true;
+      if (opts.animated !== false) rafId = requestAnimationFrame(frame);
+    }
+  });
+
   resize();
-  frame();
+  rafId = requestAnimationFrame(frame);
   if (opts.animated !== false) new ResizeObserver(resize).observe(canvas);
   return { setColor(c) { color = c; } };
 }

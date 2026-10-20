@@ -57,6 +57,13 @@ button {
   padding: 0;
 }
 
+/* Anillo de foco para navegación por teclado (reemplaza outline:none) */
+button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* ── Form elements — estilos base consistentes con NODO ── */
 input:not([type="range"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="color"]),
 textarea {
