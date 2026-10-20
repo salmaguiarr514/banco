@@ -82,7 +82,10 @@ const cargarHistorialTarjeta = async (cardId) => {
     if (!list) return;
     const txs = data.transactions || [];
     if (txs.length === 0) {
-      list.innerHTML = '<li class="list-empty">Sin movimientos con tarjeta todavía</li>';
+      list.innerHTML = `<li class="card-tx-empty">
+        <i class="fas fa-receipt"></i>
+        <span>Sin movimientos con tarjeta todavía</span>
+      </li>`;
       return;
     }
     list.innerHTML = txs.map(tx => {

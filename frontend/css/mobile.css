@@ -233,6 +233,18 @@
     background: transparent !important;
   }
 
+  /* ── Tarjeta 3D: en mobile aplana perspectiva para que ocupe el ancho completo ── */
+  .dashboard-card-3d {
+    transform: perspective(900px) rotateX(2deg) rotateY(0deg) !important;
+    max-width: 100% !important;
+  }
+  .dashboard-card-3d:hover {
+    transform: perspective(900px) rotateX(0deg) rotateY(3deg) !important;
+  }
+  #section-tarjetas .card {
+    padding: 16px 12px !important;
+  }
+
   /* ── Tabla de movimientos en tarjeta: horizontal scroll ── */
   .tarjeta-movimientos-table,
   .inv-lista,

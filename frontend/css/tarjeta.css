@@ -291,6 +291,19 @@
 .card-tx-section { margin-top: 20px; }
 .card-tx-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
 
+.card-tx-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 16px;
+  list-style: none;
+  color: var(--text-3);
+  text-align: center;
+}
+.card-tx-empty i { font-size: 1.8rem; opacity: 0.5; }
+.card-tx-empty span { font-size: 0.82rem; }
+
 .card-visa-network {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.05rem;
