@@ -193,13 +193,24 @@
 
   /* ── Tarjetas: botones principales y "Dar de baja" ── */
   .card-controls-grid {
+    display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
+    align-items: stretch !important;
     gap: 8px !important;
+    margin-top: 14px !important;
   }
   .btn-card-ctrl {
-    padding: 9px 6px !important;
-    font-size: 0.76rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 5px !important;
+    padding: 10px 4px !important;
+    font-size: 0.74rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    min-height: 42px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   /* "Dar de baja": texto rojo sutil, sin fondo pesado */
   .card-data-baja-btn {
@@ -208,6 +219,7 @@
     color: #f87171 !important;
     font-size: 0.78rem !important;
     padding: 8px 12px !important;
+    margin-top: 4px !important;
   }
   .card-data-baja-wrap {
     background: transparent !important;
