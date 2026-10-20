@@ -121,7 +121,7 @@
 
   /* ── Cards generales ── */
   .card {
-    padding: 16px;
+    padding: 16px 12px;
     border-radius: var(--r-lg);
   }
 
@@ -241,9 +241,6 @@
   .dashboard-card-3d:hover {
     transform: perspective(900px) rotateX(0deg) rotateY(3deg) !important;
   }
-  #section-tarjetas .card {
-    padding: 16px 12px !important;
-  }
 
   /* ── Tabla de movimientos en tarjeta: horizontal scroll ── */
   .tarjeta-movimientos-table,
@@ -253,8 +250,8 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* ── App shell: sin gap extra ── */
-  .app-shell { gap: 10px; }
+  /* ── App shell: menos padding horizontal en mobile (layout.css tiene 12px, lo bajamos a 8px) ── */
+  .app-shell { gap: 10px; padding-left: 8px !important; padding-right: 8px !important; }
 
   /* ── Network canvas de fondo del dashboard: ajustar ── */
   .dash-network { opacity: 0.3; }
