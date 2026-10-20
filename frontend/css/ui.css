@@ -318,10 +318,8 @@
   .dashboard-card-3d  { padding: 14px 16px; max-width: 100%; }
   .dashboard-card-scene { padding: 4px 0; }
 
-  /* Card engine controls: wrap to 2 rows */
+  /* Card engine controls: el layout de 3 columnas lo maneja mobile.css */
   .card-controls { flex-wrap: wrap; gap: 8px; }
-  .btn-card-ctrl { flex: 1 1 calc(50% - 4px); min-width: 0; font-size: 0.76rem; padding: 9px 8px; }
-  .btn-card-pay  { flex: 1 1 100%; }
 
   /* Card data panel */
   .card-data-row    { flex-wrap: wrap; gap: 6px; padding: 10px 14px; }
