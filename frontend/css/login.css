@@ -510,17 +510,26 @@ button:active { transform: translateY(0); }
 
 /* ── Login: Mobile ── */
 @media (max-width: 720px) {
+  /* Sin desborde horizontal (login.html no incluye mobile.css) */
+  html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+  *, *::before, *::after { box-sizing: border-box !important; }
+
   .login-layout {
     grid-template-columns: 1fr;
     min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   .login-brand {
     height: auto;
     min-height: unset;
     position: relative;
-    padding: 28px 20px 20px;
+    padding: 28px 16px 20px;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .login-card-col { display: none; }
@@ -537,11 +546,39 @@ button:active { transform: translateY(0); }
   .brand-footer     { display: none; }
 
   .login-form-panel {
-    padding: 28px 20px 48px;
-    align-items: flex-start;
+    padding: 24px 16px 48px !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
-  .login-form-inner { max-width: 100%; }
+  .login-form-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Card del formulario */
+  .login-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 20px 16px !important;
+  }
+
+  /* Inputs al 100% sin desborde */
+  input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Botón al 100% */
+  .btn-primary {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
 
   /* Canvas decorativo del panel derecho: ocultar en mobile */
   .login-network-canvas { display: none !important; }
