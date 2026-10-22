@@ -559,9 +559,10 @@ html, body { width: 100%; overflow-x: hidden; }
   .brand-footer     { display: none; }
 
   .login-form-panel {
-    padding: 24px 16px 48px !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
+    display: flex !important;
+    flex-direction: column !important;   /* column: align-items:stretch controla el ANCHO */
+    align-items: stretch !important;     /* hijos se estiran al 100% del panel */
+    padding: 24px 12px 48px !important;  /* 12px lateral → brand manual max */
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -578,12 +579,25 @@ html, body { width: 100%; overflow-x: hidden; }
     max-width: 100% !important;
     box-sizing: border-box !important;
     padding: 20px 16px !important;
+    margin: 0 !important;
+  }
+
+  /* Tabs: ocupan todo el ancho */
+  .tabs {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   /* Inputs al 100% sin desborde */
   input {
     width: 100% !important;
     max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Botón Ingresar al 100% */
+  .btn-primary {
+    width: 100% !important;
     box-sizing: border-box !important;
   }
 
