@@ -398,6 +398,9 @@ button:active { transform: translateY(0); }
   max-width: 310px;
 }
 
+/* Sin desborde horizontal: el canvas decorativo (640px inline) expande el body sin esto */
+html, body { width: 100%; overflow-x: hidden; }
+
 /* ── Red de nodos (canvas sobre el panel azul) ── */
 .network-canvas {
   position: absolute;
@@ -406,6 +409,16 @@ button:active { transform: translateY(0); }
   height: 100%;
   pointer-events: none;
   z-index: 0;
+}
+
+/* Canvas decorativo de fondo derecho: debe ser fixed para no expandir el body */
+.login-network-canvas {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.06;
 }
 
 .login-brand {
