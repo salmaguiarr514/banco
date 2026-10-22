@@ -44,7 +44,7 @@
 
   /* ── Balance Hero ── */
   .balance-hero {
-    padding: 18px 14px;
+    padding: 16px 12px;
     border-radius: var(--r-lg);
     gap: 12px;
   }
@@ -81,25 +81,28 @@
 
   .account-info-value { font-size: 0.7rem; }
 
-  /* Botones de acción: grilla 3 columnas (5 botones = 3+2, centrados) */
+  /* Botones de acción: flex 3 columnas, última fila centrada (5 botones = 3+2) */
   .balance-actions {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
     padding-top: 12px;
     margin-top: 4px;
   }
 
   .action-card {
+    flex: 0 0 calc(33.33% - 5.34px) !important;
     min-width: 0;
-    width: 100%;
     padding: 12px 4px;
     gap: 6px;
-    font-size: 0.62rem;
-    border-radius: var(--r);
+    font-size: 0.72rem;
+    border-radius: 10px;
   }
 
-  .action-card i { font-size: 1rem; }
+  .action-card i { font-size: 1rem; flex-shrink: 0; }
 
   /* USD actions: siempre 3 en fila */
   .balance-actions-usd .action-card {
@@ -334,7 +337,7 @@
     padding: 10px 2px;
   }
 
-  .action-card i { font-size: 0.9rem; }
+  .action-card i { font-size: 0.9rem; flex-shrink: 0; }
 
   .card { padding: 14px; }
 
