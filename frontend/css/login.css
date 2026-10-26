@@ -167,8 +167,6 @@ button:active { transform: translateY(0); }
   min-height: 100vh;
   display: grid;
   grid-template-columns: 400px 1fr;
-  position: relative;
-  z-index: 1;
 }
 
 .login-brand {
@@ -376,16 +374,24 @@ button:active { transform: translateY(0); }
 
 .brand-footer { color: rgba(255,255,255,0.25); font-size: 0.72rem; }
 
-/* Right: form panel — transparente para que el canvas de fondo sea visible */
+/* Right: form panel — contenedor de posicionamiento para el canvas de fondo */
 .login-form-panel {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 60px 72px;
-  background: transparent;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
 }
 
-.login-form-inner { width: 100%; max-width: 380px; }
+/* z-index: 1 → explícitamente por encima del canvas (z-index: 0) en el mismo stacking context */
+.login-form-inner {
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  z-index: 1;
+}
 
 .login-card-col {
   display: flex;
@@ -415,13 +421,13 @@ html { background: var(--bg); }
   z-index: 0;
 }
 
-/* Canvas decorativo de fondo derecho: cubre todo el panel form */
+/* Canvas de nodos del panel form: absolutamente posicionado DENTRO del panel, z-index 0 */
+/* El panel tiene position:relative + overflow:hidden → el canvas queda contenido y detrás del form */
 .login-network-canvas {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 50vw;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
   opacity: 0.22;
@@ -583,23 +589,27 @@ html { background: var(--bg); }
   /* brandNetwork: visible solo dentro del panel de marca */
   .network-canvas { display: block !important; }
 
-  /* loginNetwork full-screen: ocultar en mobile (no debe cubrir el formulario) */
-  .login-network-canvas { display: none !important; }
+  /* loginNetwork: ahora vive DENTRO del panel form (no fixed) — es visible pero contenido */
+  .login-network-canvas { display: block !important; }
 
   .login-form-panel {
     display: flex !important;
-    flex-direction: column !important;   /* column: align-items:stretch controla el ANCHO */
-    align-items: stretch !important;     /* hijos se estiran al 100% del panel */
-    padding: 24px 12px 48px !important;  /* 12px lateral → brand manual max */
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 24px 12px 48px !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    background: transparent !important;  /* fondo del body (gradiente unificado) visible */
+    background: var(--bg) !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
 
   .login-form-inner {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 1 !important;
   }
 
   /* Card del formulario */

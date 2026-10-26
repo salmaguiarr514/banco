@@ -36,6 +36,8 @@
 
     <!-- Panel derecho: formulario + tarjeta -->
     <div class="login-form-panel">
+      <!-- Canvas de nodos: fondo del panel form, z-index 0, contenido por overflow:hidden del panel -->
+      <canvas id="loginNetwork" class="login-network-canvas"></canvas>
 
       <div class="login-form-inner">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
@@ -73,9 +75,6 @@
 
     </div>
   </div>
-
-  <!-- Red de nodos gris fija abajo a la derecha -->
-  <canvas id="loginNetwork" width="640" height="520" class="login-network-canvas"></canvas>
 
   <div id="syncToast" class="sync-toast hidden">
     <i class="fas fa-check-circle"></i>
