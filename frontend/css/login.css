@@ -404,7 +404,7 @@ button:active { transform: translateY(0); }
   max-width: 310px;
 }
 
-html, body { width: 100%; overflow-x: hidden; }
+html, body { width: 100%; overflow-x: hidden; overflow-x: clip; }
 html, body { background: var(--bg) !important; }
 
 /* Nodos solo en el panel de marca: .login-brand debe seguir posicionado en todos los breakpoints */
@@ -532,7 +532,7 @@ html, body { background: var(--bg) !important; }
 /* ── Login: Mobile ── */
 @media (max-width: 720px) {
   /* Sin desborde horizontal (login.html no incluye mobile.css) */
-  html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+  html, body { overflow-x: hidden !important; overflow-x: clip !important; max-width: 100vw !important; }
   *, *::before, *::after { box-sizing: border-box !important; }
 
   .login-layout {

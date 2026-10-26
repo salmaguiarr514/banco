@@ -7,7 +7,9 @@
 
   /* Evitar desborde horizontal global */
   *, *::before, *::after { box-sizing: border-box !important; }
-  html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+  /* clip (no hidden): hidden convierte body en scroll container y iOS recorta la navbar fixed a su alto */
+  html, body { overflow-x: hidden !important; overflow-x: clip !important; max-width: 100vw !important; }
+  body { min-height: 100vh; min-height: 100dvh; }
 
   /* Contenedores raíz: nunca más anchos que la pantalla */
   .app-shell,
