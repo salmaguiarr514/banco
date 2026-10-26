@@ -41,6 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelPasswordBtn?.addEventListener("click",  () => passwordModal?.classList.add("hidden"));
   passwordModal?.addEventListener("click", e => { if (e.target === passwordModal) passwordModal.classList.add("hidden"); });
 
+  // Confirmación de contraseña: "Actualizar" solo con los 3 campos completos y nueva === confirmación
+  const pwdCurrent  = document.getElementById("currentPassword");
+  const pwdNew      = document.getElementById("newPassword");
+  const pwdConfirm  = document.getElementById("confirmPassword");
+  const pwdMismatch = document.getElementById("passwordMismatch");
+  const pwdSubmit   = document.getElementById("passwordSubmitBtn");
+  const validatePasswordForm = () => {
+    const mismatch = pwdConfirm.value !== "" && pwdNew.value !== pwdConfirm.value;
+    pwdMismatch?.classList.toggle("hidden", !mismatch);
+    if (pwdSubmit) pwdSubmit.disabled = !pwdCurrent.value || !pwdNew.value || !pwdConfirm.value || mismatch;
+  };
+  [pwdCurrent, pwdNew, pwdConfirm].forEach(i => i?.addEventListener("input", validatePasswordForm));
+
   // Guardar alias
   if (aliasForm) {
     aliasForm.addEventListener("submit", async (event) => {
@@ -97,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (passwordForm) {
     passwordForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (pwdNew.value !== pwdConfirm.value) { validatePasswordForm(); return; }
       formLoad(passwordForm, true);
       try {
         await apiFetch("/auth/password", {
@@ -106,14 +120,14 @@ document.addEventListener("DOMContentLoaded", () => {
             newPassword:     document.getElementById("newPassword").value,
           }),
         });
-        document.getElementById("currentPassword").value = "";
-        document.getElementById("newPassword").value = "";
+        passwordForm.reset();
         passwordModal?.classList.add("hidden");
         showToast("Contraseña actualizada", 3000, "success");
       } catch (error) {
         showToast(error.message || "Error al cambiar contraseña", 4000, "error");
       } finally {
         formLoad(passwordForm, false);
+        validatePasswordForm();
       }
     });
   }

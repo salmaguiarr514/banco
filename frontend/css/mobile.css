@@ -324,6 +324,15 @@
 
   /* ── Bot flotante: por encima de la bottom nav ── */
   .ai-assistant { bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important; right: 14px !important; }
+
+  /* Modales centrados (ui.css los dejaba como hoja inferior pegada al borde) */
+  .modal { align-items: center !important; padding: 16px !important; }
+  .transfer-modal-card,
+  .receipt-card {
+    border-radius: var(--r-xl) !important;
+    max-height: calc(100dvh - 32px) !important;
+    overflow-y: auto;
+  }
   .ai-window    { bottom: 58px !important; }
 
   /* ── Bottom nav: texto no desborda ── */

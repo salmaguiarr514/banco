@@ -110,10 +110,11 @@
 
           <!-- Cabecera -->
           <div class="udrop-header">
-            <div class="udrop-avatar-sm">
+            <label for="avatarInput" class="udrop-avatar-sm" title="Cambiar foto de perfil">
               <img id="avatarImgDrop" src="" alt="" class="avatar-img hidden">
               <span id="avatarInitialsDrop" class="udrop-initials">?</span>
-            </div>
+              <span class="udrop-avatar-cam" aria-hidden="true"><i class="fas fa-camera"></i></span>
+            </label>
             <div class="udrop-greeting-wrap">
               <span class="udrop-hola">¡Hola, <span id="udropFirstName">Usuario</span>!</span>
               <span class="udrop-badge"><i class="fas fa-circle udrop-badge-dot"></i> Cuenta Activa</span>
@@ -1388,8 +1389,10 @@
       </div>
       <form id="passwordForm" class="styled-form">
         <input type="password" id="currentPassword" placeholder="Contraseña actual" required>
-        <input type="password" id="newPassword"     placeholder="Nueva contraseña" required>
-        <button type="submit" class="btn-primary">Actualizar</button>
+        <input type="password" id="newPassword"     placeholder="Nueva contraseña" required autocomplete="new-password">
+        <input type="password" id="confirmPassword" placeholder="Confirmar nueva contraseña" required autocomplete="new-password">
+        <p id="passwordMismatch" class="form-hint-error hidden" role="alert">Las contraseñas no coinciden.</p>
+        <button type="submit" class="btn-primary" id="passwordSubmitBtn" disabled>Actualizar</button>
       </form>
     </div>
   </div>
