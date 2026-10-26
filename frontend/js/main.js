@@ -1,20 +1,29 @@
-// iOS app anclada: tras abrir el teclado (ej. en el login) WebKit deja el viewport achicado y queda
-// una franja muerta abajo. Ocultar y mostrar body fuerza a WebKit a recalcular el alto.
-(function healIOSStandaloneViewport() {
+// TEMPORAL: diagnóstico de viewport en la app anclada de iOS. Quitar al resolver la navbar.
+(function viewportDebug() {
   if (!window.navigator.standalone) return;
-  const fullHeight = () => window.matchMedia("(orientation: landscape)").matches ? screen.width : screen.height;
-  const heal = () => {
-    if (document.activeElement?.matches("input, textarea, select")) return;
-    if (fullHeight() - window.innerHeight <= 4) return;
-    const y = window.scrollY;
-    document.body.style.display = "none";
-    void document.body.offsetHeight;
-    document.body.style.display = "";
-    window.scrollTo(0, y);
-  };
-  window.addEventListener("pageshow", () => setTimeout(heal, 100));
-  document.addEventListener("focusout", (e) => {
-    if (e.target.matches?.("input, textarea, select")) setTimeout(heal, 140);
+  window.addEventListener("load", () => {
+    const probe = document.createElement("div");
+    probe.style.cssText = "position:fixed;visibility:hidden;pointer-events:none;" +
+      "padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)";
+    const box = document.createElement("div");
+    box.style.cssText = "position:fixed;top:50%;left:8px;right:8px;z-index:2147483647;background:rgba(0,0,0,.85);" +
+      "color:#0f0;font:11px/1.4 monospace;padding:8px;border-radius:8px;pointer-events:none;white-space:pre";
+    document.body.append(probe, box);
+    const draw = () => {
+      const cs = getComputedStyle(probe);
+      const nav = document.getElementById("sidebarNav")?.getBoundingClientRect();
+      const vv = window.visualViewport;
+      box.textContent =
+        "iOS " + (navigator.userAgent.match(/OS (\d+[_\d]*)/)?.[1] || "?").replace(/_/g, ".") + "\n" +
+        "screen " + screen.width + "x" + screen.height + "  dpr " + devicePixelRatio + "\n" +
+        "innerH " + innerHeight + "  clientH " + document.documentElement.clientHeight + "\n" +
+        "vv.h " + (vv ? Math.round(vv.height) + " offTop " + Math.round(vv.offsetTop) : "-") + "\n" +
+        "safe T " + cs.paddingTop + "  B " + cs.paddingBottom + "\n" +
+        "nav top " + (nav ? Math.round(nav.top) + " bottom " + Math.round(nav.bottom) : "-") + "\n" +
+        "scrollY " + Math.round(scrollY) + "  bodyH " + document.body.scrollHeight;
+    };
+    draw();
+    setInterval(draw, 500);
   });
 })();
 
