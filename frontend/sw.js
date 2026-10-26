@@ -1,4 +1,4 @@
-const CACHE = "nodo-v15";
+const CACHE = "nodo-v16";
 
 const STATIC = [
   "/favicon.svg",
@@ -23,25 +23,18 @@ self.addEventListener("fetch", (e) => {
   const { request } = e;
   const url = new URL(request.url);
 
-  // API calls → network-first
+  // API calls → network directo
   if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/auth")) {
     e.respondWith(fetch(request).catch(() => new Response(JSON.stringify({ offline: true }), { headers: { "Content-Type": "application/json" } })));
     return;
   }
 
-  // CSS y JS propios → network-first (para que los deploys apliquen de inmediato)
+  // CSS, JS, HTML propios → network puro, sin cachear en SW
+  // El servidor ya envía Cache-Control: no-cache, no-store → siempre fresco
   if (url.origin === self.location.origin &&
       (url.pathname.endsWith(".css") || url.pathname.endsWith(".js") ||
        url.pathname.endsWith(".html"))) {
-    e.respondWith(
-      fetch(request).then((res) => {
-        if (res.ok) {
-          const clone = res.clone();
-          caches.open(CACHE).then((c) => c.put(request, clone));
-        }
-        return res;
-      }).catch(() => caches.match(request))
-    );
+    e.respondWith(fetch(request));
     return;
   }
 
