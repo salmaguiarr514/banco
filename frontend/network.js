@@ -4,8 +4,9 @@ function initNetwork(canvas, opts) {
   }
   const ctx  = canvas.getContext('2d');
   let color         = opts.color       || 'rgba(100,116,139,';
-  const count       = opts.count       || 55;
-  const maxDist     = opts.maxDist     || 150;
+  // count y maxDist pueden ser funciones: se reevalúan en cada resize (ej. pasar de PC a mobile)
+  const val = (v, d) => (typeof v === 'function' ? v() : v) || d;
+  let count, maxDist;
   const speed       = opts.speed       || 0.28;
   const nodeOpacity = opts.nodeOpacity || 0.28;
   const lineOpacity = opts.lineOpacity || 0.13;
@@ -17,6 +18,8 @@ function initNetwork(canvas, opts) {
   function resize() {
     W = canvas.width  = canvas.offsetWidth  || parseInt(canvas.getAttribute('width'))  || 400;
     H = canvas.height = canvas.offsetHeight || parseInt(canvas.getAttribute('height')) || 300;
+    count   = val(opts.count, 55);
+    maxDist = val(opts.maxDist, 150);
     nodes = Array.from({ length: count }, () => ({
       x:  Math.random() * W,
       y:  Math.random() * H,
