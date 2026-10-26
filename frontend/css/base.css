@@ -4,6 +4,10 @@
 :root {
   --navy:      #0B1120;
   --navy-2:    #162033;
+  /* Hero de saldo: gradiente adaptable al tema */
+  --hero-bg-1: #1e3a5f;
+  --hero-bg-2: #162f52;
+  --hero-bg-3: #1e3a5f;
   --green:     #10B981;
   --green-2:   #059669;
   --green-dim: rgba(16,185,129,0.1);
@@ -32,6 +36,10 @@
   --text-secondary: var(--text-2);
   --bg-card:        var(--surface);
   --header-bg:      var(--navy);
+  /* Hero: colores originales (muy oscuros) en modo oscuro */
+  --hero-bg-1: #0D1B2E;
+  --hero-bg-2: #091628;
+  --hero-bg-3: #0F1E34;
 }
 
 /* ── Reset ── */

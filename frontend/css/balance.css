@@ -21,7 +21,7 @@
    BALANCE HERO
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .balance-hero {
-  background: linear-gradient(140deg, #0D1B2E 0%, #091628 55%, #0F1E34 100%);
+  background: linear-gradient(140deg, #1e3a5f 0%, #162f52 55%, #1e3a5f 100%);
   border-radius: var(--r-xl);
   padding: 28px 32px;
   color: white;
@@ -33,6 +33,10 @@
   gap: 20px;
 }
 
+/* Dark mode: gradiente original oscuro */
+[data-theme="dark"] .balance-hero {
+  background: linear-gradient(140deg, #0D1B2E 0%, #091628 55%, #0F1E34 100%);
+}
 
 .balance-top {
   display: flex;
