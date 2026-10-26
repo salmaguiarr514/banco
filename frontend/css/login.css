@@ -589,8 +589,8 @@ html { background: var(--bg); }
   /* brandNetwork: visible solo dentro del panel de marca */
   .network-canvas { display: block !important; }
 
-  /* loginNetwork: ahora vive DENTRO del panel form (no fixed) — es visible pero contenido */
-  .login-network-canvas { display: block !important; }
+  /* loginNetwork: oculto en mobile → nodos solo en el panel de marca */
+  .login-network-canvas { display: none !important; }
 
   .login-form-panel {
     display: flex !important;
@@ -599,9 +599,8 @@ html { background: var(--bg); }
     padding: 24px 12px 48px !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    background: var(--bg) !important;
+    background: var(--bg) !important;  /* sólido: light=#E9EDF4 / dark=#0F172A */
     position: relative !important;
-    overflow: hidden !important;
   }
 
   .login-form-inner {
