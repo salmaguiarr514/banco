@@ -138,7 +138,10 @@
 
   .card-header h2 { font-size: 0.88rem; }
 
-  .card-collapsible-trigger { padding: 14px 16px; }
+  /* .card { padding } de mobile pisaba el padding:0 de la card colapsable → doble marco */
+  .card.card-collapsible    { padding: 0 !important; }
+  .card-collapsible-trigger { padding: 14px 16px; border-radius: inherit; }
+  .card-collapsible-trigger[aria-expanded="true"] { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
   .card-collapsible-body    { padding: 0 16px 16px; }
 
   /* ── Actividad: montos no cortados ── */
@@ -320,8 +323,8 @@
   .user-trigger { cursor: pointer !important; gap: 8px !important; }
 
   /* ── Bot flotante: por encima de la bottom nav ── */
-  .ai-assistant { bottom: 78px !important; right: 14px !important; }
-  .ai-window    { bottom: 132px !important; }
+  .ai-assistant { bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important; right: 14px !important; }
+  .ai-window    { bottom: 58px !important; }
 
   /* ── Bottom nav: texto no desborda ── */
   .sidebar-nav-item span {
