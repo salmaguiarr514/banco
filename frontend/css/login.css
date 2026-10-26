@@ -432,7 +432,7 @@ html { background: var(--bg); }
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.22;
+  opacity: 0.06;
 }
 
 .login-brand {
@@ -591,12 +591,7 @@ html { background: var(--bg); }
   /* brandNetwork: visible solo dentro del panel de marca */
   .network-canvas { display: block !important; }
 
-  /* loginNetwork: triple protección en mobile — display+visibility+opacity */
-  .login-network-canvas {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
+  .login-network-canvas { display: none !important; }
 
   .login-form-panel {
     display: flex !important;
