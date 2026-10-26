@@ -1,3 +1,18 @@
+// iOS (app anclada, status bar translúcida): innerHeight viene sin la barra de estado pero la
+// página arranca en y=0, así que lo fixed abajo queda corrido hacia arriba. Medimos ese hueco.
+(function fixIOSStandaloneGap() {
+  if (!window.navigator.standalone) return;
+  const update = () => {
+    const full = window.matchMedia("(orientation: landscape)").matches ? screen.width : screen.height;
+    const gap  = full - window.innerHeight;
+    // >120px = teclado abierto: no tocar
+    document.documentElement.style.setProperty("--ios-gap", (gap > 0 && gap <= 120 ? gap : 0) + "px");
+  };
+  update();
+  window.addEventListener("resize", update);
+  window.addEventListener("orientationchange", () => setTimeout(update, 300));
+})();
+
 document.addEventListener("DOMContentLoaded", async () => {
   // ── Verificación de seguridad ──
   const isAuthPage = window.location.href.includes("login.html") ||
