@@ -351,15 +351,6 @@ input[type="number"] { -moz-appearance: textfield; }
   z-index: 1;
 }
 
-.login-network-canvas {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 1;
-}
-
 .login-layout {
   position: relative;
   z-index: 1;
