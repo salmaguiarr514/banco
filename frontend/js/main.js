@@ -1,32 +1,3 @@
-// TEMPORAL: diagnóstico de viewport en la app anclada de iOS. Quitar al resolver la navbar.
-(function viewportDebug() {
-  if (!window.navigator.standalone) return;
-  window.addEventListener("load", () => {
-    const probe = document.createElement("div");
-    probe.style.cssText = "position:fixed;visibility:hidden;pointer-events:none;" +
-      "padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)";
-    const box = document.createElement("div");
-    box.style.cssText = "position:fixed;top:50%;left:8px;right:8px;z-index:2147483647;background:rgba(0,0,0,.85);" +
-      "color:#0f0;font:11px/1.4 monospace;padding:8px;border-radius:8px;pointer-events:none;white-space:pre";
-    document.body.append(probe, box);
-    const draw = () => {
-      const cs = getComputedStyle(probe);
-      const nav = document.getElementById("sidebarNav")?.getBoundingClientRect();
-      const vv = window.visualViewport;
-      box.textContent =
-        "iOS " + (navigator.userAgent.match(/OS (\d+[_\d]*)/)?.[1] || "?").replace(/_/g, ".") + "\n" +
-        "screen " + screen.width + "x" + screen.height + "  dpr " + devicePixelRatio + "\n" +
-        "innerH " + innerHeight + "  clientH " + document.documentElement.clientHeight + "\n" +
-        "vv.h " + (vv ? Math.round(vv.height) + " offTop " + Math.round(vv.offsetTop) : "-") + "\n" +
-        "safe T " + cs.paddingTop + "  B " + cs.paddingBottom + "\n" +
-        "nav top " + (nav ? Math.round(nav.top) + " bottom " + Math.round(nav.bottom) : "-") + "\n" +
-        "scrollY " + Math.round(scrollY) + "  bodyH " + document.body.scrollHeight;
-    };
-    draw();
-    setInterval(draw, 500);
-  });
-})();
-
 document.addEventListener("DOMContentLoaded", async () => {
   // ── Verificación de seguridad ──
   const isAuthPage = window.location.href.includes("login.html") ||
