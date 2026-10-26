@@ -323,10 +323,7 @@
   .user-trigger { cursor: pointer !important; gap: 8px !important; }
 
   /* ── Bot flotante: por encima de la bottom nav ── */
-  .ai-assistant { bottom: calc(78px + env(safe-area-inset-bottom, 0px) - var(--ios-gap, 0px)) !important; right: 14px !important; }
-
-  /* Navbar pegada al borde real de la pantalla (--ios-gap lo calcula main.js solo en iOS anclado) */
-  .sidebar { bottom: calc(-1 * var(--ios-gap, 0px)) !important; }
+  .ai-assistant { bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important; right: 14px !important; }
   .ai-window    { bottom: 58px !important; }
 
   /* ── Bottom nav: texto no desborda ── */

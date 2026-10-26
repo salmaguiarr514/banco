@@ -1,16 +1,21 @@
-// iOS (app anclada, status bar translúcida): innerHeight viene sin la barra de estado pero la
-// página arranca en y=0, así que lo fixed abajo queda corrido hacia arriba. Medimos ese hueco.
-(function fixIOSStandaloneGap() {
+// iOS app anclada: tras abrir el teclado (ej. en el login) WebKit deja el viewport achicado y queda
+// una franja muerta abajo. Ocultar y mostrar body fuerza a WebKit a recalcular el alto.
+(function healIOSStandaloneViewport() {
   if (!window.navigator.standalone) return;
-  const update = () => {
-    const full = window.matchMedia("(orientation: landscape)").matches ? screen.width : screen.height;
-    const gap  = full - window.innerHeight;
-    // >120px = teclado abierto: no tocar
-    document.documentElement.style.setProperty("--ios-gap", (gap > 0 && gap <= 120 ? gap : 0) + "px");
+  const fullHeight = () => window.matchMedia("(orientation: landscape)").matches ? screen.width : screen.height;
+  const heal = () => {
+    if (document.activeElement?.matches("input, textarea, select")) return;
+    if (fullHeight() - window.innerHeight <= 4) return;
+    const y = window.scrollY;
+    document.body.style.display = "none";
+    void document.body.offsetHeight;
+    document.body.style.display = "";
+    window.scrollTo(0, y);
   };
-  update();
-  window.addEventListener("resize", update);
-  window.addEventListener("orientationchange", () => setTimeout(update, 300));
+  window.addEventListener("pageshow", () => setTimeout(heal, 100));
+  document.addEventListener("focusout", (e) => {
+    if (e.target.matches?.("input, textarea, select")) setTimeout(heal, 140);
+  });
 })();
 
 document.addEventListener("DOMContentLoaded", async () => {
