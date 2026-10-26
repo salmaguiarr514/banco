@@ -551,6 +551,8 @@ html, body { background: var(--bg) !important; }
     min-height: unset;
     position: relative;
     padding: 28px 16px 20px;
+    /* iPhone: la barra de estado translúcida se superpone; respetar la zona segura */
+    padding-top: calc(env(safe-area-inset-top, 0px) + 32px) !important;
     overflow: hidden;
     width: 100%;
     box-sizing: border-box;
