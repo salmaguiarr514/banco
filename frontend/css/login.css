@@ -410,6 +410,8 @@ html, body { width: 100%; overflow-x: hidden; }
 html { background: var(--bg); }
 /* Dark mode: fondo de marca unificado para eliminar el corte visual entre secciones */
 [data-theme="dark"] body { background: linear-gradient(165deg, #0D1B2E 0%, #0B1120 100%) !important; }
+/* Dark mode: panel form con fondo sólido oscuro — evita que el gradiente del body confunda capas */
+[data-theme="dark"] .login-form-panel { background: #0F172A !important; }
 
 /* ── Red de nodos (canvas sobre el panel azul) ── */
 .network-canvas {
@@ -589,8 +591,12 @@ html { background: var(--bg); }
   /* brandNetwork: visible solo dentro del panel de marca */
   .network-canvas { display: block !important; }
 
-  /* loginNetwork: oculto en mobile → nodos solo en el panel de marca */
-  .login-network-canvas { display: none !important; }
+  /* loginNetwork: triple protección en mobile — display+visibility+opacity */
+  .login-network-canvas {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
 
   .login-form-panel {
     display: flex !important;

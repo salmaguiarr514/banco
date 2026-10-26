@@ -89,14 +89,17 @@
   <script>
     initNetwork(document.getElementById('brandNetwork'), { color: 'rgba(255,255,255,', count: 50, maxDist: 140, speed: 0.25 });
 
-    initNetwork(document.getElementById('loginNetwork'), {
-      color: () => localStorage.getItem('nodo_theme') === 'dark' ? 'rgba(255,255,255,' : 'rgba(100,116,139,',
-      count: 65,
-      maxDist: 155,
-      nodeOpacity: 0.92,
-      lineOpacity: 0.6,
-      speed: 0.2
-    });
+    // Solo inicializar en desktop — en mobile el canvas queda sin animar
+    if (window.innerWidth > 720) {
+      initNetwork(document.getElementById('loginNetwork'), {
+        color: () => localStorage.getItem('nodo_theme') === 'dark' ? 'rgba(255,255,255,' : 'rgba(100,116,139,',
+        count: 65,
+        maxDist: 155,
+        nodeOpacity: 0.92,
+        lineOpacity: 0.6,
+        speed: 0.2
+      });
+    }
   </script>
 </body>
 </html>
