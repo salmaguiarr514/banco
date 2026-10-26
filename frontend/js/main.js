@@ -49,10 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => { loader.style.display = "none"; }, 380);
       }
     });
-    // En mobile abrir "Tu actividad" por defecto
-    if (window.innerWidth <= 720) {
-      document.getElementById("actividadToggle")?.click();
-    }
     if (loadMovimientosBtn) loadMovimientosBtn.click();
 
     // Polling: refrescar movimientos cada 45 s (solo BD local, sin Banco Central)

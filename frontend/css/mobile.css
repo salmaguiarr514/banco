@@ -120,6 +120,7 @@
   .two-col-cards {
     flex-direction: column;
     gap: 12px;
+    align-items: stretch;   /* flex-start en columna encogía las cards al ancho del contenido */
   }
 
   /* ── Cards generales ── */
@@ -255,6 +256,12 @@
 
   /* ── App shell: menos padding horizontal en mobile (layout.css tiene 12px, lo bajamos a 8px) ── */
   .app-shell { gap: 10px; padding-left: 8px !important; padding-right: 8px !important; }
+
+  /* iPhone/Android: la barra de estado translúcida no debe tapar el header */
+  .app-shell { padding-top: calc(env(safe-area-inset-top, 0px) + 12px) !important; }
+
+  /* Reserva para la navbar fija inferior (+ zona segura inferior del iPhone) */
+  .content-area { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important; }
 
   /* ── Network canvas de fondo del dashboard: ajustar ── */
   .dash-network { opacity: 0.3; }
