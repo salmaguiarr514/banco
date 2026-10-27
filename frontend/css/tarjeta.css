@@ -209,6 +209,8 @@
   color: var(--text);
   box-shadow: 0 1px 4px rgba(0,0,0,.3);
 }
+[data-theme="light"] .pay-tab-toggle { background: var(--bg); }
+[data-theme="light"] .pay-tab-btn.active { box-shadow: var(--sh-sm); }
 
 /* Input monto con prefijo $ */
 .pay-amount-wrap {

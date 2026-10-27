@@ -147,6 +147,10 @@
 .reserva-detail-hero-label  { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.55); font-weight: 600; }
 .reserva-detail-hero-monto  { font-size: 1.6rem; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .reserva-detail-hero-ganancia { font-size: 0.78rem; font-weight: 600; color: var(--green); }
+[data-theme="light"] .reserva-detail-hero          { background: var(--bg); border: 1px solid var(--border); }
+[data-theme="light"] .reserva-detail-hero-label    { color: var(--text-2); }
+[data-theme="light"] .reserva-detail-hero-monto    { color: var(--text); }
+[data-theme="light"] .reserva-detail-hero-ganancia { color: #047857; }
 
 .reserva-detail-grid { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
 .reserva-detail-row  { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border); }

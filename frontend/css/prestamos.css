@@ -580,6 +580,8 @@
   transform: scale(0.98);
   opacity: 1;
 }
+[data-theme="light"] .prestamo-acciones .btn-secondary { background: var(--bg); color: var(--text); border-color: var(--border); }
+[data-theme="light"] .prestamo-acciones .btn-secondary:hover { background: var(--border); color: var(--text); border-color: var(--border); }
 
 /* Dark mode overrides */
 [data-theme="dark"] .prestamo-acciones .btn-primary  { background: var(--green); color: #0f172a; }
@@ -672,6 +674,9 @@
   letter-spacing: -.02em;
   font-variant-numeric: tabular-nums;
 }
+[data-theme="light"] .pcd-total       { background: var(--bg); border: 1px solid var(--border); }
+[data-theme="light"] .pcd-total-label { color: var(--text-2); }
+[data-theme="light"] .pcd-total-valor { color: #047857; }
 
 /* Mantener retrocompatibilidad con filas antiguas */
 .prestamo-confirm-detalles {

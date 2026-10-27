@@ -543,3 +543,47 @@ input[type="number"] { -moz-appearance: textfield; }
 .rv-submit-btn:active { transform: scale(0.98); box-shadow: none; opacity: 1; }
 .rv-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
 
+/* ── Modo claro: modales USD y Nueva Reserva estaban escritos para fondo oscuro ──
+   #047857 = verde con contraste AA sobre blanco */
+[data-theme="light"] .usd-modal-card,
+[data-theme="light"] .rv-modal-box { background: var(--surface); border-color: var(--border); box-shadow: var(--sh-lg); }
+[data-theme="light"] .usd-modal-hdr,
+[data-theme="light"] .rv-modal-header { border-bottom-color: var(--border); }
+[data-theme="light"] .usd-modal-title,
+[data-theme="light"] .rv-modal-title,
+[data-theme="light"] .usd-recipient-name,
+[data-theme="light"] .usd-modal-input,
+[data-theme="light"] .rv-input { color: var(--text); }
+[data-theme="light"] .usd-modal-close,
+[data-theme="light"] .rv-modal-close { background: var(--bg); color: var(--text-2); }
+[data-theme="light"] .usd-input-wrap,
+[data-theme="light"] .usd-recipient-card,
+[data-theme="light"] .rv-input,
+[data-theme="light"] .rv-input-money-wrap { background: var(--bg); border-color: var(--border); }
+[data-theme="light"] .rv-input.rv-input-money { background: transparent; border: none; }
+[data-theme="light"] .usd-input-prefix,
+[data-theme="light"] .usd-input-suffix,
+[data-theme="light"] .rv-currency-sign { color: var(--text-2); border-color: var(--border); }
+[data-theme="light"] .usd-modal-input::placeholder,
+[data-theme="light"] .rv-input::placeholder { color: var(--text-3); }
+[data-theme="light"] .usd-modal-equiv,
+[data-theme="light"] .usd-recipient-alias,
+[data-theme="light"] .rv-label { color: var(--text-2); }
+[data-theme="light"] .usd-rate-badge,
+[data-theme="light"] .usd-recipient-badge,
+[data-theme="light"] .usd-modal-preview-label,
+[data-theme="light"] .usd-modal-preview-amount,
+[data-theme="light"] .rv-modal-title i { color: #047857; }
+[data-theme="light"] .rv-dia-btn { background: var(--bg); border-color: var(--border); color: var(--text); }
+[data-theme="light"] .rv-dia-btn:hover { background: var(--border); border-color: var(--border); color: var(--text); }
+[data-theme="light"] .rv-dia-btn.active { background: #10b981; border-color: #10b981; color: #0f172a; }
+
+/* El input de base.css trae fondo y borde propios: dentro de estos contenedores el contenedor ya es el campo */
+.usd-input-wrap input,
+.rv-input-money-wrap input,
+.inv-input-group input {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+

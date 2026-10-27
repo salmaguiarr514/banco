@@ -218,5 +218,22 @@
   background: rgba(16,185,129,.18);
 }
 
+[data-theme="light"] .nodo-help-btn,
+[data-theme="light"] .inv-help-btn { color: #047857; }
+
+/* ── Modo claro: tarjeta del tour ── */
+[data-theme="light"] .nodo-tour-card { background: var(--surface); box-shadow: var(--sh-lg); }
+[data-theme="light"] .nodo-tour-card[data-arrow="top"]::after    { border-bottom-color: var(--surface); }
+[data-theme="light"] .nodo-tour-card[data-arrow="bottom"]::after { border-top-color: var(--surface); }
+[data-theme="light"] .nodo-tour-label,
+[data-theme="light"] .nodo-tour-info-btn { color: #047857; }
+[data-theme="light"] .nodo-tour-title { color: var(--text); }
+[data-theme="light"] .nodo-tour-text,
+[data-theme="light"] .nodo-tour-info-expanded { color: var(--text-2); }
+[data-theme="light"] .nodo-tour-prev,
+[data-theme="light"] .nodo-tour-skip { background: var(--bg); border-color: var(--border); color: var(--text-2); }
+[data-theme="light"] .nodo-tour-prev:hover,
+[data-theme="light"] .nodo-tour-skip:hover { background: var(--border); color: var(--text); }
+
 /* ── Help bar (deprecated — Ayuda moved to header) ── */
 .nodo-help-bar { display: none; }

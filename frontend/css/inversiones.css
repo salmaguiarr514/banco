@@ -530,6 +530,4 @@
 
 [data-theme="light"] .inv-empty-title,
 [data-theme="light"] .inv-empty-sub { color: var(--text-2); }
-[data-theme="light"] .inv-help-btn { background: var(--bg); border-color: var(--border); color: var(--text-2); }
-[data-theme="light"] .inv-help-btn:hover { background: var(--border); color: var(--text); }
 [data-theme="light"] .inv-info-icon { background: rgba(100,116,139,.15); color: var(--text-2); }
