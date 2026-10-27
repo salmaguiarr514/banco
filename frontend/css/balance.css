@@ -38,6 +38,53 @@
   background: linear-gradient(140deg, #0D1B2E 0%, #091628 55%, #0F1E34 100%);
 }
 
+/* Light mode: card clara con tokens del tema (los textos internos eran blancos fijos) */
+[data-theme="light"] .balance-hero {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh);
+}
+[data-theme="light"] .hero-tabs,
+[data-theme="light"] .balance-actions,
+[data-theme="light"] .usd-cotizaciones      { border-color: var(--border); }
+[data-theme="light"] .hero-tab              { color: var(--text-2); }
+[data-theme="light"] .hero-tab:not(.active):hover { color: var(--text); }
+/* #047857: verde con contraste AA sobre blanco (el #10B981 da ~2.5:1) */
+[data-theme="light"] .hero-tab.active,
+[data-theme="light"] .hero-tab.active .hero-tab-symbol { color: #047857; }
+[data-theme="light"] .eyebrow,
+[data-theme="light"] .balance-sub,
+[data-theme="light"] .account-info-label,
+[data-theme="light"] .usd-equiv,
+[data-theme="light"] .cotiz-label,
+[data-theme="light"] .cotiz-sub             { color: var(--text-2); }
+[data-theme="light"] .account-info-value,
+[data-theme="light"] .cotiz-val             { color: var(--text); }
+[data-theme="light"] .cotiz-venta .cotiz-val { color: #047857; }
+[data-theme="light"] .cotiz-row             { background: var(--bg); }
+[data-theme="light"] .btn-toggle,
+[data-theme="light"] .btn-copy-light,
+[data-theme="light"] .hero-moneda-tag       { background: var(--bg); color: var(--text-2); }
+[data-theme="light"] .btn-toggle:hover      { background: var(--border); }
+[data-theme="light"] .hero-moneda-usd       { background: rgba(16,185,129,.12); color: #047857; }
+[data-theme="light"] .action-card {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="light"] .action-card:hover     { background: var(--border); color: var(--text); border-color: var(--border); }
+[data-theme="light"] #displayBalance.balance-flash-up   { animation-name: flash-up-light; }
+[data-theme="light"] #displayBalance.balance-flash-down { animation-name: flash-down-light; }
+@keyframes flash-up-light {
+  0%, 65% { color: #047857; }
+  100%    { color: var(--text); }
+}
+@keyframes flash-down-light {
+  0%, 65% { color: #DC2626; }
+  100%    { color: var(--text); }
+}
+
 .balance-top {
   display: flex;
   justify-content: space-between;

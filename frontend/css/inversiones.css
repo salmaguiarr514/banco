@@ -490,3 +490,46 @@
   transition: background .15s, color .15s, border-color .15s;
 }
 .inv-detalle-btn:hover { background: rgba(16,185,129,.09); border-color: rgba(16,185,129,.35); color: var(--green); opacity: 1; transform: none; }
+
+/* ── Modo claro: este archivo está escrito para fondo oscuro; acá se pasa a tokens del tema ──
+   #047857 = verde con contraste AA sobre blanco (#10B981 da ~2.5:1) */
+[data-theme="light"] .inv-segmented { background: var(--bg); border-color: var(--border); }
+[data-theme="light"] .inv-seg-btn { color: var(--text-2); }
+[data-theme="light"] .inv-seg-btn:hover:not(.active) { background: var(--border); color: var(--text); }
+[data-theme="light"] .inv-seg-btn.active {
+  background: var(--surface);
+  color: #047857;
+  box-shadow: var(--sh-sm), 0 0 0 1px rgba(16,185,129,.35);
+}
+
+[data-theme="light"] .inv-dias-btn,
+[data-theme="light"] .inv-dias-btn-c { background: var(--bg); border-color: var(--border); color: var(--text); }
+[data-theme="light"] .inv-dias-btn-c:hover { background: rgba(16,185,129,.08); color: #047857; }
+[data-theme="light"] .inv-dias-btn.active,
+[data-theme="light"] .inv-dias-btn-c.active {
+  background: rgba(16,185,129,.12);
+  color: #047857;
+  border-color: rgba(16,185,129,.5);
+}
+
+[data-theme="light"] .inv-input-group { background: var(--surface); border-color: var(--border); }
+[data-theme="light"] .inv-currency { color: #047857; border-right-color: var(--border); }
+[data-theme="light"] .inv-input-group input { color: var(--text); }
+[data-theme="light"] .inv-input-group input::placeholder { color: var(--text-3); }
+
+[data-theme="light"] .inv-chip { background: var(--bg); border-color: var(--border); color: var(--text); }
+[data-theme="light"] .inv-chip:hover { color: #047857; }
+[data-theme="light"] .inv-chip--all { background: rgba(16,185,129,.08); border-color: rgba(16,185,129,.35); color: #047857; }
+
+[data-theme="light"] .inv-preview { background: var(--bg); border-color: var(--border); }
+[data-theme="light"] .inv-preview-highlight-label,
+[data-theme="light"] .inv-preview-row span:first-child { color: var(--text-2); }
+[data-theme="light"] .inv-preview-row span:last-child { color: var(--text); }
+[data-theme="light"] .inv-preview-highlight-value { color: #047857; }
+[data-theme="light"] .inv-preview-divider { background: var(--border); }
+
+[data-theme="light"] .inv-empty-title,
+[data-theme="light"] .inv-empty-sub { color: var(--text-2); }
+[data-theme="light"] .inv-help-btn { background: var(--bg); border-color: var(--border); color: var(--text-2); }
+[data-theme="light"] .inv-help-btn:hover { background: var(--border); color: var(--text); }
+[data-theme="light"] .inv-info-icon { background: rgba(100,116,139,.15); color: var(--text-2); }
