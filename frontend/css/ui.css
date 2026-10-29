@@ -688,7 +688,7 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
 .mov-desc      { font-size: .84rem; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mov-date      { font-size: .7rem; color: var(--text-3); }
 .mov-amount-v2 { font-size: .88rem; font-weight: 700; flex-shrink: 0; font-variant-numeric: tabular-nums; }
-.mov-amount-pos { color: var(--green); }
+.mov-amount-pos { color: var(--pos); }
 .mov-amount-neg { color: #cbd5e1; }
 .mov-bank-badge {
   display: inline-block; margin-left: 6px;
