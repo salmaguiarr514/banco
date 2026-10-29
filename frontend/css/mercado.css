@@ -93,7 +93,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: rgba(16,185,129,.12);
+  background: rgba(6,182,212,.12);
   color: var(--green-2);
   font-size: 0.68rem;
   font-weight: 700;
@@ -110,7 +110,7 @@
   flex-shrink: 0;
 }
 .reserva-item-monto  { font-weight: 800; font-size: 0.98rem; color: var(--green-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.reserva-item-ganancia { font-size: 0.72rem; font-weight: 600; color: var(--green-2); opacity: 0.75; }
+.reserva-item-ganancia { font-size: 0.72rem; font-weight: 600; color: var(--pos); opacity: 0.75; }
 
 .reserva-item-bottom {
   display: flex;
@@ -126,7 +126,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(16,185,129,.12);
+  background: rgba(6,182,212,.12);
   color: var(--green-2);
   font-size: 0.78rem;
   font-weight: 700;
@@ -146,7 +146,7 @@
 }
 .reserva-detail-hero-label  { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.55); font-weight: 600; }
 .reserva-detail-hero-monto  { font-size: 1.6rem; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.reserva-detail-hero-ganancia { font-size: 0.78rem; font-weight: 600; color: var(--green); }
+.reserva-detail-hero-ganancia { font-size: 0.78rem; font-weight: 600; color: var(--pos); }
 [data-theme="light"] .reserva-detail-hero          { background: var(--bg); border: 1px solid var(--border); }
 [data-theme="light"] .reserva-detail-hero-label    { color: var(--text-2); }
 [data-theme="light"] .reserva-detail-hero-monto    { color: var(--text); }
@@ -225,8 +225,8 @@
 .reserva-historial-fecha   { color: rgba(148,163,184,.75); font-weight: 400; }
 .reserva-historial-ganancia { font-weight: 700; color: #10b981; }
 
-[data-theme="dark"] .reserva-item:hover   { background: rgba(16,185,129,0.07); }
-[data-theme="dark"] .reserva-detail-total { background: rgba(16,185,129,0.1); }
+[data-theme="dark"] .reserva-item:hover   { background: rgba(6,182,212,0.07); }
+[data-theme="dark"] .reserva-detail-total { background: rgba(6,182,212,0.1); }
 .reserva-dias-group { display: flex; gap: 8px; margin-bottom: 2px; }
 .reserva-dia-btn { flex: 1; padding: 9px 0; border: 1.5px solid var(--border); border-radius: var(--r-sm); background: var(--bg); color: var(--text-2); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.18s; }
 .reserva-dia-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); }

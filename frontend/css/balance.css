@@ -52,7 +52,7 @@
 [data-theme="light"] .hero-tab:not(.active):hover { color: var(--text); }
 /* #047857: verde con contraste AA sobre blanco (el #10B981 da ~2.5:1) */
 [data-theme="light"] .hero-tab.active,
-[data-theme="light"] .hero-tab.active .hero-tab-symbol { color: #047857; }
+[data-theme="light"] .hero-tab.active .hero-tab-symbol { color: #0E7490; }
 [data-theme="light"] .eyebrow,
 [data-theme="light"] .balance-sub,
 [data-theme="light"] .account-info-label,
@@ -61,13 +61,13 @@
 [data-theme="light"] .cotiz-sub             { color: var(--text-2); }
 [data-theme="light"] .account-info-value,
 [data-theme="light"] .cotiz-val             { color: var(--text); }
-[data-theme="light"] .cotiz-venta .cotiz-val { color: #047857; }
+[data-theme="light"] .cotiz-venta .cotiz-val { color: #0E7490; }
 [data-theme="light"] .cotiz-row             { background: var(--bg); }
 [data-theme="light"] .btn-toggle,
 [data-theme="light"] .btn-copy-light,
 [data-theme="light"] .hero-moneda-tag       { background: var(--bg); color: var(--text-2); }
 [data-theme="light"] .btn-toggle:hover      { background: var(--border); }
-[data-theme="light"] .hero-moneda-usd       { background: rgba(16,185,129,.12); color: #047857; }
+[data-theme="light"] .hero-moneda-usd       { background: rgba(6,182,212,.12); color: #0E7490; }
 [data-theme="light"] .action-card {
   background: var(--bg);
   border-color: var(--border);
@@ -276,7 +276,7 @@
 }
 
 .btn-copy-light:hover {
-  background: rgba(16,185,129,0.22);
+  background: rgba(6,182,212,0.22);
   color: var(--green);
   opacity: 1;
   transform: none;
@@ -357,7 +357,7 @@
   padding: 2px 7px; border-radius: 999px;
   background: rgba(255,255,255,.15); color: rgba(255,255,255,.85);
 }
-.hero-moneda-usd { background: rgba(16,185,129,.25); color: #6ee7b7; }
+.hero-moneda-usd { background: rgba(6,182,212,.25); color: #67E8F9; }
 
 /* â”€â”€ USD equiv â”€â”€ */
 .usd-equiv { display: block; font-size: .75rem; color: rgba(255,255,255,.6); margin-top: 4px; }
@@ -422,7 +422,7 @@
   font-variant-numeric: tabular-nums;
   color: rgba(255,255,255,.8);
 }
-.cotiz-venta .cotiz-val { color: #6ee7b7; }
+.cotiz-venta .cotiz-val { color: #67E8F9; }
 
 /* â”€â”€ Mini-historial en hero ARS â”€â”€ */
 .hero-movimientos {

@@ -139,7 +139,7 @@
   padding: 0;
   flex-shrink: 0;
 }
-.btn-theme-toggle:hover { background: var(--green-dim); color: var(--green-2); border-color: rgba(16,185,129,0.3); opacity: 1; transform: none; }
+.btn-theme-toggle:hover { background: var(--green-dim); color: var(--green-2); border-color: rgba(6,182,212,0.3); opacity: 1; transform: none; }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    DARK MODE
@@ -151,7 +151,9 @@
   --text-2:    #94A3B8;
   --text-3:    #64748B;
   --border:    #334155;
-  --green-dim: rgba(16,185,129,0.15);
+  --green:     #06B6D4;
+  --green-2:   #0891B2;
+  --green-dim: rgba(6,182,212,0.15);
   --sh-sm:     0 1px 4px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
   --sh:        0 4px 24px rgba(0,0,0,0.35);
   --sh-lg:     0 12px 48px rgba(0,0,0,0.5);
@@ -169,31 +171,31 @@
 /* Botones */
 [data-theme="dark"] button                 { background: #334155; color: var(--text); }
 [data-theme="dark"] .btn-primary           { background: var(--green); color: #0F172A; }
-[data-theme="dark"] .btn-link              { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.28); color: var(--green); box-shadow: none; }
-[data-theme="dark"] .btn-link:hover        { background: rgba(16,185,129,0.2); }
-[data-theme="dark"] .btn-custom-amount-toggle { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.28); }
-[data-theme="dark"] .btn-custom-amount-toggle:hover { background: rgba(16,185,129,0.2); }
+[data-theme="dark"] .btn-link              { background: rgba(6,182,212,0.10); border-color: rgba(6,182,212,0.28); color: var(--green); box-shadow: none; }
+[data-theme="dark"] .btn-link:hover        { background: rgba(6,182,212,0.2); }
+[data-theme="dark"] .btn-custom-amount-toggle { background: rgba(6,182,212,0.10); border-color: rgba(6,182,212,0.28); }
+[data-theme="dark"] .btn-custom-amount-toggle:hover { background: rgba(6,182,212,0.2); }
 [data-theme="dark"] .btn-logout            { background: transparent; border-color: var(--border); color: var(--text-2); }
 [data-theme="dark"] .btn-logout:hover      { background: #334155; border-color: #334155; color: var(--text); opacity: 1; }
 [data-theme="dark"] .btn-toggle            { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
 [data-theme="dark"] .action-card           { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.65); border-color: rgba(255,255,255,0.07); }
-[data-theme="dark"] .action-card:hover     { background: rgba(16,185,129,0.14); color: var(--green); border-color: rgba(16,185,129,0.25); opacity: 1; }
+[data-theme="dark"] .action-card:hover     { background: rgba(6,182,212,0.14); color: var(--green); border-color: rgba(6,182,212,0.25); opacity: 1; }
 [data-theme="dark"] .tabs                  { background: #0F172A; }
 [data-theme="dark"] .tab                   { background: transparent; color: var(--text-2); }
 [data-theme="dark"] .tab.active            { background: #334155; color: var(--text); box-shadow: none; }
 [data-theme="dark"] .modal-close-btn       { background: #0F172A; color: var(--text-2); }
 [data-theme="dark"] .modal-close-btn:hover { background: var(--border); color: var(--text); opacity: 1; }
 [data-theme="dark"] .tool-btn              { background: #0F172A; color: var(--text-2); border-color: var(--border); }
-[data-theme="dark"] .tool-btn:hover        { background: var(--green-dim); color: var(--green-2); border-color: rgba(16,185,129,0.25); opacity: 1; }
+[data-theme="dark"] .tool-btn:hover        { background: var(--green-dim); color: var(--green-2); border-color: rgba(6,182,212,0.25); opacity: 1; }
 [data-theme="dark"] .contact-card:hover    { background: #0F172A; }
 [data-theme="dark"] .contact-star          { background: transparent; box-shadow: none; }
 [data-theme="dark"] .btn-copy              { background: transparent; color: var(--text-3); }
 [data-theme="dark"] .btn-copy:hover        { background: var(--green-dim); color: var(--green); opacity: 1; }
 [data-theme="dark"] .btn-back-step         { background: transparent; color: var(--text-2); box-shadow: none; }
 [data-theme="dark"] .btn-receipt-action    { background: #0F172A; border-color: var(--border); }
-[data-theme="dark"] .btn-receipt-action:hover { background: var(--green-dim); color: var(--green-2); border-color: rgba(16,185,129,0.3); opacity: 1; }
+[data-theme="dark"] .btn-receipt-action:hover { background: var(--green-dim); color: var(--green-2); border-color: rgba(6,182,212,0.3); opacity: 1; }
 [data-theme="dark"] .btn-theme-toggle      { border-color: var(--border); color: var(--text-2); background: transparent; }
-[data-theme="dark"] .btn-theme-toggle:hover { background: var(--green-dim); color: var(--green); border-color: rgba(16,185,129,0.3); opacity: 1; }
+[data-theme="dark"] .btn-theme-toggle:hover { background: var(--green-dim); color: var(--green); border-color: rgba(6,182,212,0.3); opacity: 1; }
 
 /* Inputs / Selects */
 [data-theme="dark"] input             { background: #0F172A; border-color: var(--border); color: var(--text); }
@@ -229,7 +231,7 @@
 [data-theme="dark"] .card-data-panel      { background: #0F172A; }
 [data-theme="dark"] .card-data-value      { color: var(--text); }
 [data-theme="dark"] .btn-card-data-toggle { background: transparent; border-color: var(--border); color: var(--text-2); }
-[data-theme="dark"] .btn-card-data-toggle:hover { background: var(--green-dim); color: var(--green); border-color: rgba(16,185,129,0.3); opacity: 1; }
+[data-theme="dark"] .btn-card-data-toggle:hover { background: var(--green-dim); color: var(--green); border-color: rgba(6,182,212,0.3); opacity: 1; }
 [data-theme="dark"] .btn-card-data-toggle.unlocked { border-color: var(--green); color: var(--green); }
 [data-theme="dark"] .card-data-copy { background: transparent; color: var(--text-3); }
 
@@ -237,9 +239,9 @@
 [data-theme="dark"] .actividad-refresh-btn        { background: rgba(255,255,255,.05); border-color: var(--border); color: var(--text-2); }
 [data-theme="dark"] .reserva-historial-toggle     { background: transparent; }
 [data-theme="dark"] .btn-ghost-green              { background: transparent; color: var(--green); }
-[data-theme="dark"] .btn-ghost-green:hover        { background: rgba(16,185,129,.1); }
+[data-theme="dark"] .btn-ghost-green:hover        { background: rgba(6,182,212,.1); }
 [data-theme="dark"] .btn-icon-refresh             { background: transparent; color: rgba(148,163,184,.45); }
-[data-theme="dark"] .btn-icon-refresh:hover       { background: rgba(16,185,129,.08); color: var(--green); }
+[data-theme="dark"] .btn-icon-refresh:hover       { background: rgba(6,182,212,.08); color: var(--green); }
 [data-theme="dark"] .actividad-refresh-btn:hover  { background: rgba(255,255,255,.1); color: var(--text); opacity: 1; }
 [data-theme="dark"] .actividad-filter             { background: rgba(255,255,255,.05); border-color: var(--border); color: var(--text-2); }
 [data-theme="dark"] .actividad-filter.active,
@@ -249,17 +251,17 @@
 
 [data-theme="dark"] .qr-moneda-btn                { background: rgba(255,255,255,.05); border-color: var(--border); color: var(--text-2); }
 [data-theme="dark"] .qr-moneda-btn.active         { background: var(--green); border-color: var(--green); color: #fff; }
-[data-theme="dark"] .qr-moneda-btn:hover:not(.active) { border-color: var(--green); color: var(--green); background: rgba(16,185,129,.1); opacity: 1; }
+[data-theme="dark"] .qr-moneda-btn:hover:not(.active) { border-color: var(--green); color: var(--green); background: rgba(6,182,212,.1); opacity: 1; }
 
 [data-theme="dark"] .cotiz-card                   { background: rgba(30,41,59,.6); border-color: var(--border); }
 [data-theme="dark"] .cotiz-card-blue              { border-color: rgba(99,102,241,.3); background: rgba(99,102,241,.08); }
-[data-theme="dark"] .cotiz-action-btn             { background: rgba(16,185,129,.12); border-color: rgba(16,185,129,.25); color: #10b981; }
-[data-theme="dark"] .cotiz-action-btn:hover       { background: rgba(16,185,129,.22); opacity: 1; }
+[data-theme="dark"] .cotiz-action-btn             { background: rgba(6,182,212,.12); border-color: rgba(6,182,212,.25); color: #06B6D4; }
+[data-theme="dark"] .cotiz-action-btn:hover       { background: rgba(6,182,212,.22); opacity: 1; }
 [data-theme="dark"] .cotiz-action-sell            { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.25); color: #f87171; }
 [data-theme="dark"] .cotiz-action-sell:hover      { background: rgba(248,113,113,.2); opacity: 1; }
 
-[data-theme="dark"] .usd-promo-cta               { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.3); color: #10b981; }
-[data-theme="dark"] .usd-promo-cta:hover         { background: rgba(16,185,129,.25); opacity: 1; }
+[data-theme="dark"] .usd-promo-cta               { background: rgba(6,182,212,.15); border-color: rgba(6,182,212,.3); color: #06B6D4; }
+[data-theme="dark"] .usd-promo-cta:hover         { background: rgba(6,182,212,.25); opacity: 1; }
 
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -373,13 +375,13 @@
   transition: all .17s;
 }
 .qr-moneda-btn.active {
-  background: var(--green, #10B981);
-  border-color: var(--green, #10B981);
+  background: var(--green, #06B6D4);
+  border-color: var(--green, #06B6D4);
   color: #fff;
 }
 .qr-moneda-btn:hover:not(.active) {
-  border-color: var(--green, #10B981);
-  color: var(--green, #10B981);
+  border-color: var(--green, #06B6D4);
+  color: var(--green, #06B6D4);
 }
 .qr-scan-overlay {
   background: rgba(15,23,42,.88);
@@ -392,7 +394,7 @@
 .qr-scan-error i { font-size: 1.6rem; }
 .qr-scan-actions { display: flex; gap: 8px; margin-top: 4px; }
 .qr-scan-btn { padding: 8px 18px; border-radius: 8px; border: none; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
-.qr-scan-btn-ok     { background: var(--green, #10B981); color: #fff; }
+.qr-scan-btn-ok     { background: var(--green, #06B6D4); color: #fff; }
 .qr-scan-btn-cancel { background: rgba(148,163,184,.15); color: #94a3b8; }
 
 /* ── Dropdown de perfil ─────────────────────────────────────────────────────── */
@@ -448,7 +450,7 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
 .udrop-hola { font-size: .9rem; font-weight: 700; color: #0f172a; }
 #udropFirstName { text-transform: capitalize; }
 .udrop-badge {
-  font-size: .68rem; font-weight: 600; color: #10b981;
+  font-size: .68rem; font-weight: 600; color: #06B6D4;
   display: flex; align-items: center; gap: 4px;
 }
 .udrop-badge-dot { font-size: .38rem; vertical-align: middle; }
@@ -456,9 +458,9 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
 /* Barra de progreso */
 .udrop-progress { padding: 8px 16px 12px; }
 .udrop-progress-text { display: block; font-size: .69rem; color: #64748b; margin-bottom: 6px; }
-.udrop-progress-text strong { color: #10b981; font-weight: 700; }
+.udrop-progress-text strong { color: #06B6D4; font-weight: 700; }
 .udrop-progress-track { height: 3px; border-radius: 99px; background: rgba(148,163,184,.2); overflow: hidden; }
-.udrop-progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #10b981, #0ea5e9); transition: width .4s ease; }
+.udrop-progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #06B6D4, #0ea5e9); transition: width .4s ease; }
 
 /* Divisor */
 .udrop-divider { height: 1px; background: rgba(0,0,0,.07); }
@@ -531,8 +533,8 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
 /* ── Banner promocional USD ────────────────────────────────────────────────── */
 .usd-promo-banner {
   display: flex; align-items: center; gap: 12px;
-  background: linear-gradient(135deg, rgba(16,185,129,.08), rgba(14,165,233,.08));
-  border: 1px solid rgba(16,185,129,.2);
+  background: linear-gradient(135deg, rgba(6,182,212,.08), rgba(14,165,233,.08));
+  border: 1px solid rgba(6,182,212,.2);
   border-radius: 14px;
   padding: 14px 16px;
   margin: 12px 0;
@@ -545,15 +547,15 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
   flex-shrink: 0;
   padding: 7px 14px;
   border-radius: 99px;
-  background: rgba(16,185,129,.15);
-  border: 1px solid rgba(16,185,129,.3);
-  color: #10b981;
+  background: rgba(6,182,212,.15);
+  border: 1px solid rgba(6,182,212,.3);
+  color: #06B6D4;
   font-size: .75rem; font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
   transition: background .15s, border-color .15s;
 }
-.usd-promo-cta:hover { background: rgba(16,185,129,.25); border-color: rgba(16,185,129,.5); }
+.usd-promo-cta:hover { background: rgba(6,182,212,.25); border-color: rgba(6,182,212,.5); }
 
 /* ── Cotizaciones en grid ──────────────────────────────────────────────────── */
 .cotiz-widget-hdr {
@@ -589,11 +591,11 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
 .cotiz-card-actions { display: flex; gap: 6px; margin-top: 10px; }
 .cotiz-action-btn {
   flex: 1; padding: 6px 0; border-radius: 8px;
-  background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.2);
-  color: #10b981; font-size: .7rem; font-weight: 700; cursor: pointer;
+  background: rgba(6,182,212,.12); border: 1px solid rgba(6,182,212,.2);
+  color: #06B6D4; font-size: .7rem; font-weight: 700; cursor: pointer;
   transition: background .14s;
 }
-.cotiz-action-btn:hover { background: rgba(16,185,129,.22); }
+.cotiz-action-btn:hover { background: rgba(6,182,212,.22); }
 .cotiz-action-sell { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.2); color: #f87171; }
 .cotiz-action-sell:hover { background: rgba(248,113,113,.2); }
 
@@ -616,8 +618,8 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
   transition: border-color .15s;
 }
 .actividad-search-wrap:focus-within {
-  border-color: rgba(16,185,129,.45);
-  box-shadow: 0 0 0 2px rgba(16,185,129,.12);
+  border-color: rgba(6,182,212,.45);
+  box-shadow: 0 0 0 2px rgba(6,182,212,.12);
 }
 .actividad-search-icon {
   font-size: .8rem; color: var(--text-3); pointer-events: none; flex-shrink: 0;
@@ -762,12 +764,12 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
   transition: border-color .15s, box-shadow .15s;
 }
 .form-input-labeled:focus {
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16,185,129,.15);
+  border-color: #06B6D4;
+  box-shadow: 0 0 0 3px rgba(6,182,212,.15);
 }
 [data-theme="dark"] .form-label          { color: #94a3b8; }
 [data-theme="dark"] .form-input-labeled  { background: #0f172a; border-color: #1e293b; color: #e2e8f0; }
-[data-theme="dark"] .form-input-labeled:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,.12); }
+[data-theme="dark"] .form-input-labeled:focus { border-color: #06B6D4; box-shadow: 0 0 0 3px rgba(6,182,212,.12); }
 
 /* X centrada en modal */
 .modal-close-btn--centered {
@@ -782,17 +784,17 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 14px; border-radius: 20px;
   font-size: 0.78rem; font-weight: 600; cursor: pointer;
-  border: 1px solid rgba(16,185,129,.35);
-  background: rgba(16,185,129,.07);
-  color: #10b981;
+  border: 1px solid rgba(6,182,212,.35);
+  background: rgba(6,182,212,.07);
+  color: #06B6D4;
   transition: background .2s, border-color .2s;
   white-space: nowrap;
 }
-.btn-header-ayuda:hover { background: rgba(16,185,129,.16); border-color: rgba(16,185,129,.55); }
-[data-theme="dark"] .btn-header-ayuda { border-color: rgba(16,185,129,.3); background: rgba(16,185,129,.06); }
+.btn-header-ayuda:hover { background: rgba(6,182,212,.16); border-color: rgba(6,182,212,.55); }
+[data-theme="dark"] .btn-header-ayuda { border-color: rgba(6,182,212,.3); background: rgba(6,182,212,.06); }
 
 /* ── Búsqueda actividad: foco esmeralda ────────────────────────────────────── */
-.actividad-search-wrap:focus-within { border-color: rgba(16,185,129,.45) !important; box-shadow: 0 0 0 2px rgba(16,185,129,.12); }
+.actividad-search-wrap:focus-within { border-color: rgba(6,182,212,.45) !important; box-shadow: 0 0 0 2px rgba(6,182,212,.12); }
 
 
 
@@ -826,7 +828,7 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
   white-space: nowrap;
   transition: background .18s;
 }
-.btn-ghost-green:hover { background: rgba(16,185,129,.1); opacity: 1; transform: none; }
+.btn-ghost-green:hover { background: rgba(6,182,212,.1); opacity: 1; transform: none; }
 
 /* ── Botón ícono refresh en card-header ─────────────────────────────────────── */
 .btn-icon-refresh {
@@ -843,7 +845,7 @@ label.udrop-avatar-sm { position: relative; overflow: visible; cursor: pointer; 
   cursor: pointer;
   transition: color .2s, background .2s;
 }
-.btn-icon-refresh:hover { color: var(--green); background: rgba(16,185,129,.08); opacity: 1; transform: none; }
+.btn-icon-refresh:hover { color: var(--green); background: rgba(6,182,212,.08); opacity: 1; transform: none; }
 .btn-icon-refresh i { transition: transform .5s ease; display: block; }
 .btn-icon-refresh:hover i { transform: rotate(180deg); }
 .btn-icon-refresh.is-spinning i { animation: refresh-spin .55s ease; }

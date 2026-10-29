@@ -13,7 +13,7 @@
   position: fixed;
   z-index: 9992;
   background: #0f172a;
-  border: 1px solid rgba(16,185,129,.32);
+  border: 1px solid rgba(6,182,212,.32);
   border-radius: 16px;
   width: 300px;
   padding: 20px;
@@ -39,7 +39,7 @@
   top: -10px;
   border-width: 0 9px 10px 9px;
   border-top: 0;
-  border-bottom-color: rgba(16,185,129,.35);
+  border-bottom-color: rgba(6,182,212,.35);
 }
 .nodo-tour-card[data-arrow="top"]::after {
   top: -8px;
@@ -64,7 +64,7 @@
   bottom: -10px;
   border-width: 10px 9px 0 9px;
   border-bottom: 0;
-  border-top-color: rgba(16,185,129,.35);
+  border-top-color: rgba(6,182,212,.35);
 }
 .nodo-tour-card[data-arrow="bottom"]::after {
   bottom: -8px;
@@ -76,7 +76,7 @@
 .nodo-tour-label {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #10B981;
+  color: #06B6D4;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 6px;
@@ -114,7 +114,7 @@
   background: rgba(148,163,184,.3);
   transition: background .2s;
 }
-.nodo-tour-dot.active { background: #10B981; }
+.nodo-tour-dot.active { background: #06B6D4; }
 
 /* Button group */
 .nodo-tour-btns {
@@ -135,20 +135,20 @@
   border-radius: 6px;
   font-size: 0.72rem;
   font-weight: 600;
-  color: #10B981;
-  background: rgba(16,185,129,.1);
-  border: 1px solid rgba(16,185,129,.25);
+  color: #06B6D4;
+  background: rgba(6,182,212,.1);
+  border: 1px solid rgba(6,182,212,.25);
   cursor: pointer;
   transition: background .2s;
 }
-.nodo-tour-info-btn:hover { background: rgba(16,185,129,.2); }
+.nodo-tour-info-btn:hover { background: rgba(6,182,212,.2); }
 
 .nodo-tour-info-expanded {
   display: none;
   margin-top: 8px;
   padding: 10px 12px;
-  background: rgba(16,185,129,.06);
-  border: 1px solid rgba(16,185,129,.15);
+  background: rgba(6,182,212,.06);
+  border: 1px solid rgba(6,182,212,.15);
   border-radius: 8px;
   font-size: 0.78rem;
   color: #94a3b8;
@@ -190,11 +190,11 @@
 }
 
 .nodo-tour-next {
-  background: #10B981;
+  background: #06B6D4;
   color: #fff;
   border: none;
 }
-.nodo-tour-next:hover { background: #059669; }
+.nodo-tour-next:hover { background: #0891B2; }
 
 /* ── Help button — shared across all sections ── */
 .nodo-help-btn,
@@ -207,26 +207,26 @@
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid rgba(16,185,129,.4);
-  background: rgba(16,185,129,.08);
-  color: #10B981;
+  border: 1px solid rgba(6,182,212,.4);
+  background: rgba(6,182,212,.08);
+  color: #06B6D4;
   transition: background .2s;
   white-space: nowrap;
 }
 .nodo-help-btn:hover,
 .inv-help-btn:hover {
-  background: rgba(16,185,129,.18);
+  background: rgba(6,182,212,.18);
 }
 
 [data-theme="light"] .nodo-help-btn,
-[data-theme="light"] .inv-help-btn { color: #047857; }
+[data-theme="light"] .inv-help-btn { color: #0E7490; }
 
 /* ── Modo claro: tarjeta del tour ── */
 [data-theme="light"] .nodo-tour-card { background: var(--surface); box-shadow: var(--sh-lg); }
 [data-theme="light"] .nodo-tour-card[data-arrow="top"]::after    { border-bottom-color: var(--surface); }
 [data-theme="light"] .nodo-tour-card[data-arrow="bottom"]::after { border-top-color: var(--surface); }
 [data-theme="light"] .nodo-tour-label,
-[data-theme="light"] .nodo-tour-info-btn { color: #047857; }
+[data-theme="light"] .nodo-tour-info-btn { color: #0E7490; }
 [data-theme="light"] .nodo-tour-title { color: var(--text); }
 [data-theme="light"] .nodo-tour-text,
 [data-theme="light"] .nodo-tour-info-expanded { color: var(--text-2); }

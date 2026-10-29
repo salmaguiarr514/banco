@@ -711,7 +711,7 @@ const irAConfirmacion = () => {
 
   const cfg = OPERADORES_CONFIG[recargaOperador] || {
     nombre: recargaOperador,
-    color: "#10B981",
+    color: "#06B6D4",
     badge: recargaOperador.charAt(0)
   };
 
@@ -953,13 +953,13 @@ const descargarComprobanteRecarga = () => {
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Arial,sans-serif;max-width:400px;margin:40px auto;color:#1e293b;padding:0 16px}
-  .hdr{text-align:center;padding-bottom:16px;margin-bottom:20px;border-bottom:2px solid #10B981}
-  .logo{font-size:1.6rem;font-weight:800;color:#10B981;letter-spacing:3px}
+  .hdr{text-align:center;padding-bottom:16px;margin-bottom:20px;border-bottom:2px solid #0891B2}
+  .logo{font-size:1.6rem;font-weight:800;color:#0891B2;letter-spacing:3px}
   .sub{font-size:.85rem;color:#64748b;margin-top:4px}
-  .icon{display:block;margin:12px auto 4px;width:44px;height:44px;border-radius:50%;background:#d1fae5;line-height:44px;text-align:center;font-size:1.4rem;color:#10B981}
+  .icon{display:block;margin:12px auto 4px;width:44px;height:44px;border-radius:50%;background:#CFFAFE;line-height:44px;text-align:center;font-size:1.4rem;color:#0891B2}
   .row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #e2e8f0;font-size:.88rem}
   .lbl{color:#64748b}.val{font-weight:600}
-  .green{color:#10B981}
+  .green{color:#0891B2}
   .ftr{text-align:center;margin-top:22px;color:#94a3b8;font-size:.78rem}
   @media print{body{margin:10px}}
 </style>

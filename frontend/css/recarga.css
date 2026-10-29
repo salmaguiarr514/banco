@@ -150,7 +150,7 @@
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: rgba(16, 185, 129, 0.12);
+  background: rgba(6, 182, 212, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -224,7 +224,7 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(16, 185, 129, 0.12);
+  background: rgba(6, 182, 212, 0.12);
   color: var(--green);
   display: flex;
   align-items: center;
@@ -280,7 +280,7 @@
 .servicio-input-wrap input:focus,
 .servicio-input-wrap select:focus {
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
 }
 
 .servicio-input-price {
@@ -581,9 +581,9 @@
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 600;
-  background: rgba(16, 185, 129, 0.12);
+  background: rgba(6, 182, 212, 0.12);
   color: #99f6e4;
-  border: 1px solid rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(6, 182, 212, 0.18);
 }
 
 .report-badge.warning {
@@ -782,8 +782,8 @@
 
 .seguridad-field input:focus,
 .seguridad-field select:focus {
-  border-color: rgba(52, 211, 153, 0.8);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  border-color: rgba(34, 211, 238, 0.8);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
 }
 
 .seguridad-strength-box {
@@ -816,7 +816,7 @@
   height: 100%;
   width: 0;
   border-radius: inherit;
-  background: linear-gradient(90deg, #f87171, #fbbf24, #34d399);
+  background: linear-gradient(90deg, #f87171, #fbbf24, #22D3EE);
   transition: width 0.25s ease;
 }
 
@@ -854,7 +854,7 @@
 }
 
 .seguridad-switch input:checked + .slider {
-  background: rgba(16, 185, 129, 0.7);
+  background: rgba(6, 182, 212, 0.7);
 }
 
 .seguridad-switch input:checked + .slider::before {
@@ -908,7 +908,7 @@
 }
 
 .seguridad-session-item.current {
-  border-color: rgba(52, 211, 153, 0.35);
+  border-color: rgba(34, 211, 238, 0.35);
 }
 
 .seguridad-session-main {
@@ -974,9 +974,9 @@
   padding: 7px 10px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: rgba(16, 185, 129, 0.12);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.18);
+  background: rgba(6, 182, 212, 0.12);
+  color: #67E8F9;
+  border: 1px solid rgba(6, 182, 212, 0.18);
 }
 
 .seguridad-status-badge.blocked {
@@ -1027,7 +1027,7 @@
 [data-theme="light"] .operator-card:hover,
 [data-theme="light"] .operator-card.selected {
   background: #ecfdf5;
-  border-color: rgba(5, 150, 105, 0.45);
+  border-color: rgba(8, 145, 178, 0.45);
 }
 
 [data-theme="light"] .servicio-input-wrap input,
@@ -1072,8 +1072,8 @@
 
 [data-theme="light"] .report-badge {
   background: #ecfdf5;
-  color: #047857;
-  border-color: #a7f3d0;
+  color: #0E7490;
+  border-color: #A5F3FC;
 }
 
 [data-theme="light"] .report-badge.warning {
@@ -1104,8 +1104,8 @@
 
 [data-theme="light"] .seguridad-status-badge {
   background: #ecfdf5;
-  color: #047857;
-  border-color: #a7f3d0;
+  color: #0E7490;
+  border-color: #A5F3FC;
 }
 
 [data-theme="light"] .seguridad-status-badge.blocked {
@@ -1550,7 +1550,7 @@
   border-color: var(--green);
   background: var(--green);
   color: #0F172A;
-  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 10px rgba(6, 182, 212, 0.3);
 }
 
 /* Opción Monto Personalizado */
@@ -1568,13 +1568,13 @@
   cursor: pointer;
   padding: 5px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(16,185,129,0.32);
-  background: rgba(16,185,129,0.07);
+  border: 1px solid rgba(6,182,212,0.32);
+  background: rgba(6,182,212,0.07);
   transition: background 0.18s;
 }
 
 .btn-custom-amount-toggle:hover {
-  background: rgba(16,185,129,0.15);
+  background: rgba(6,182,212,0.15);
   opacity: 1;
   text-decoration: none;
 }
@@ -1758,7 +1758,7 @@
 
 .recarga-result-icon.success {
   background: var(--green-dim);
-  color: var(--green);
+  color: var(--pos);
   box-shadow: 0 0 24px rgba(16, 185, 129, 0.25);
 }
 
@@ -1884,9 +1884,9 @@
 }
 
 [data-theme="dark"] .amount-chip:hover {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(6, 182, 212, 0.15);
   border-color: var(--green);
-  color: #34d399;
+  color: #22D3EE;
 }
 
 [data-theme="dark"] .amount-chip.selected {
