@@ -196,6 +196,17 @@
 }
 .nodo-tour-next:hover { background: #0891B2; }
 
+/* Durante el tutorial el botón flotante del asistente no tapa lo que se explica */
+body.nodo-tour-on .ai-assistant { visibility: hidden; }
+
+/* Mobile: tarjeta más baja para tapar menos */
+@media (max-width: 720px) {
+  .nodo-tour-card { padding: 14px 16px; }
+  .nodo-tour-title { margin-bottom: 4px; }
+  .nodo-tour-actions { flex-direction: row; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .nodo-tour-prev, .nodo-tour-skip, .nodo-tour-next { padding: 7px 11px; }
+}
+
 /* ── Help button — shared across all sections ── */
 .nodo-help-btn,
 .inv-help-btn {
