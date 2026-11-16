@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     prestamos: 'nodo_tour_prestamos_v1',
     finanzas:  'nodo_tour_finanzas_v1',
     recargas:  'nodo_tour_recargas_v1',
+    inversiones: 'nodo_tour_inversiones_v1',
   };
 
   const STEPS = {
@@ -164,11 +165,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         info: 'Para verificar el operador en el celular: en iOS andá a Ajustes → General → Info → Operadora. En Android: Ajustes → Acerca del teléfono → Estado → Operadora.',
       },
       {
-        sel: '.recarga-section-label',
-        title: 'Número y monto',
-        text: 'Ingresá el número sin el 15 y elegí el monto. Podés guardar números frecuentes para recargar más rápido la próxima vez.',
+        sel: '#phoneInputWrap',
+        title: 'Número de celular',
+        text: 'Ingresá el número sin el 0 ni el 15. Podés guardar números frecuentes para recargar más rápido la próxima vez.',
         info: 'Ingresá solo los 10 dígitos sin el 0 ni el 15. Ejemplo: para el número 011 15-1234-5678 ingresás <b>1112345678</b>. Para líneas del interior, incluí el código de área.',
       },
+      {
+        sel: '.amounts-grid',
+        title: 'Monto',
+        text: 'Elegí uno de los montos o tocá "Ingresar otro monto" para escribir el que quieras. Después tocá Continuar para confirmar.',
+      },
+    ],
+
+    inversiones: [
+      { sel: '.inv-header-card', title: 'Patrimonio Invertido', text: 'Acá ves el total de tus inversiones activas. Las pastillas muestran el dólar CCL y la tasa de Plazo Fijo del mercado, actualizados automáticamente.' },
+      { sel: '.inv-segmented',   title: 'Tres instrumentos',    text: 'Navegá entre las pestañas para operar cada instrumento. Solo se muestra el seleccionado para mantener la interfaz limpia y enfocada.' },
+      { sel: '#pfForm',          title: '¿Qué instrumento elegir?', html: '<b>Plazo Fijo:</b> tasa garantizada a 30, 60 o 90 días.<br><br><b>Cauciones:</b> préstamos bursátiles de 1–14 días, ideal para liquidez rápida.<br><br><b>CEDEARs:</b> Apple, Nvidia y más, en pesos atados al dólar CCL.' },
     ],
   };
 
@@ -219,7 +231,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelectorAll('.sidebar-nav-item[data-section]').forEach(btn => {
     btn.addEventListener('click', () => {
       const s = btn.dataset.section;
-      if (s === 'inversiones') return;
       if (KEYS[s] && !_seen(KEYS[s])) {
         setTimeout(() => startTour(s), 800);
       }
