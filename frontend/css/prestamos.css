@@ -510,6 +510,8 @@
 .prestamo-venc-fecha { font-weight: 700; color: var(--text); }
 .prestamo-venc-fecha.vencida { color: #ef4444; }
 .prestamo-venc-fecha.urgente { color: #f59e0b; }
+[data-theme="light"] .prestamo-venc-fecha.urgente { color: #B45309; }
+[data-theme="dark"] .ptab-badge { color: var(--navy); }
 
 /* Badge de débito automático */
 .prestamo-autodebit-badge {
