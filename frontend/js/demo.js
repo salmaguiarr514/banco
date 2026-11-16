@@ -91,10 +91,10 @@
   const seed = () => {
     const s = {
       seq: 100, startedAt: Date.now(), incomingDone: false, meta: {},
-      user: { id: 'demo-user', nombre: 'Martina', apellido: 'Gómez', email: 'demo@nodo-homebanking.com', dni: '30123456', telefono: '1155550123', direccion: 'Av. Corrientes 1234, CABA' },
+      user: { id: 'demo-user', nombre: 'Raul', apellido: 'Borda', email: 'demo@nodo-homebanking.com', dni: '30123456', telefono: '1155550123', direccion: 'Av. Corrientes 1234, CABA' },
       cuentas: [
-        { id: 1, numero_cuenta: 'NODO-000001', cbu: '0000003100047281935562', alias: 'martina.nodo.ars', tipo_cuenta: 'caja_ahorro', saldo: 1248350.75, moneda: 'ARS', estado: 'activa' },
-        { id: 2, numero_cuenta: 'NODO-000002', cbu: '0000003100047281935579', alias: 'martina.nodo.usd', tipo_cuenta: 'caja_ahorro', saldo: 1520, moneda: 'USD', estado: 'activa' },
+        { id: 1, numero_cuenta: 'NODO-000001', cbu: '0000003100047281935562', alias: 'raul.borda.ars', tipo_cuenta: 'caja_ahorro', saldo: 1248350.75, moneda: 'ARS', estado: 'activa' },
+        { id: 2, numero_cuenta: 'NODO-000002', cbu: '0000003100047281935579', alias: 'raul.borda.usd', tipo_cuenta: 'caja_ahorro', saldo: 1520, moneda: 'USD', estado: 'activa' },
       ],
       movimientos: [], cards: [], cardTx: [], prestamos: [], pf: [], cauciones: [], reservas: [],
     };
@@ -215,7 +215,7 @@
     if (!['ARS', 'USD'].includes(moneda)) return fail(400, 'Moneda debe ser ARS o USD');
     const existente = cuenta(moneda);
     if (existente) return ok({ message: 'Ya existe una cuenta en esa moneda', cuenta: resumen(existente) });
-    const c = { id: nextId(), numero_cuenta: `NODO-${S.seq}`, cbu: '00000031000' + String(Date.now()).slice(-11), alias: `martina.nodo.${moneda.toLowerCase()}`,
+    const c = { id: nextId(), numero_cuenta: `NODO-${S.seq}`, cbu: '00000031000' + String(Date.now()).slice(-11), alias: `raul.borda.${moneda.toLowerCase()}`,
       tipo_cuenta: 'caja_ahorro', saldo: 0, moneda, estado: 'activa' };
     S.cuentas.push(c);
     return ok({ message: `Caja de ahorro en ${moneda} abierta`, cuenta: resumen(c) }, 201);
@@ -569,7 +569,7 @@
     const badge = document.createElement('span');
     badge.className = 'demo-badge';
     badge.title = 'Cuenta demo: todo es ficticio y no se guarda en el banco';
-    badge.innerHTML = '<i class="fas fa-flask"></i><span class="demo-badge-long">Cuenta demo · datos ficticios</span><span class="demo-badge-short">Demo</span>';
+    badge.innerHTML = '<span class="demo-badge-long">Cuenta demo · datos ficticios</span><span class="demo-badge-short">Demo</span>';
     header.prepend(badge);
   });
 })();
