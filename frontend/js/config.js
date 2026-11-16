@@ -22,6 +22,8 @@ applyTheme(localStorage.getItem(THEME_KEY) || 'light');
 const SUPABASE_URL = 'https://zzbuslbocmqhahllabxy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6YnVzbGJvY21xaGFobGxhYnh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MzUzMDAsImV4cCI6MjA5NDExMTMwMH0.qWm7Q8U9Freq3S69AxmB3bYNYMA4KkwzaSN4jcWxF2Y';
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// En la cuenta demo la sesión es ficticia y Supabase no recibe pedidos (ver demo.js)
+window.NodoDemo?.patchAuth(_supabase);
 
 const output = document.getElementById("output");
 const saldoList = document.getElementById("saldoList");

@@ -237,6 +237,14 @@ Todos requieren el header `Authorization: Bearer <token>`, excepto login y regis
 
 ---
 
+### Cuenta demo
+- Botón **Probar la cuenta demo** en el login. Abre el panel con una cuenta ficticia (Martina Gómez) que tiene pesos, dólares, tarjeta, préstamo, plazo fijo, reserva y movimientos de ejemplo.
+- Todo pasa en el navegador: `frontend/js/demo.js` intercepta las llamadas a `/api` y las responde con datos inventados; los pedidos a Supabase se bloquean. Nada llega al backend ni a la base. La única excepción es `/api/mercado/*` (cotizaciones públicas, solo lectura).
+- Se puede transferir a los contactos sugeridos y a `lucia.fernandez`, `tomas.rivero` o `cafe.central`, o a cualquier CBU de 22 dígitos. Para dólares: `lucia.fernandez.usd`.
+- La primera sincronización pasados 30 segundos simula una transferencia recibida.
+- El `localStorage` de la demo va con el prefijo `nodo_demo:`, así no pisa los datos de una cuenta real en el mismo dispositivo. El estado se reinicia cada vez que se entra a la demo y se borra al cerrar sesión. El modo vive en `sessionStorage`, así que una pestaña nueva no queda en demo.
+- El asistente responde con textos fijos y el QR de cobro no lleva firma real (se lee como "origen no verificado").
+
 ## Bugs conocidos
 
 | Bug | Estado |
