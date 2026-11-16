@@ -135,7 +135,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.setAttribute("aria-selected", "true");
       _navSections.forEach(s => s.classList.remove("active"));
       document.getElementById(targetId)?.classList.add("active");
-      document.querySelector(".content-area")?.scrollTo({ top: 0, behavior: "smooth" });
+      // Cada sección abre desde arriba (la que se desplaza es la ventana, no .content-area)
+      window.scrollTo({ top: 0, behavior: "auto" });
+      document.querySelector(".content-area")?.scrollTo({ top: 0, behavior: "auto" });
     });
   });
 

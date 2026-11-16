@@ -1,5 +1,5 @@
 const NodoTour = (() => {
-  let _active = false, _step = 0, _steps = [], _spot, _card, _onEnd, _posTimer = null;
+  let _active = false, _step = 0, _steps = [], _spot, _card, _onEnd, _posTimer = null, _startScroll = 0;
 
   // True if el exists in DOM and isn't display:none / hidden
   const _inDOM = (el) => {
@@ -173,6 +173,7 @@ const NodoTour = (() => {
   const start = (steps, { onEnd } = {}) => {
     if (_active) return;
     _active = true; _step = 0; _steps = steps; _onEnd = onEnd;
+    _startScroll = window.scrollY;
     document.body.classList.add('nodo-tour-on');
 
     _spot = document.createElement('div');
@@ -195,6 +196,8 @@ const NodoTour = (() => {
     clearTimeout(_posTimer);
     _spot?.remove(); _spot = null;
     _card?.remove(); _card = null;
+    // Volver a donde estaba la persona antes del tutorial
+    window.scrollTo({ top: _startScroll, behavior: 'smooth' });
     _onEnd?.();
     _onEnd = null;
   };
