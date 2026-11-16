@@ -38,14 +38,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       {
         sel: '.sidebar-nav-list',
         title: 'Explorá NODO',
-        text: 'Desde el menú lateral accedés a Tarjetas, Préstamos, Inversiones, Recargas y más. ¡Todo en un solo lugar!',
+        text: 'Desde el menú accedés a Tarjetas, Préstamos, Inversiones, Recargas y más. ¡Todo en un solo lugar!',
         info: '<b>Tarjetas:</b> Visa Débito Virtual gratuita.<br><b>Préstamos:</b> simulador con TNA, TEA y cuotas.<br><b>Inversiones:</b> rendimientos sobre tu saldo.<br><b>Recargas:</b> Movistar, Personal, Claro y Tuenti.',
       },
     ],
 
     tarjetas: [
       {
-        sel: '#section-tarjetas > .card',
+        sel: '.dashboard-card-scene',
         title: 'Tarjeta Visa Débito Virtual',
         text: 'Tu tarjeta virtual NODO. Los datos son seguros: número y CVV se revelan solo cuando los necesitás.',
         info: 'La tarjeta funciona en cualquier comercio online que acepte Visa. Si la bloqueás temporalmente, el número no se cancela: se reactiva cuando vos querés.',
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         info: '<b>Simular:</b> calculá cuotas y costos antes de comprometerte, sin impacto en tu historial. <b>Mis Préstamos:</b> muestra los activos con cuotas pagadas, saldo restante y próximo vencimiento.',
       },
       {
-        sel: '#prestamoInputWrap',
+        sel: '#prestamoMontoField',
         title: 'Elegí el monto',
         text: 'Escribí el monto o usá el slider. El sistema calcula las cuotas en tiempo real mientras ajustás.',
         info: 'El monto mínimo es $5.000 y el máximo depende de tu historial en NODO. El slider va de $5.000 a $500.000 en pasos de $5.000.',
@@ -99,22 +99,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     finanzas: [
       {
-        sel: '#section-finanzas .two-col-cards',
-        title: 'Tus finanzas personales',
-        text: 'Dos herramientas en un panel: reservas para tus metas de ahorro y el análisis de gastos por categoría.',
-        info: 'Todo se registra automáticamente a partir de tus movimientos. No necesitás cargar gastos a mano ni conectar otras cuentas.',
-      },
-      {
         sel: '#section-finanzas .two-col-cards > .card:first-child',
         title: 'Mis Reservas',
         text: 'Separá dinero para objetivos concretos: vacaciones, fondo de emergencia, tecnología. Cada reserva tiene nombre, plazo y monto.',
-        info: 'Podés tener hasta 10 reservas activas. El dinero reservado sigue en tu cuenta pero queda marcado para ese objetivo. Podés liberar una reserva en cualquier momento.',
+        info: 'El monto de la reserva se descuenta de tu saldo disponible y vuelve a tu cuenta cuando la rescatás, en cualquier momento.',
       },
       {
         sel: '#section-finanzas .two-col-cards > .card:last-child',
         title: 'Gastos por categoría',
         text: 'El gráfico muestra en qué categorías gastás más. Identificá hábitos y ajustá tu presupuesto mes a mes.',
-        info: 'Las categorías se asignan automáticamente según el tipo de movimiento: comercios, servicios, transferencias, recargas. Podés ver el desglose del mes actual o histórico.',
+        info: 'Las categorías se asignan automáticamente según la descripción de cada pago: comida, transporte, servicios, recargas, inversiones y otros. Se muestran los gastos de los últimos 30 días.',
       },
     ],
 
@@ -153,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     recargas: [
       {
-        sel: '#recargasSectionCard',
+        sel: '#recargasSectionCard > .card-header',
         title: 'Recargar celular',
         text: 'Cargá saldo en cualquier línea de Movistar, Personal, Claro o Tuenti. La acreditación es inmediata.',
         info: 'La recarga se debita de tu saldo ARS. Si el número no acepta la recarga por algún motivo, la operación no se procesa y el dinero no se descuenta.',
@@ -165,13 +159,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         info: 'Para verificar el operador en el celular: en iOS andá a Ajustes → General → Info → Operadora. En Android: Ajustes → Acerca del teléfono → Estado → Operadora.',
       },
       {
-        sel: '#phoneInputWrap',
+        sel: '#recargaTelefonoField',
         title: 'Número de celular',
         text: 'Ingresá el número sin el 0 ni el 15. Podés guardar números frecuentes para recargar más rápido la próxima vez.',
         info: 'Ingresá solo los 10 dígitos sin el 0 ni el 15. Ejemplo: para el número 011 15-1234-5678 ingresás <b>1112345678</b>. Para líneas del interior, incluí el código de área.',
       },
       {
-        sel: '.amounts-grid',
+        sel: '#recargaMontoField',
         title: 'Monto',
         text: 'Elegí uno de los montos o tocá "Ingresar otro monto" para escribir el que quieras. Después tocá Continuar para confirmar.',
       },

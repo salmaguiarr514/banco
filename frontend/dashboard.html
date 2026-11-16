@@ -487,7 +487,7 @@
         <!-- Columna izquierda: controles -->
         <div class="prestamo-col-controls">
           <!-- Monto: input editable + slider -->
-          <div class="prestamo-field">
+          <div class="prestamo-field" id="prestamoMontoField">
             <div class="prestamo-field-header">
               <label class="prestamo-label">Monto solicitado</label>
               <span id="pLimiteInfo" class="prestamo-limite-info"></span>
@@ -908,7 +908,7 @@
               </div>
             </div>
 
-            <div>
+            <div id="recargaTelefonoField">
               <div class="recarga-section-label"><span>2. Número de celular</span></div>
               <div class="phone-input-wrap" id="phoneInputWrap">
                 <span class="phone-prefix-badge"><span class="phone-prefix-flag">🇦🇷</span> +54 9</span>
@@ -921,7 +921,7 @@
               <div id="recargaPhoneError" class="phone-error-text"></div>
             </div>
 
-            <div>
+            <div id="recargaMontoField">
               <div class="recarga-section-label"><span>3. Monto a recargar</span></div>
               <div class="amounts-grid" role="group" aria-label="Montos predeterminados">
                 <button type="button" class="amount-chip" data-amount="500">$500</button>
