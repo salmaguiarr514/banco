@@ -24,9 +24,11 @@ const NodoTour = (() => {
     return false;
   };
 
-  // Mobile: lift the target to the top so the card fits below it instead of on top of it
+  const _cardWidth = () => _isMobile() ? Math.min(420, window.innerWidth - 24) : 320;
+
+  // Scroll so the target and the card fit together on screen, instead of centering the
+  // target (which leaves no room above or below a tall element and puts the card on top)
   const _scrollToTarget = (target) => {
-    if (!_isMobile()) { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
     if (_isFixed(target)) return;
     const cardH = _card.offsetHeight || 230;
     const h = target.getBoundingClientRect().height;
@@ -35,6 +37,11 @@ const NodoTour = (() => {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setTimeout(() => { target.style.scrollMarginTop = ''; }, 600);
   };
+
+  // Visible area of rect a covered by rect b
+  const _overlap = (a, b) =>
+    Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) *
+    Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
 
   const _positionElements = () => {
     if (!_active || _step >= _steps.length) return;
@@ -60,41 +67,44 @@ const NodoTour = (() => {
       opacity: '1',
     });
 
-    const mobile = _isMobile();
-    const CW    = mobile ? Math.min(420, window.innerWidth - 24) : 300;
+    const CW = _cardWidth();
     _card.style.width = `${CW}px`;
     const cardH = _card.offsetHeight || 230;
-    const GAP   = 14;
-    const vw    = window.innerWidth;
-    const vh    = window.innerHeight;
+    const GAP = 14, EDGE = 12;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const clampX = (x) => Math.max(EDGE, Math.min(vw - CW - EDGE, x));
+    const clampY = (y) => Math.max(EDGE, Math.min(vh - cardH - EDGE, y));
+    const centerX = clampX(r.left + r.width / 2 - CW / 2);
+    const middleY = clampY(r.top + r.height / 2 - cardH / 2);
+    const hole = { left: r.left - PAD, right: r.right + PAD, top: r.top - PAD, bottom: r.bottom + PAD };
 
-    let ct, cl, arrowDir;
-    const spaceBelow = vh - r.bottom - PAD - GAP;
-    const spaceAbove = r.top - PAD - GAP;
-
-    if (spaceBelow >= cardH) {
-      ct = r.bottom + PAD + GAP;
-      arrowDir = 'top';
-    } else if (spaceAbove >= cardH) {
-      ct = r.top - PAD - GAP - cardH;
-      arrowDir = 'bottom';
-    } else if (mobile) {
-      // Taller than the screen: dock the card at the bottom so the top of the target stays visible
-      ct = vh - cardH - 12;
-      arrowDir = 'none';
-    } else {
-      ct = Math.max(16, Math.min(vh - cardH - 16, r.top + r.height / 2 - cardH / 2));
-      arrowDir = 'none';
+    // Candidate spots, kept inside the screen: next to the target first, then the corners.
+    // The first one that covers nothing of the highlighted area wins; if none, the one that covers least.
+    const docX = [EDGE, vw - CW - EDGE];
+    const options = [
+      { top: clampY(r.bottom + PAD + GAP),      left: centerX, arrow: 'top' },
+      { top: clampY(r.top - PAD - GAP - cardH), left: centerX, arrow: 'bottom' },
+      { top: middleY, left: clampX(r.right + PAD + GAP),     arrow: 'none' },
+      { top: middleY, left: clampX(r.left - PAD - GAP - CW), arrow: 'none' },
+      ...docX.flatMap(x => [{ top: vh - cardH - EDGE, left: x, arrow: 'none' }, { top: EDGE, left: x, arrow: 'none' }]),
+      { top: vh - cardH - EDGE, left: (vw - CW) / 2, arrow: 'none' },
+    ];
+    const cover = (o) => _overlap(hole, { left: o.left, right: o.left + CW, top: o.top, bottom: o.top + cardH });
+    let pick = options[0], best = Infinity;
+    for (const o of options) {
+      const c = cover(o);
+      if (c < best) { best = c; pick = o; }
+      if (c === 0) break;
     }
-
-    cl = r.left + r.width / 2 - CW / 2;
-    cl = mobile ? (vw - CW) / 2 : Math.max(16, Math.min(vw - CW - 16, cl));
+    // Arrows only make sense when the card actually sits right next to the target
+    if (pick.arrow === 'top' && pick.top < r.bottom + PAD) pick = { ...pick, arrow: 'none' };
+    if (pick.arrow === 'bottom' && pick.top + cardH > r.top - PAD) pick = { ...pick, arrow: 'none' };
 
     // Arrow horizontal offset: align with target center, clamped inside card
-    const arrowLeft = Math.max(28, Math.min(CW - 28, (r.left + r.width / 2) - cl));
+    const arrowLeft = Math.max(28, Math.min(CW - 28, (r.left + r.width / 2) - pick.left));
 
-    Object.assign(_card.style, { top: `${ct}px`, left: `${cl}px`, opacity: '1' });
-    _card.dataset.arrow = arrowDir;
+    Object.assign(_card.style, { top: `${pick.top}px`, left: `${pick.left}px`, opacity: '1' });
+    _card.dataset.arrow = pick.arrow;
     _card.style.setProperty('--arrow-left', `${arrowLeft}px`);
   };
 
@@ -151,10 +161,11 @@ const NodoTour = (() => {
     });
 
     // Scroll to target first, then position after scroll settles
-    if (_isMobile()) _card.style.width = `${Math.min(420, window.innerWidth - 24)}px`;
+    _card.style.width = `${_cardWidth()}px`;
     _scrollToTarget(target);
     clearTimeout(_posTimer);
-    _posTimer = setTimeout(_positionElements, 450);
+    // Position once the scroll settles, and again in case it was still moving
+    _posTimer = setTimeout(() => { _positionElements(); _posTimer = setTimeout(_positionElements, 450); }, 450);
   };
 
   const start = (steps, { onEnd } = {}) => {

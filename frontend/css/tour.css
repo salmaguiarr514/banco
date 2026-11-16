@@ -15,7 +15,7 @@
   background: #0f172a;
   border: 1px solid rgba(6,182,212,.32);
   border-radius: 16px;
-  width: 300px;
+  width: 320px;
   padding: 20px;
   box-shadow: 0 12px 40px rgba(0,0,0,.6);
   overflow: visible;
@@ -97,7 +97,8 @@
 
 .nodo-tour-actions {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
   margin-top: 16px;
 }
@@ -122,7 +123,6 @@
   gap: 6px;
   align-items: center;
   justify-content: flex-end;
-  flex-wrap: wrap;
 }
 
 /* + info button */
@@ -162,7 +162,7 @@
   font-size: 0.8rem;
   font-weight: 700;
   border-radius: 9px;
-  padding: 8px 14px;
+  padding: 8px 12px;
   cursor: pointer;
   white-space: nowrap;
   transition: background .2s, color .2s;
@@ -201,10 +201,14 @@ body.nodo-tour-on .ai-assistant { visibility: hidden; }
 
 /* Mobile: tarjeta más baja para tapar menos */
 @media (max-width: 720px) {
-  .nodo-tour-card { padding: 14px 16px; }
-  .nodo-tour-title { margin-bottom: 4px; }
-  .nodo-tour-actions { flex-direction: row; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .nodo-tour-card { padding: 12px 14px; }
+  .nodo-tour-label { margin-bottom: 3px; }
+  .nodo-tour-title { font-size: .95rem; margin-bottom: 3px; }
+  .nodo-tour-text { font-size: .8rem; line-height: 1.45; }
+  .nodo-tour-info-btn { margin-top: 6px; }
+  .nodo-tour-actions { flex-direction: row; align-items: center; justify-content: space-between; margin-top: 10px; }
   .nodo-tour-prev, .nodo-tour-skip, .nodo-tour-next { padding: 7px 11px; }
+  .nodo-tour-btns { flex-wrap: wrap; }
 }
 
 /* ── Help button — shared across all sections ── */
