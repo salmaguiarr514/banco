@@ -133,13 +133,15 @@ const NodoTour = (() => {
       <div class="nodo-tour-text">${s.html || s.text || ''}</div>
       ${s.info ? `<button class="nodo-tour-info-btn" id="_ntInfoBtn">+ info</button><div class="nodo-tour-info-expanded" id="_ntInfoExpanded">${s.info}</div>` : ''}
       <div class="nodo-tour-actions">
-        <div class="nodo-tour-dots">
-          ${valid.map((_, i) => `<div class="nodo-tour-dot${i === pos ? ' active' : ''}"></div>`).join('')}
-        </div>
         <div class="nodo-tour-btns">
           ${!isFirst ? '<button class="nodo-tour-prev" id="_ntPrev">← Anterior</button>' : ''}
-          <button class="nodo-tour-skip" id="_ntSkip">Omitir</button>
           <button class="nodo-tour-next" id="_ntNext">${isLast ? '¡Listo!' : 'Siguiente →'}</button>
+        </div>
+        <div class="nodo-tour-foot">
+          <div class="nodo-tour-dots">
+            ${valid.map((_, i) => `<div class="nodo-tour-dot${i === pos ? ' active' : ''}"></div>`).join('')}
+          </div>
+          ${!isLast ? '<button class="nodo-tour-skip" id="_ntSkip">Omitir tutorial</button>' : ''}
         </div>
       </div>`;
 
