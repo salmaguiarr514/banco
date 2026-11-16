@@ -171,8 +171,32 @@
     const v = String(valor || '').trim().toLowerCase();
     return DIRECTORIO.find(p => p.alias === v || p.cbu === normCbu(v));
   };
-  const personaPorCbu = (cbu) => buscarPersona(cbu) ||
-    { nombre: 'Destinatario', apellido: 'externo', alias: null, cbu: normCbu(cbu), bankCode: Number(normCbu(cbu).slice(0, 3)) || null, bankName: 'Otro banco' };
+  // Destinatarios reales: se busca el nombre en el Banco Central (solo lectura, /api/demo).
+  // La transferencia igual queda solo en la demo: no le llega a nadie.
+  const cacheReal = new Map();
+  const buscarReal = async (valor) => {
+    const v = String(valor || '').trim().toLowerCase();
+    if (cacheReal.has(v)) return cacheReal.get(v);
+    let persona = null;
+    try {
+      const r = await realFetch(`${window.location.origin}/api/demo/persona/${encodeURIComponent(v)}`);
+      if (r.ok) persona = await r.json();
+      else if (r.status !== 404) persona = undefined;   // Banco Central no disponible
+    } catch { persona = undefined; }
+    if (persona !== undefined) cacheReal.set(v, persona);
+    return persona;
+  };
+  const resolverDestino = async (valor) => {
+    const local = buscarPersona(valor);
+    if (local) return local;
+    const real = await buscarReal(valor);
+    if (real) return { ...real, bankName: real.bankName || (real.bankCode ? `Banco ${real.bankCode}` : null) };
+    if (real === null) return null;
+    // Sin respuesta del Banco Central: un CBU igual se acepta con nombre genérico
+    return /^\d{22}$/.test(String(valor).trim())
+      ? { nombre: 'Destinatario', apellido: 'externo', alias: null, cbu: normCbu(valor), bankCode: null, bankName: 'Otro banco' }
+      : null;
+  };
   const dolarBlue = async () => {
     try {
       const data = await realFetch(`${location.origin}/api/mercado/dolares`).then(r => r.json());
@@ -313,21 +337,22 @@
 
   // Transferencias
   on('GET', '/transferencias/central/bancos', () => ok(BANCOS));
-  on('GET', '/transferencias/alias/(.+)', (_, alias) => {
-    const p = DIRECTORIO.find(x => x.alias === alias.trim().toLowerCase());
+  on('GET', '/transferencias/alias/(.+)', async (_, alias) => {
+    const p = await resolverDestino(alias);
     return p ? ok(p) : fail(404, 'Alias no encontrado');
   });
-  on('GET', '/transferencias/buscar/(.+)', (_, cbu) => {
+  on('GET', '/transferencias/buscar/(.+)', async (_, cbu) => {
     if (!/^\d{22}$/.test(cbu)) return fail(400, 'El CBU debe tener exactamente 22 dígitos numéricos');
     if (S.cuentas.some(c => c.cbu === cbu)) return fail(400, 'Ese CBU es de tu propia cuenta');
-    return ok(personaPorCbu(cbu));
+    const p = await resolverDestino(cbu);
+    return p ? ok(p) : fail(404, 'CBU no encontrado');
   });
-  on('POST', '/transferencias', ({ cuentaOrigenId, cbuDestino, monto, concepto }) => {
+  on('POST', '/transferencias', async ({ cuentaOrigenId, cbuDestino, monto, concepto }) => {
     const m = Number(monto);
     if (!cuentaOrigenId || !cbuDestino || !m) return fail(400, 'Datos incompletos');
     if (m <= 0) return fail(400, 'El monto debe ser mayor a cero');
     const valor = String(cbuDestino).trim();
-    const persona = /^\d+$/.test(valor) ? personaPorCbu(valor) : buscarPersona(valor);
+    const persona = await resolverDestino(/^\d+$/.test(valor) ? normCbu(valor) : valor);
     if (!persona) return fail(404, `Alias "${valor}" no encontrado`);
     const c = cuentaPorId(cuentaOrigenId);
     if (!c) return fail(404, 'Cuenta de origen no encontrada');

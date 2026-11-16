@@ -1,4 +1,4 @@
-const CACHE = "nodo-v21";
+const CACHE = "nodo-v22";
 
 const STATIC = [
   "/favicon.svg",

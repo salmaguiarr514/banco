@@ -12,6 +12,7 @@ const mercadoRoutes = require("./routes/mercadoRoutes");
 const prestamoRoutes    = require("./routes/prestamoRoutes");
 const inversionesRoutes = require("./routes/inversionesRoutes");
 const qrRoutes          = require("./routes/qrRoutes");
+const demoRoutes        = require("./routes/demoRoutes");
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.use("/api/mercado", mercadoRoutes);
 app.use("/api/prestamos",   prestamoRoutes);
 app.use("/api/inversiones", inversionesRoutes);
 app.use("/api/qr",          qrRoutes);
+app.use("/api/demo",        demoRoutes);
 
 // Vercel Cron: débito automático diario de préstamos
 app.post("/api/cron/auto-debit", async (req, res) => {
